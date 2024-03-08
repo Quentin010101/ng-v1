@@ -1,0 +1,31 @@
+<div [formGroup]="loginForm">
+    <h2>Login</h2>
+    <div>
+        <label for="pseudo">Pseudo: </label>
+        <input id="pseudo" type="text" formControlName="pseudo">
+        <div [ngStyle]="{'visibility': pseudo?.invalid && (pseudo?.dirty || pseudo?.touched) ? 'visible' : 'hidden'}">
+            <small>
+                This field is required.
+            </small>
+        </div>
+    </div>
+    <div>
+        <label for="password">password: </label>
+        <input id="password" type="password" formControlName="password">
+        <div [ngStyle]="{'visibility': password?.invalid && (password?.dirty || password?.touched) ? 'visible' : 'hidden'}">
+            <small>
+                This field is required.
+            </small>
+        </div>
+    </div>
+    <div>
+        <label for="check">Stay logged:</label>
+        <input id="check" type="checkbox" formControlName="stayLogged">
+    </div>
+    <div [ngStyle]="{'visibility': message != null ? 'visible' : 'hidden'}">
+        {{ message }}
+    </div>
+    <div>
+        <button (click)="login()" [disabled]="loginForm.invalid">Valider</button>
+    </div>
+</div>
