@@ -4,6 +4,8 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { AuthResponse } from '../model/auth/authResponse.model';
 import { AuthRequest } from '../model/auth/authRequest.model';
 import { environnement } from '../../environnement';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,18 +16,29 @@ export class AuthenticationService {
   private isAuth: boolean = false;
   private pseudo!: string;
 
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private _platformId: Object) { }
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private _platformId: Object, private router: Router) { 
+    this.initAuth()
+  }
 
-  public getTokenWithAuth(authRequest: AuthRequest):void{
-     this.http.post<AuthResponse>(this.url + "login", authRequest).subscribe({
+  private getTokenWithAuth(authRequest: AuthRequest):Observable<AuthResponse>{
+     return this.http.post<AuthResponse>(this.url + "login", authRequest)
+  }
+
+  public login(authRequest: AuthRequest){
+    this.getTokenWithAuth(authRequest).subscribe({
       next: (data) => {
         this.handleToken(data)
         this.isAuth = true
+        this.router.navigate(['dashboard'])
       },
       error: (data) => {
         console.log("cant log with auth")
       }
      })
+  }
+
+  public getToken(): string | null{
+    return localStorage.getItem("token")
   }
 
   public getTokenWithRefreshToken():void{
@@ -34,8 +47,11 @@ export class AuthenticationService {
     headers.set("Authorization", "Bearer " + token)
     this.http.get<AuthResponse>(this.url + "refreshToken", {headers}).subscribe({
      next: (data) => {
+      console.log("refresh came")
+      console.log(data)
       this.handleRefreshToken(data)
       this.isAuth = true
+      this.router
      },
      error: (data) => {
       console.log("cant log with refreshtoken")
@@ -44,10 +60,12 @@ export class AuthenticationService {
 
   }
 
-  public initAuth(): boolean{
+  private initAuth(): boolean{
     let d = new Date()
 
     if(this.verifLocalStorageData()){
+      console.log("token date: " + new Date(parseInt(localStorage.getItem('tokenExpDate') as string)))
+      console.log("tokenRefresh date: " + new Date(parseInt(localStorage.getItem('refreshTokenExpDate') as string)))
       if(parseInt(localStorage.getItem('tokenExpDate') as string) > d.getTime()){
         this.isAuth = true
         return true
@@ -69,9 +87,9 @@ export class AuthenticationService {
     if(isPlatformBrowser(this._platformId)){
       localStorage.setItem('pseudo', data.pseudo)
       localStorage.setItem('token', data.token)
-      localStorage.setItem('tokenExpDate', data.expDateToken.getTime().toString())
+      localStorage.setItem('tokenExpDate', data.expDateToken.toString())
       localStorage.setItem('refreshToken', data.refreshToken)
-      localStorage.setItem('refreshTokenExpDate', data.expDateRefreshToken.getTime().toString())
+      localStorage.setItem('refreshTokenExpDate', data.expDateRefreshToken.toString())
     }
   }
 
@@ -79,15 +97,15 @@ export class AuthenticationService {
     if(isPlatformBrowser(this._platformId) && this.verifRefreshTokenResponse(data)){
       localStorage.setItem('pseudo', data.pseudo)
       localStorage.setItem('token', data.token)
-      localStorage.setItem('tokenExpDate', data.expDateToken.getTime().toString())
+      localStorage.setItem('tokenExpDate', data.expDateToken.toString())
       localStorage.setItem('refreshToken', data.refreshToken)
-      localStorage.setItem('refreshTokenExpDate', data.expDateRefreshToken.getTime().toString())
+      localStorage.setItem('refreshTokenExpDate', data.expDateRefreshToken.toString())
     }
   }
 
   private verifRefreshTokenResponse(data: AuthResponse): boolean{
     if(!this.verifLocalStorageData()) return false
-    if(data.expDateRefreshToken.getTime() != parseInt(localStorage.getItem("refreshTokenExpDate") as string)) return false
+    if(data.expDateRefreshToken != parseInt(localStorage.getItem("refreshTokenExpDate") as string)) return false
     if(data.refreshToken != localStorage.getItem("refreshToken") as string) return false
     return true
   }

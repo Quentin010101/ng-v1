@@ -1,7 +1,7 @@
 export class AuthResponse {
     pseudo!: string
     token!: string;
-    expDateToken!: Date
+    expDateToken!: number
     refreshToken!: string;
-    expDateRefreshToken!: Date
+    expDateRefreshToken!: number
 }

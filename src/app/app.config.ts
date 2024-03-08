@@ -1,13 +1,15 @@
 import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
 import { Router, provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { initializeUserData } from '../main';
+import { AuthInterceptor } from './authentication/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([
+      AuthInterceptor
+    ])),
     provideRouter(routes),
     {
       provide: APP_INITIALIZER,
