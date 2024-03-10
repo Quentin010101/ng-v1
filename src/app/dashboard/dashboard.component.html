@@ -1,8 +1,11 @@
-<div id="wrapper">
-    <div>
-        <app-sidenav></app-sidenav>
+<div id="wrapper" class="loginDashboard">
+    <div id="sideNav">
+        <app-sidenav [dashboardChildRoutes]="dashboardChildRoutes"></app-sidenav>
     </div>
-    <div>
+    <div id="content">
+        <div id="nav">
+          <app-nav></app-nav>
+        </div>
         <router-outlet></router-outlet>
     </div>
 </div>

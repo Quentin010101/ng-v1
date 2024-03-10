@@ -1,5 +1,5 @@
-<div [formGroup]="loginForm">
-    <h2>Login</h2>
+<div [formGroup]="loginForm" class="loginDashboard">
+    <h2><span class="welcome">Welcome</span> Login</h2>
     <div>
         <label for="pseudo">Pseudo: </label>
         <input id="pseudo" type="text" formControlName="pseudo">
@@ -21,9 +21,6 @@
     <div>
         <label for="check">Stay logged:</label>
         <input id="check" type="checkbox" formControlName="stayLogged">
-    </div>
-    <div [ngStyle]="{'visibility': message != null ? 'visible' : 'hidden'}">
-        {{ message }}
     </div>
     <div>
         <button (click)="login()" [disabled]="loginForm.invalid">Valider</button>

@@ -1,12 +1,14 @@
 import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
-import { Router, provideRouter } from '@angular/router';
+import { Router, provideRouter, withViewTransitions } from '@angular/router';
 import { routes } from './app.routes';
 import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { initializeUserData } from '../main';
 import { AuthInterceptor } from './service/interceptor/auth.interceptor';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAnimations(),
     provideHttpClient(withInterceptors([
       AuthInterceptor
     ])),
@@ -17,5 +19,7 @@ export const appConfig: ApplicationConfig = {
       multi: true,
       deps: [HttpClient, Router],
     },
-  ]
+    provideRouter(routes, withViewTransitions())
+  ],
+  
 };

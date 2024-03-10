@@ -1,0 +1,15 @@
+<div id="wrapper" class="bg-300">
+  <nav>
+    <ul>
+      @for(route of dashboardChildRoutes; track route){
+        @if(route.data){
+          <li>
+            <a routerLinkActive="'active'" routerLink="{{route.path}}">
+                <mat-icon>{{ route.data['icon'] }}</mat-icon>
+            </a>
+          </li>
+        }
+      }
+    </ul>
+  </nav>
+</div>

@@ -1,0 +1,7 @@
+<div id="messages">
+  @for (message of messages; track message) {
+    <div class="message bg-300"  @fadeIn @fadeOut @tEnter @tLeave>
+      <p [ngStyle]="{'color' : message.error ? 'red' : 'green'}">{{ message.message }}</p>
+    </div>
+  }
+</div>

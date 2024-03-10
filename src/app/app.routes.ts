@@ -4,7 +4,8 @@ import { AuthenticationComponent } from './core/authentication/authentication.co
 import { userGuard } from './guard/user.guard';
 import { HomeComponent } from './core/home/home.component';
 import { PlannerComponent } from './module/planner/planner.component';
-import { NotfoundComponent } from './core/notfound/notfound.component';
+import { NotfoundComponent } from './core/shared/notfound/notfound.component';
+import { SettingsComponent } from './core/settings/settings.component';
 
 export const routes: Routes = [
     {path: 'login', component: AuthenticationComponent},
@@ -14,11 +15,20 @@ export const routes: Routes = [
             path:'', component: HomeComponent
         },
         {
-            path:'home', component: HomeComponent
+            path:'home', component: HomeComponent, data: {
+              icon: 'home', text: 'home'
+            }
         },
         {
-            path: 'planner', component: PlannerComponent
-        }
+            path: 'planner', component: PlannerComponent, data: {
+              icon: 'date_range', text: 'planner'
+            }
+        },
+        {
+            path: 'settings', component: SettingsComponent, data: {
+              icon: 'settings', text: 'settings'
+            }
+        },
     ]},
     {path: '**', component: NotfoundComponent}
 ];

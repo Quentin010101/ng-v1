@@ -6,6 +6,8 @@ import { AuthRequest } from '../model/auth/authRequest.model';
 import { environnement } from '../../environnement';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { MessageService } from './message.service';
+import { Message } from '../model/message.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,7 @@ export class AuthenticationService {
 
   private isAuth: boolean = false;
 
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private _platformId: Object, private router: Router) { 
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private _platformId: Object, private router: Router, private _messageService: MessageService) { 
     this.initAuth()
   }
 
@@ -33,9 +35,11 @@ export class AuthenticationService {
       },
       error: (data) => {
         this.isAuth = false
-        this.router.navigate(['login', { message: "wrong credentials"}])
-      }
-     })
+          let m = new Message()
+          m.error = true
+          m.message = "Wrong credentials";
+          this._messageService.$message.next(m)
+     }})
   }
 
   public logOut(){
@@ -61,6 +65,10 @@ export class AuthenticationService {
 
   get isAuthenticated(){
     return this.isAuth;
+  }
+
+  public getPseudo(){
+    return localStorage.getItem("pseudo");
   }
 
   private handleToken(data: AuthResponse){

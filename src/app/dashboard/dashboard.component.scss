@@ -1,0 +1,16 @@
+#wrapper{
+  display: flex;
+
+  #content{
+    width: 100%;
+  }
+  #nav{
+    position:sticky;
+    top: 0;
+    width: 100%;
+  }
+  #sideNav{
+    position:sticky;
+    top: 0;
+  }
+}

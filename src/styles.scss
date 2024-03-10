@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'styles/color.scss';
+@import 'styles/transition.scss';
+@import 'styles/button.scss';
+
+*{
+  margin: 0;
+  box-sizing: border-box;
+}
+html, body { height: 100%; }
+body { color:white; margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+button{
+  border: none;
+  outline: none;
+  background-color: inherit;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+
+

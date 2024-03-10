@@ -1,0 +1,17 @@
+$color-dark: (
+  100:#181716,
+  200:#2a2727,
+  300:#393433,
+  400:#453f3d,
+  500:#57504d,
+);
+
+.bg-100{
+  background-color: map-get($map: $color-dark, $key: 100);
+}
+.bg-200{
+  background-color: map-get($map: $color-dark, $key: 200);
+}
+.bg-300{
+  background-color: map-get($map: $color-dark, $key: 300);
+}

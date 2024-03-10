@@ -7,7 +7,7 @@ import { Message } from '../model/message.model';
 })
 export class MessageService {
 
-  $message!: Subject<Message>
+  $message: Subject<Message> = new Subject<Message>
 
   constructor() { }
 

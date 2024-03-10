@@ -1,0 +1,13 @@
+#messages{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+  .message{
+    padding: 1rem 1.5rem;
+    margin: 1rem;
+    border: solid;
+    width: fit-content;
+    max-width: 25vw;
+  }
+}
