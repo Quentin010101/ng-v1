@@ -5,7 +5,7 @@
         @if(route.data){
           <li>
             <a routerLinkActive="'active'" routerLink="{{route.path}}">
-                <mat-icon>{{ route.data['icon'] }}</mat-icon>
+                <fa-icon [icon]="route.data['icon']"></fa-icon>
             </a>
           </li>
         }

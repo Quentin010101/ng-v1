@@ -6,6 +6,9 @@ import { HomeComponent } from './core/home/home.component';
 import { PlannerComponent } from './module/planner/planner.component';
 import { NotfoundComponent } from './core/shared/notfound/notfound.component';
 import { SettingsComponent } from './core/settings/settings.component';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { faPenClip } from '@fortawesome/free-solid-svg-icons';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
 
 export const routes: Routes = [
     {path: 'login', component: AuthenticationComponent},
@@ -16,17 +19,17 @@ export const routes: Routes = [
         },
         {
             path:'home', component: HomeComponent, data: {
-              icon: 'home', text: 'home'
+              icon: faHouse, text: 'home'
             }
         },
         {
             path: 'planner', component: PlannerComponent, data: {
-              icon: 'date_range', text: 'planner'
+              icon: faPenClip, text: 'planner'
             }
         },
         {
             path: 'settings', component: SettingsComponent, data: {
-              icon: 'settings', text: 'settings'
+              icon: faGear, text: 'settings'
             }
         },
     ]},

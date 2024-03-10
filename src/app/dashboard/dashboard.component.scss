@@ -1,5 +1,6 @@
 #wrapper{
   display: flex;
+  position: relative;
 
   #content{
     width: 100%;
@@ -8,9 +9,14 @@
     position:sticky;
     top: 0;
     width: 100%;
+    z-index: 2;
   }
   #sideNav{
     position:sticky;
     top: 0;
+    height: 100%;
+  }
+  #dashpage{
+    z-index: 1;
   }
 }
