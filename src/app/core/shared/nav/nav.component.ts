@@ -1,19 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthenticationService } from '../../../service/authentication.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [FontAwesomeModule],
+  imports: [FontAwesomeModule, CommonModule],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.scss'
 })
 export class NavComponent {
   faPowerOff = faPowerOff
+  auth = inject(AuthenticationService)
+  pseudo = this.auth.getPseudo()
+  transitionOn: boolean = true
 
-  constructor(private _authService: AuthenticationService){}
+  constructor(private route: ActivatedRoute, private _authService: AuthenticationService){
+    let m = route.snapshot.paramMap.get("m")
+    if(m != "welcome") this.transitionOn = false
+  }
 
   public logOut(){
     this._authService.logOut()

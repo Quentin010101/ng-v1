@@ -12,10 +12,10 @@ import { faGear } from '@fortawesome/free-solid-svg-icons';
 
 export const routes: Routes = [
     {path: 'login', component: AuthenticationComponent},
-    {path: '', component: DashboardComponent, canActivate: [userGuard] },
+    {path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     {path: 'dashboard', component: DashboardComponent, canActivate: [userGuard], children: [
         {
-            path:'', component: HomeComponent
+            path:'', redirectTo: 'home', pathMatch: 'full'
         },
         {
             path:'home', component: HomeComponent, data: {

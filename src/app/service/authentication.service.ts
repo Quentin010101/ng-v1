@@ -31,7 +31,7 @@ export class AuthenticationService {
       next: (data) => {
         this.handleToken(data)
         this.isAuth = true
-        this.router.navigate(['dashboard'])
+        this.router.navigate(['dashboard/home', {m: "welcome"}])
       },
       error: (data) => {
         this.isAuth = false

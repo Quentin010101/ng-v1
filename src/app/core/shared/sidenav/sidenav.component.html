@@ -1,11 +1,14 @@
-<div id="wrapper" class="bg-300">
+<div id="wrapper" class="bg-sidenav">
   <nav>
     <ul>
       @for(route of dashboardChildRoutes; track route){
         @if(route.data){
           <li>
-            <a routerLinkActive="'active'" routerLink="{{route.path}}">
-                <fa-icon [icon]="route.data['icon']"></fa-icon>
+            <a routerLinkActive="bg active" routerLink="{{route.path}}">
+              <div position="before"></div>
+              <div class="line bg-primary-2"></div>
+              <fa-icon class="icon-2" [icon]="route.data['icon']"></fa-icon>
+              <div position="after"></div>
             </a>
           </li>
         }

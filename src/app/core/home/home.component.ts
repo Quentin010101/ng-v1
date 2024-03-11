@@ -11,13 +11,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  auth = inject(AuthenticationService)
-  pseudo = this.auth.getPseudo()
-  transitionOn: boolean = true
 
-  constructor(private route: ActivatedRoute){
-    console.log(route.snapshot)
-  }
-    // setTimeout(()=> { this.transitionOn = false}, 1000)
+
+
   
 }

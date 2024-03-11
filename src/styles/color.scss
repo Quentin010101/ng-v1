@@ -1,17 +1,60 @@
 $color-dark: (
-  100:#181716,
-  200:#2a2727,
-  300:#393433,
+  100:#080d17,
+  200:#0b131b,
+  300:#131d2c,
   400:#453f3d,
   500:#57504d,
 );
 
-.bg-100{
-  background-color: map-get($map: $color-dark, $key: 100);
+$color-primary:(
+  100: #84C290,
+  200: #69B578,
+  300: #51A461,
+);
+
+$bg-nav: map-get($map: $color-dark, $key: 100);
+$bg-sidenav: map-get($map: $color-dark, $key: 200);
+$bg-wrapper: map-get($map: $color-dark, $key: 300);
+
+$primary-1: map-get($map: $color-primary, $key: 100);
+$primary-2: map-get($map: $color-primary, $key: 200);
+$primary-3: map-get($map: $color-primary, $key: 300);
+
+
+.bg{
+  background-color: $bg-wrapper;
 }
-.bg-200{
-  background-color: map-get($map: $color-dark, $key: 200);
+.bg-sidenav{
+  background-color: $bg-sidenav;
 }
-.bg-300{
-  background-color: map-get($map: $color-dark, $key: 300);
+.bg-nav{
+  background-color: transparentize($bg-nav, 0.5);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+.primary-1{
+  color: $primary-1
+}
+.primary-2{
+  color: $primary-2
+}
+.primary-3{
+  color: $primary-3
+}
+.bg-primary-1{
+  background-color: $primary-1
+}
+.bg-primary-2{
+  background-color: $primary-2
+}
+.bg-primary-3{
+  background-color: $primary-3
+}
+
+fa-icon{
+  padding: 0.5rem;
+  transition: opacity 0.2s linear;
+  &:hover{
+    opacity: 0.6;
+  }
 }
