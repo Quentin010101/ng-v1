@@ -2,6 +2,7 @@
 @import 'styles/transition.scss';
 @import 'styles/button.scss';
 @import 'styles/size.scss';
+@import 'styles/typographie.scss';
 
 *{
   margin: 0;
@@ -9,14 +10,7 @@
 }
 html, body { height: 100%; }
 body { color:white; margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-button{
-  border: none;
-  outline: none;
-  background-color: inherit;
-  color: inherit;
-  padding: 0;
-  margin: 0;
-}
+
 
 
 

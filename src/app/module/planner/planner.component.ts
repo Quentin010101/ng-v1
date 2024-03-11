@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './planner.component.scss'
 })
 export class PlannerComponent {
-
+  
 }

@@ -1,5 +1,12 @@
 @import 'color.scss';
 
+
 button{
-    cursor: pointer;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  margin: 0;
 }
