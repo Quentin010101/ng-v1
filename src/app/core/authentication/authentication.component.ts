@@ -24,11 +24,8 @@ export class AuthenticationComponent {
       stayLogged: [false],
     });
     this.loginForm.touched
-    console.log(this.loginForm)
   }
-  f(){
-    console.log(this.loginForm)
-  }
+  
   get pseudo(){
     return this.loginForm.get('pseudo')
   }

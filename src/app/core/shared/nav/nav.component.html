@@ -1,6 +1,6 @@
 <div id="wrapper-tot">
   <div id="wrapper" class="bg-nav">
-    <h2><span class="primary-1 welcome" >Welcome</span> {{ pseudo }}</h2>
+    <h2><span class="primary-1" [ngClass]="{'welcome': transitionOn}">Welcome</span> {{ pseudo }}</h2>
     <button (click)="logOut()">
       <fa-icon class="icon-2" [icon]="faPowerOff"></fa-icon>
     </button>

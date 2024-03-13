@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environnement } from '../../../environnement';
 import { Compartiment } from '../../model/planner/compartiment.model';
-import { Observable, of, tap } from 'rxjs';
+import { Observable, Subject, map, of, tap } from 'rxjs';
 import { ResponseObject } from '../../model/response/responseObject.model';
 import { HttpClient } from '@angular/common/http';
 import { CacheService } from '../cache.service';
@@ -13,6 +13,7 @@ import { Response } from '../../model/response/response.model';
 export class CompartimentService {
   url: string = environnement.backEndUrl + '/task/utils/'
   cacheName: string = 'compartiment'
+  $compartiment = new Subject<Compartiment[]>()
   
   constructor(private http: HttpClient, private _cacheService: CacheService) { }
 
@@ -73,7 +74,15 @@ export class CompartimentService {
   private updateCache(compartiments: Compartiment[]){
     this._cacheService.clear(this.cacheName)
     this._cacheService.set(this.cacheName, compartiments)
+    this.$compartiment.next(compartiments)
   }
 
-
+  public getlastOrder(): Observable<number>{
+    return this.getAll().pipe(map((data) =>
+        data.object[data.object.length - 1].compartimentId
+    )
+    )
+  }
 }
+
+

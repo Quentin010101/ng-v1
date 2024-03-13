@@ -19,8 +19,13 @@ export class NavComponent {
   transitionOn: boolean = true
 
   constructor(private route: ActivatedRoute, private _authService: AuthenticationService){
-    let m = route.snapshot.paramMap.get("m")
-    if(m != "welcome") this.transitionOn = false
+
+  }
+
+  ngOnInit(){
+    setTimeout(()=>{
+      this.transitionOn = false
+    }, 100)
   }
 
   public logOut(){

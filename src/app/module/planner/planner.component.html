@@ -1,3 +1,10 @@
 <div class="dashboardPage">
   <h3>Planner:</h3>
+  <app-creation></app-creation>
+  @for(compartiment of compartiments; track compartiment){
+    <p>{{ compartiment.name }}</p>
+    <app-compartiment></app-compartiment>
+  }
+
+
 </div>
