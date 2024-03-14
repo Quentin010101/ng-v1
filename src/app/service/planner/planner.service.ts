@@ -13,7 +13,7 @@ import { CacheService } from '../cache.service';
   providedIn: 'root'
 })
 export class PlannerService {
-  url: string = environnement.backEndUrl + '/task/'
+  url: string = environnement.backEndUrl + 'task/'
   cacheName: string = 'tasks'
 
   constructor(private http: HttpClient, private _cacheService: CacheService) { }

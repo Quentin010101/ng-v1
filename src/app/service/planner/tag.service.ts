@@ -11,7 +11,7 @@ import { Response } from '../../model/response/response.model';
   providedIn: 'root'
 })
 export class TagService {
-  url: string = environnement.backEndUrl + '/task/utils/'
+  url: string = environnement.backEndUrl + 'task/utils/'
   cacheName: string = 'tag'
   
   constructor(private http: HttpClient, private _cacheService: CacheService) { }

@@ -11,7 +11,7 @@ import { Response } from '../../model/response/response.model';
   providedIn: 'root'
 })
 export class CompartimentService {
-  url: string = environnement.backEndUrl + '/task/utils/'
+  url: string = environnement.backEndUrl + 'task/utils/'
   cacheName: string = 'compartiment'
   $compartiment = new Subject<Compartiment[]>()
   
@@ -34,11 +34,12 @@ export class CompartimentService {
   }
 
   public newcompartiment(compartiment: Compartiment): Observable<ResponseObject<Compartiment>>{
-    let compartiments: Compartiment[] = this._cacheService.get(this.cacheName)
+    let compartiments: Compartiment[] = this._cacheService.get(this.cacheName) as Compartiment[]
+    console.log(compartiments)
     return this.createCompartiment(compartiment).pipe(
       tap(data => {
-        let compartiment = data.object
-        compartiments.push(compartiment)
+        let comp = data.object as Compartiment
+        compartiments.push(comp)
         this.updateCache(compartiments)
       })
     )
@@ -77,9 +78,14 @@ export class CompartimentService {
     this.$compartiment.next(compartiments)
   }
 
-  public getlastOrder(): Observable<number>{
-    return this.getAll().pipe(map((data) =>
-        data.object[data.object.length - 1].compartimentId
+  public getlastOrder(): Observable<number | null>{
+    return this.getAll().pipe(map((data) => {
+      if(data.object.length > 0){
+        return data.object[data.object.length - 1].compartimentId
+      }else{
+        return 1
+      }
+    }
     )
     )
   }

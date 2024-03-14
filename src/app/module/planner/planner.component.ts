@@ -22,7 +22,7 @@ export class PlannerComponent {
 
   ngOnInit(){
     this._compartimentService.getAll().subscribe(data => {
-      if(data.response.executionStatus){
+      if(data.response != null && data.response.executionStatus){
         this.compartiments = data.object
       }
     })

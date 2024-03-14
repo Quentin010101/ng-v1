@@ -22,6 +22,7 @@ export class CreationComponent {
 
   ngOnInit(){
     this._compartimentServcie.getlastOrder().subscribe(data=>{
+      if(data)
       this.newOrder = data + 1
     })
   }
@@ -31,6 +32,7 @@ export class CreationComponent {
       let comp = new Compartiment()
       comp.compartimentOrder = this.newOrder
       comp.name = this.compartimentForm.controls['name'].value
+      console.log(comp)
       this._compartimentServcie.newcompartiment(comp).subscribe()
     }
   }
