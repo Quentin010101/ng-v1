@@ -1,4 +1,4 @@
-export class Response{
+export class ResponseDto{
   constructor(m: string, b: boolean){
     this.executionStatus = b
     this.message = m

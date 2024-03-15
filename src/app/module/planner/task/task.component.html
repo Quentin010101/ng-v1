@@ -1,1 +1,9 @@
-<p>task works!</p>
+@if(task){
+    <div id="task" [@scaleE]="animState">
+        <p>{{animState}}</p>
+        <div id="header">
+            <h4>{{task.title}}</h4>
+            <app-task-menu [id]="task.taskId"></app-task-menu>
+        </div>
+    </div>
+}

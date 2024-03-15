@@ -10,9 +10,7 @@ export const userGuard: CanActivateFn = (route, state) => {
   const message = inject(MessageService);
 
   if(!auth.isAuthenticated) {
-    let m = new Message()
-    m.error = true
-    m.message = "You need to log into your account to access this page."
+    let m = new Message(true, "You need to log into your account to access this page.")
     message.$message.next(m)
     router.navigateByUrl('/login')
     return false

@@ -2,28 +2,26 @@ import { Injectable } from '@angular/core';
 import { environnement } from '../../../environnement';
 import { HttpClient } from '@angular/common/http';
 import { TaskCreationRequest } from '../../model/planner/taskCreationRequest.model';
-import { Observable, of, tap } from 'rxjs';
-import { ResponseObject } from '../../model/response/responseObject.model';
-import { Compartiment } from '../../model/planner/compartiment.model';
+import { BehaviorSubject, Observable, of, tap } from 'rxjs';
+import { ResponseObject } from '../../model/response/responseObjectDto.model';
 import { Task } from '../../model/planner/task.model';
-import { Response } from '../../model/response/response.model';
-import { CacheService } from '../cache.service';
+import {  ResponseDto } from '../../model/response/responseDto.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlannerService {
   url: string = environnement.backEndUrl + 'task/'
-  cacheName: string = 'tasks'
+  $tasks = new BehaviorSubject<Task[]>([])
 
-  constructor(private http: HttpClient, private _cacheService: CacheService) { }
+  constructor(private http: HttpClient) { }
 
   private createNewTask(task: TaskCreationRequest): Observable<ResponseObject<Task>>{
     return this.http.post<ResponseObject<Task>>(this.url + 'create', task)
   }
 
-  private deleteTask(id: number):Observable<Response>{
-    return this.http.get<Response>(this.url + 'delete/' + id)
+  private deleteTask(id: number):Observable<ResponseDto>{
+    return this.http.get<ResponseDto>(this.url + 'delete/' + id)
   }
 
   private updateTask(task: Task): Observable<ResponseObject<Task>>{
@@ -34,46 +32,48 @@ export class PlannerService {
     return this.http.get<ResponseObject<Task[]>>(this.url + 'read')
   }
 
-  public getAll(): Observable<ResponseObject<Task[]>>{
-    let tasks: Task[] = this._cacheService.get(this.cacheName)
-    if(tasks != null && tasks.length > 0) return of(new ResponseObject(new Response("", true), tasks))
-    return this.getAllTasks()
+
+  public init(){
+    let tasks: Task[] = this.$tasks.value
+    if(tasks != null && tasks.length > 0){
+      this.$tasks.next(tasks)
+    }else{
+      this.getAllTasks().subscribe(data => { 
+        if(data.responseDto.executionStatus)
+        this.$tasks.next(data.object)
+      })
+    }
   }
 
   public newTask(taskCreation: TaskCreationRequest): Observable<ResponseObject<Task>>{
-    let tasks: Task[] = this._cacheService.get(this.cacheName)
+    let tasks: Task[] = this.$tasks.value
     return this.createNewTask(taskCreation).pipe(
       tap(data => {
         let task = data.object
-        tasks.push(task)
-        this.updateCache(tasks)
+        tasks.unshift(task)
+        this.$tasks.next(tasks)
       })
     )
   }
 
   public update(task: Task): Observable<ResponseObject<Task>>{
-    let tasks: Task[] = this._cacheService.get(this.cacheName)
+    let tasks: Task[] = this.$tasks.value
     return this.updateTask(task).pipe(
       tap(data => {
         let task = data.object
-        tasks.push(task)
-        this.updateCache(tasks)
+        tasks.unshift(task)
+        this.$tasks.next(tasks)
       })
     )
   }
 
-  public delete(id: number):Observable<Response>{
-    let tasks: Task[] = this._cacheService.get(this.cacheName)
+  public delete(id: number):Observable<ResponseDto>{
+    let tasks: Task[] = this.$tasks.value
     return this.deleteTask(id).pipe(tap(data => {
       if(data.executionStatus){
-        tasks.filter(item => item.taskId != id)
-        this.updateCache(tasks)
+        this.$tasks.next(tasks.filter(item => item.taskId != id))
       }
     }))
   }
 
-  private updateCache(tasks: Task[]){
-    this._cacheService.clear(this.cacheName)
-    this._cacheService.set(this.cacheName, tasks)
-  }
 }

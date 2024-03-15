@@ -35,9 +35,7 @@ export class AuthenticationService {
       },
       error: (data) => {
         this.isAuth = false
-          let m = new Message()
-          m.error = true
-          m.message = "Wrong credentials";
+          let m = new Message(true,"Wrong credentials")
           this._messageService.$message.next(m)
      }})
   }

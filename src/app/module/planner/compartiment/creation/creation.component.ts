@@ -1,43 +1,43 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CompartimentService } from '../../../../service/planner/compartiment.service';
 import { Compartiment } from '../../../../model/planner/compartiment.model';
 
 @Component({
-  selector: 'app-creation',
+  selector: 'app-creation-compartiment',
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './creation.component.html',
   styleUrl: './creation.component.scss'
 })
-export class CreationComponent {
+export class CompartimentCreationComponent {
   compartimentForm!: FormGroup
+  compartiments: Compartiment[] = []
   newOrder: number | null = null
 
   constructor(private fb: FormBuilder, private _compartimentServcie: CompartimentService) {
+    this._compartimentServcie.$compartiment.subscribe(data => {
+      this.compartiments = data
+    })
     this.compartimentForm = this.fb.group({
       name: ['', Validators.required],
     });
   }
 
   ngOnInit(){
-    this._compartimentServcie.getlastOrder().subscribe(data=>{
-      if(data)
-      this.newOrder = data + 1
-    })
   }
 
-  private create(){
-    if(this.newOrder && !this.compartimentForm.invalid){
+  private create(newOrder: number){
+    if(!this.compartimentForm.invalid){
       let comp = new Compartiment()
-      comp.compartimentOrder = this.newOrder
+      comp.compartimentOrder = newOrder
       comp.name = this.compartimentForm.controls['name'].value
-      console.log(comp)
       this._compartimentServcie.newcompartiment(comp).subscribe()
     }
   }
 
   public onSubmit(){
-    this.create()
+    let newArr = this.compartiments.map(a => a.compartimentOrder);
+    this.create(Math.max(...newArr))
   }
 }

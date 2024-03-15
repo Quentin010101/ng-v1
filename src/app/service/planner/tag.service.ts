@@ -2,26 +2,25 @@ import { Injectable } from '@angular/core';
 import { environnement } from '../../../environnement';
 import { HttpClient } from '@angular/common/http';
 import { Tag } from '../../model/planner/tag.model';
-import { Observable, of, tap } from 'rxjs';
-import { ResponseObject } from '../../model/response/responseObject.model';
-import { CacheService } from '../cache.service';
-import { Response } from '../../model/response/response.model';
+import { BehaviorSubject, Observable, of, tap } from 'rxjs';
+import { ResponseObject } from '../../model/response/responseObjectDto.model';
+import { ResponseDto } from '../../model/response/responseDto.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TagService {
   url: string = environnement.backEndUrl + 'task/utils/'
-  cacheName: string = 'tag'
-  
-  constructor(private http: HttpClient, private _cacheService: CacheService) { }
+  $tags = new BehaviorSubject<Tag[]>([])
+
+  constructor(private http: HttpClient) { }
 
   private createTag(tag: Tag): Observable<ResponseObject<Tag>>{
     return this.http.post<ResponseObject<Tag>>(this.url + 'create/tag', tag)
   }
 
-  private deleteTag(id: number):Observable<Response>{
-    return this.http.get<Response>(this.url + 'delete/tag/' + id)
+  private deleteTag(id: number):Observable<ResponseDto>{
+    return this.http.get<ResponseDto>(this.url + 'delete/tag/' + id)
   }
 
   private updateTag(tag: Tag): Observable<ResponseObject<Tag>>{
@@ -33,46 +32,47 @@ export class TagService {
   }
   
   public newTag(tag: Tag): Observable<ResponseObject<Tag>>{
-    let tags: Tag[] = this._cacheService.get(this.cacheName)
+    let tags: Tag[] = this.$tags.value
     return this.createTag(tag).pipe(
       tap(data => {
         let tag = data.object
         tags.push(tag)
-        this.updateCache(tags)
+        this.$tags.next(tags)
       })
     )
   }
 
-  public getAll(): Observable<ResponseObject<Tag[]>>{
-    let tag: Tag[] = this._cacheService.get(this.cacheName)
-    if(tag != null && tag.length > 0) return of(new ResponseObject(new Response("", true), tag))
-    return this.getAllTags()
+  public init(){
+    let tags: Tag[] = this.$tags.value
+    if(tags != null && tags.length > 0){
+      this.$tags.next(tags)
+    }else{
+      this.getAllTags().subscribe(data => { 
+        if(data.responseDto.executionStatus)
+        this.$tags.next(data.object)
+      })
+    }
   }
 
   public update(tag: Tag): Observable<ResponseObject<Tag>>{
-    let tags: Tag[] = this._cacheService.get(this.cacheName)
+    let tags: Tag[] = this.$tags.value
     return this.updateTag(tag).pipe(
       tap(data => {
         let tag = data.object
         tags.push(tag)
-        this.updateCache(tags)
+        this.$tags.next(tags)
       })
     )
   }
 
-  public delete(id: number):Observable<Response>{
-    let tags: Tag[] = this._cacheService.get(this.cacheName)
+  public delete(id: number):Observable<ResponseDto>{
+    let tags: Tag[] = this.$tags.value
     return this.deleteTag(id).pipe(tap(data => {
       if(data.executionStatus){
-        tags.filter(item => item.tagId != id)
-        this.updateCache(tags)
+        this.$tags.next(tags.filter(item => item.tagId != id))
       }
     }))
   }
 
-  private updateCache(tags: Tag[]){
-    this._cacheService.clear(this.cacheName)
-    this._cacheService.set(this.cacheName, tags)
-  }
 
 }
