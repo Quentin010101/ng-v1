@@ -1,5 +1,18 @@
-<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
-    <div>
-        <input type="text" formControlName="title" placeholder="Task title">
+<div (clickOutside)="clickOutside($event)">
+  <button id="buttonTask" (click)="newTaskShow()">
+      <fa-icon [icon]="faMinus" [ngClass]="{'hide': !open}"></fa-icon>
+      <fa-icon [icon]="faPlus" [ngClass]="{'hide': open}"></fa-icon>
+  </button>
+  @if (open) {
+    <div @creationIn @creationOut style="overflow: hidden;">
+      <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+          <div>
+              <input #taskInput type="text" formControlName="title" placeholder="Task title" style="width: 100%">
+          </div>
+          <div>
+            <button class="validation">Add new task</button>
+          </div>
+      </form>
     </div>
-</form>
+  }
+</div>

@@ -1,27 +1,35 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Task } from '../../../model/planner/task.model';
 import { TaskMenuComponent } from './task-menu/task-menu.component';
-import { scaleE } from '../../../transition';
+import { CommonModule } from '@angular/common';
+import { TaskOpenService } from './task-open/task-open.component';
 
 
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [TaskMenuComponent],
+  imports: [TaskMenuComponent, CommonModule],
   templateUrl: './task.component.html',
   styleUrl: './task.component.scss',
-  animations: [scaleE]
 })
 export class TaskComponent {
   @Input() task!: Task
-  animState: boolean = false
 
-  ngOnInit(){
-    setTimeout(()=>{
-      this.animState = true
-    },10)
+  constructor(private _taskOpenService: TaskOpenService){}
+
+  dragStart(e: Event){
   }
-  
+
+  dragOver(e: Event){
+    e.preventDefault()
+  }
+
+  drop(e: Event){
+  }
+
+  showTask(){
+    this._taskOpenService.$task.next(this.task)
+  }
 }
 
 

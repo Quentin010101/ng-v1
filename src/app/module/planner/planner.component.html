@@ -1,15 +1,21 @@
-<div class="dashboardPage">
+<div id="container" class="dashboardPage">
   <h3>Planner:</h3>
   <section>
-    @for(compartiment of compartiments; track compartiment){
+    @for(compartiment of compartiments; track compartiment;let i = $index){
       <div class="block">
-        <p>{{ compartiment.name }}</p>
-        <app-creation-task [compartiment]="compartiment"></app-creation-task>
+        <div [@fadeInOnEnter]="animState">
+          <div class="header" (mouseover)="setHeaderHover(i + 1)" (mouseleave)="unsetHeaderHover(i + 1)">
+            <p>{{ compartiment.name }}</p>
+            @if(hoverIndex && hoverIndex === i + 1){
+              <app-supression-compartiment [id]="compartiment.compartimentId"></app-supression-compartiment>
+            }
+          </div>
+          <app-creation-task [compartiment]="compartiment"></app-creation-task>
+        </div>
         <app-compartiment [compartiment]="compartiment"></app-compartiment>
       </div>
     }
     <app-creation-compartiment></app-creation-compartiment>
   </section>
-
-
+  <app-task-open></app-task-open>
 </div>

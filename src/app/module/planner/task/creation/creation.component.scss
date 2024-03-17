@@ -1,0 +1,25 @@
+@import '../../../../../styles/color.scss';
+
+.hide{
+  position: absolute;
+  visibility: hidden;
+}
+#buttonTask{
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: $bg-nav;
+  transition: all 0.3s ease;
+
+  &:hover{
+    background-color: $bg-sidenav;
+  }
+}
+input{
+  color: white;
+  background-color: $bg-wrapper;
+  padding: 0.75rem 0.5rem;
+  border: none;
+  outline: none;
+}

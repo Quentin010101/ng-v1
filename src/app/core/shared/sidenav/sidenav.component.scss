@@ -37,6 +37,13 @@
   }
 }
 
+fa-icon{
+  transition: opacity 0.2s linear;
+  &:hover{
+    opacity: 0.6;
+  }
+}
+
 a.active div[position]::before,
 a.active div[position]::after{
   position: absolute;

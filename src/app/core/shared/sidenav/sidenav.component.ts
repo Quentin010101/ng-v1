@@ -13,7 +13,4 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 export class SidenavComponent {
   @Input() dashboardChildRoutes!: Routes
 
-  ngOnInit(){
-    console.log(this.dashboardChildRoutes)
-  }
 }

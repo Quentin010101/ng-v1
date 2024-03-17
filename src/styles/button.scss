@@ -10,3 +10,13 @@ button{
   padding: 0;
   margin: 0;
 }
+
+button.validation{
+  width: 100%;
+  background-color: $primary-3;
+  padding: 0.5rem;
+
+  &:hover{
+    background-color: $primary-2;
+  }
+}

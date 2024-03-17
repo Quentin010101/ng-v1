@@ -1,0 +1,18 @@
+@import '../../../../../styles/color.scss';
+
+
+  #task-overlay{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    inset: 0;
+    background-color: transparentize($color: $bg-nav, $amount: 0.3);
+    width: 100%;
+    z-index: 3;
+  }
+
+  #task{
+    padding: 1.25rem;
+    background-color: $bg-nav;
+  }

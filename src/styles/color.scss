@@ -53,8 +53,4 @@ $primary-3: map-get($map: $color-primary, $key: 300);
 
 fa-icon{
   padding: 0.5rem;
-  transition: opacity 0.2s linear;
-  &:hover{
-    opacity: 0.6;
-  }
 }

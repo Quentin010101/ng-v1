@@ -1,9 +1,23 @@
 @if(task){
-    <div id="task" [@scaleE]="animState">
-        <p>{{animState}}</p>
-        <div id="header">
-            <h4>{{task.title}}</h4>
+    <div id="task" [attr.draggable]="true" (dragstart)="dragStart($event)" (dragover)="dragOver($event)" (drop)="drop($event)" (click)="showTask()">
+        <div >
+          <div id="header">
+            <div>
+              <h4>{{task.title}}</h4>
+              <h5>{{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
+            </div>
             <app-task-menu [id]="task.taskId"></app-task-menu>
+          </div>
+          <hr>
         </div>
+        <div id="content">
+          <p>{{ task.text }}</p>
+        </div>
+        @if(task.dateEcheance){
+          <div>
+            <hr>
+            <input type="date" name="" id="" value="{{task.dateEcheance}}">
+          </div>
+        }
     </div>
 }

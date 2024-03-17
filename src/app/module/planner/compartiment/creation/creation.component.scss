@@ -1,0 +1,37 @@
+@import '../../../../../styles/color.scss';
+
+#container{
+  position: relative;
+  overflow: hidden;
+}
+
+input{
+  padding: 0.75rem;
+  border: none;
+  background-color: $bg-sidenav;
+  color: white;
+  outline: none;
+}
+
+#input{
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+#buttonCompartiment{
+  position: relative;
+  z-index: 2;
+  padding: 0.25rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  width: 100%;
+  background-color: $bg-nav;
+  transition: all 0.3s ease;
+
+  &:hover{
+    background-color: $bg-sidenav;
+  }
+}

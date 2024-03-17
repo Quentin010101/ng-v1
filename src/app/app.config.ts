@@ -5,12 +5,15 @@ import { HttpClient, provideHttpClient, withFetch, withInterceptors } from '@ang
 import { initializeUserData } from '../main';
 import { AuthInterceptor } from './service/interceptor/auth.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { UnhautorizedInterceptor } from './service/interceptor/unhautorized.interceptor';
+
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
     provideHttpClient(withFetch(), withInterceptors([
-      AuthInterceptor
+      AuthInterceptor, UnhautorizedInterceptor
     ])),
     provideRouter(routes),
     {

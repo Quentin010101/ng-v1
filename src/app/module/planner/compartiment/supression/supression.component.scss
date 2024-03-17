@@ -1,0 +1,14 @@
+:host{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#delete{
+  cursor: pointer;
+  opacity: 0.6;
+
+  &:hover{
+    opacity: 1;
+  }
+}

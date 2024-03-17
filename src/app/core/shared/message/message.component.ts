@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { MessageService } from '../../../service/message.service';
 import { Message } from '../../../model/message.model';
 import { CommonModule } from '@angular/common';
-import { fadeIn, fadeOut, tEnter, tLeave } from '../../../transition';
 
 
 
@@ -12,7 +11,7 @@ import { fadeIn, fadeOut, tEnter, tLeave } from '../../../transition';
   imports: [ CommonModule],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss',
-  animations: [fadeIn, fadeOut, tEnter, tLeave]
+
 })
 export class MessageComponent {
   duration: number = 5000

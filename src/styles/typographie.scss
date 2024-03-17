@@ -1,3 +1,5 @@
+@import './color.scss';
+
 
 h2{
   font-size: 1.1em;
@@ -8,5 +10,12 @@ h2{
 }
 h3{
   font-size: 0.9em;
-  font-weight: 400;
+  font-weight: 600;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  background: -webkit-linear-gradient(45deg, #ffffff, $primary-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  width: fit-content;
 }

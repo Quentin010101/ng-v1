@@ -1,7 +1,7 @@
 <div id="task-container">
     @if(tasks){
         @for(task of tasks; track task){
-            <app-task [task]="task"></app-task>
+            <app-task [task]="task" @taskInT @taskOutT [@.disabled]="animState"></app-task>
         }
     }
 </div>
