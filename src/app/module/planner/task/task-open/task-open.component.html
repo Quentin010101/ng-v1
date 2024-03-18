@@ -1,12 +1,16 @@
 @if(task){
   <div id="task-overlay">
-    <div id="task">
+    <div id="task" (clickOutside)="closeTask()">
       <div class="header">
         <h4>{{task.title}}</h4>
-        <h5>{{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
+        <h5>Task created {{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
+      </div>
+      <div class="tag">
+        <app-choice-tag></app-choice-tag>
       </div>
       <div class="choice">
-
+        <app-choice [choices]="importancesChoice"></app-choice>
+        <app-choice [choices]="progressionsChoice"></app-choice>
       </div>
       <div class="content">
         <textarea name="" id="" cols="40" rows="10" value="{{task.text}}">

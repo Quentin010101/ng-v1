@@ -38,6 +38,7 @@ export class CompartimentCreationComponent {
       comp.compartimentOrder = newOrder
       comp.name = this.compartimentForm.controls['name'].value
       this._compartimentServcie.newcompartiment(comp).subscribe()
+      this.open = false
       this.compartimentForm.reset()
     }
   }

@@ -1,0 +1,12 @@
+@if(choices){
+    <label for="id">{{ choices.title }}</label>
+    
+    <select id="id" (change)="onChange($event)">
+      <option value="{{ choices.data[0].id }}">Choose an option</option>
+      @for(item of choices.data; track item; let i = $index){
+        @if(i > 0){
+          <option value="{{ item.id }}">{{ item.text }}</option>
+        }
+      }
+    </select>
+}

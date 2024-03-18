@@ -20,6 +20,9 @@ $primary-1: map-get($map: $color-primary, $key: 100);
 $primary-2: map-get($map: $color-primary, $key: 200);
 $primary-3: map-get($map: $color-primary, $key: 300);
 
+$text-1: rgb(240,240,240);
+$text-2: rgb(225,225,225);
+$text-3: rgb(210,210,210);
 
 .bg{
   background-color: $bg-wrapper;

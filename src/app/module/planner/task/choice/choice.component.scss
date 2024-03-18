@@ -1,0 +1,8 @@
+@import '../../../../../styles/color.scss';
+
+select{
+    outline: none;
+    color: $text-2;
+    background-color: $bg-wrapper;
+    padding: 0.25rem;
+}

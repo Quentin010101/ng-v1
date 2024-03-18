@@ -8,6 +8,7 @@ import { SupressionComponent } from './compartiment/supression/supression.compon
 import { fadeInOut } from '../../z-other/transition';
 import { fadeInAnimation, fadeInOnEnterAnimation } from 'angular-animations';
 import { TaskOpenComponent } from './task/task-open/task-open.component';
+import { EnumerationService } from '../../service/planner/enumeration.service';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class PlannerComponent {
   hoverIndex: number | null = null
   animState: boolean = false
 
-  constructor(private _compartimentService: CompartimentService){
+  constructor(private _compartimentService: CompartimentService, private _enumService: EnumerationService){
       _compartimentService.$compartiment.subscribe(data=>{
         this.compartiments = data
       })
@@ -32,6 +33,8 @@ export class PlannerComponent {
 
   ngOnInit(){
     this._compartimentService.init()
+    this._enumService.init()
+    
     setTimeout(()=>{
       this.animState = true
     }, 1000)
