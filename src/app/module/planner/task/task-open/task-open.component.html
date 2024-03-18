@@ -9,8 +9,8 @@
         <app-choice-tag></app-choice-tag>
       </div>
       <div class="choice">
-        <app-choice [choices]="importancesChoice"></app-choice>
-        <app-choice [choices]="progressionsChoice"></app-choice>
+        <app-choice [choices]="importancesChoice" [selected]="task.importance" (onChangeOutput)="onChangeImportance($event)"></app-choice>
+        <app-choice [choices]="progressionsChoice" [selected]="task.progression" (onChangeOutput)="onChangeProgression($event)"></app-choice>
       </div>
       <div class="content">
         <textarea name="" id="" cols="40" rows="10" value="{{task.text}}">

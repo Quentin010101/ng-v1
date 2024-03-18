@@ -11,7 +11,8 @@ import { MapNumberString } from '../../../../model/utils.model';
 })
 export class ChoiceComponent {
   @Input() choices!: Choices
-  @Output() onChangeOutput = new EventEmitter<Choice>
+  @Input() selected!: number
+  @Output() onChangeOutput = new EventEmitter<Choice>()
 
   onChange(e: Event){
     let id = parseInt((e.target as HTMLInputElement).value)

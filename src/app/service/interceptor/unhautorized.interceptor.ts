@@ -23,8 +23,8 @@ export function UnhautorizedInterceptor(req: HttpRequest<unknown>,
           let m = new Message(true,"You need to log in.")
           messageService.$message.next(m)
           auth.logOut()
-        }else{
-          console.log("this is server side error");
+        }
+        else{
           errorMsg = `Server Error Code: ${error.status}, Message: ${error.message}`;
         }
        }

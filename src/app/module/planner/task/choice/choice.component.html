@@ -1,11 +1,12 @@
-@if(choices){
-    <label for="id">{{ choices.title }}</label>
+@if(choices && selected){
+    <label for="{{choices.title}}">{{ choices.title }}</label>
     
-    <select id="id" (change)="onChange($event)">
-      <option value="{{ choices.data[0].id }}">Choose an option</option>
+    <select id="{{choices.title}}" (change)="onChange($event)">
       @for(item of choices.data; track item; let i = $index){
         @if(i > 0){
-          <option value="{{ item.id }}">{{ item.text }}</option>
+          <option [selected]="item.id == selected" value="{{ item.id }}">{{ item.text }}</option>
+        }@else{
+          <option [selected]="item.id == selected" value="{{ item.id }}">Choose an option</option>
         }
       }
     </select>

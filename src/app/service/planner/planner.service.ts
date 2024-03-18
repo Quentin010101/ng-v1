@@ -57,12 +57,14 @@ export class PlannerService {
   }
 
   public update(task: Task): Observable<ResponseObject<Task>>{
+    console.log(task)
     let tasks: Task[] = this.$tasks.value
     return this.updateTask(task).pipe(
       tap(data => {
-        let task = data.object
-        tasks.unshift(task)
-        this.$tasks.next(tasks)
+        let newTasks = tasks.filter((t)=> t.taskId != task.taskId)
+        let newtask = data.object
+        newTasks.unshift(newtask)
+        this.$tasks.next(newTasks)
       })
     )
   }
