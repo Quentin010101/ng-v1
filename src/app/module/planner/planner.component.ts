@@ -49,7 +49,6 @@ export class PlannerComponent {
   }
 
   setHeaderHover(i :number){
-    console.log(i)
     this.hoverIndex = i
   }
 

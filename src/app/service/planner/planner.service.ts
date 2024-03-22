@@ -98,12 +98,15 @@ export class PlannerService {
   public updateOnDrop(task: Task, newComp: Compartiment): Observable<ResponseObject<Task>>{
     
     let oldCompId = task.compartiment.compartimentId
+    console.log(oldCompId)
     let newCompId = newComp.compartimentId
-    
+    console.log(newCompId)
     task.compartiment = newComp
 
     let oldTasks: Task[] = this.$tasksContainer.getValue().getTasksByCompId(oldCompId)
+    console.log(oldTasks)
     let newTasks: Task[] = this.$tasksContainer.getValue().getTasksByCompId(newCompId)
+    console.log(newTasks)
     return this.updateTask(task).pipe(
       tap(data => {
         oldTasks = oldTasks.filter((t)=> t.taskId != task.taskId)

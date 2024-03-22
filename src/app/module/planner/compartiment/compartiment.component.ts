@@ -25,6 +25,10 @@ export class CompartimentComponent {
   }
 
   dragOver(e: Event){
+    let element = (e.target as HTMLElement)
+    if(element.dataset['element-type'] == 'task'){
+      element.style.border ='solid red 5px'
+    }
     e.preventDefault()
   }
 
