@@ -24,7 +24,7 @@ export class TaskComponent {
   dragOver(e: DragEvent){
     let element = (e.target as HTMLElement)
     e.preventDefault()
-    if(element){
+    if(element.closest('[data-type]="task"')){
       element.style.border ='solid red 5px'
     }
   }
