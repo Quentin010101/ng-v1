@@ -1,6 +1,6 @@
 @if(task){
-  <div id="task-overlay">
-    <div id="task" (clickOutside)="closeTask()">
+  <div id="task-overlay" >
+    <div id="task" (clickOutside)="closeTask()" @fadeInOnEnter @fadeOutOnLeave>
       <div class="header">
         <h4>{{task.title}}</h4>
         <h5>Task created {{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>

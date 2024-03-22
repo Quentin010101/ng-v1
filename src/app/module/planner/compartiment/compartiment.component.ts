@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { Compartiment } from '../../../model/planner/compartiment.model';
 import { PlannerService } from '../../../service/planner/planner.service';
 import { Task } from '../../../model/planner/task.model';
@@ -16,25 +16,29 @@ import { taskInT, taskOutT } from '../../../z-other/transition';
 })
 export class CompartimentComponent {
   @Input() compartiment: Compartiment | null = null
-  tasks!: Task[]
-  animState = true
+  @Input() tasks!: Task[] | null
+  tasksCompartiment: Task[] | null = []
+  disableAnim:boolean = true
+  init:boolean = false
 
   constructor(private _plannerService: PlannerService){
-    this._plannerService.$tasks.subscribe(data =>  {
-      this.tasks = this.filterTasks(data)
-    })
   }
 
-  ngOnInit(){
-    this._plannerService.init()
-    setTimeout(()=>{
-      this.animState = false
-    }, 1000)
+  dragOver(e: Event){
+    e.preventDefault()
   }
 
-  private filterTasks(tasks: Task[]){
-    return tasks.filter(task => task.compartiment.compartimentId === this.compartiment?.compartimentId)
-  }
+  drop(e: DragEvent){
 
+    let taskId = e.dataTransfer?.getData("taskId") as string;
+    let taskDroped = this._plannerService.getTask(parseInt(taskId));
+    if(taskDroped && this.compartiment){
+      if(taskDroped.compartiment.compartimentId == this.compartiment.compartimentId){
+        this._plannerService.update(taskDroped).subscribe()
+      }else{
+        this._plannerService.updateOnDrop(taskDroped, this.compartiment as Compartiment).subscribe()
+      }
+    }
+  }
 
 }

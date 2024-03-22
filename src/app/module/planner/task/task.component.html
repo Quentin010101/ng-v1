@@ -1,12 +1,12 @@
 @if(task){
-    <div id="task" [attr.draggable]="true" (dragstart)="dragStart($event)" (dragover)="dragOver($event)" (drop)="drop($event)" (click)="showTask()">
+  <div [attr.draggable]="true" (dragstart)="dragStart($event)" >
+    <app-task-menu [task]="task"></app-task-menu>
+    <div id="task" (click)="showTask()">
         <div >
           <div id="header">
-            <div>
-              <h4>{{task.title}}</h4>
-              <h5>{{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
-            </div>
-            <app-task-menu [id]="task.taskId"></app-task-menu>
+            <h4>{{task.title | titlecase }}</h4>
+            <h5>{{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
+            <h6>{{ task.taskorder }}</h6>
           </div>
           <hr>
         </div>
@@ -20,4 +20,5 @@
           </div>
         }
     </div>
+  </div>
 }

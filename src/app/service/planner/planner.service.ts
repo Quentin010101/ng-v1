@@ -6,13 +6,15 @@ import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { ResponseObject } from '../../model/response/responseObjectDto.model';
 import { Task } from '../../model/planner/task.model';
 import {  ResponseDto } from '../../model/response/responseDto.model';
+import { TaskContainer, TaskContainerTot } from '../../model/planner/taskContainer.model';
+import { Compartiment } from '../../model/planner/compartiment.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlannerService {
   url: string = environnement.backEndUrl + 'task/'
-  $tasks = new BehaviorSubject<Task[]>([])
+  $tasksContainer = new BehaviorSubject<TaskContainerTot>(new TaskContainerTot())
 
   constructor(private http: HttpClient) { }
 
@@ -34,48 +36,108 @@ export class PlannerService {
 
 
   public init(){
-    let tasks: Task[] = this.$tasks.value
-    if(tasks != null && tasks.length > 0){
-      this.$tasks.next(tasks)
+    let tasks: TaskContainerTot = this.$tasksContainer.value
+    if(tasks != null && tasks.taskContainers != null && tasks.taskContainers.length > 0){
+      this.$tasksContainer.next(tasks)
     }else{
       this.getAllTasks().subscribe(data => { 
-        if(data.responseDto.executionStatus)
-        this.$tasks.next(data.object)
+        if(data.responseDto.executionStatus){
+          let taskContainerArr: TaskContainerTot = new TaskContainerTot()
+          data.object.forEach(task => {
+            let taskCompId = task.compartiment.compartimentId
+            let taskCompIdAlreadyExist = false
+            taskContainerArr.taskContainers.forEach(elem =>{
+              if(elem.compartimentId == taskCompId) {
+                taskCompIdAlreadyExist = true
+                elem.tasks.push(task)
+              }
+            })
+            if(!taskCompIdAlreadyExist){
+              let tasks: Task[] = []
+              tasks.push(task)
+              taskContainerArr.taskContainers.push( new TaskContainer(task.compartiment.compartimentId, tasks))
+            }
+          })
+          this.$tasksContainer.next(taskContainerArr)
+        }
       })
     }
   }
 
   public newTask(taskCreation: TaskCreationRequest): Observable<ResponseObject<Task>>{
-    let tasks: Task[] = this.$tasks.value
+    let compId = taskCreation.compartiment.compartimentId
+    let tasks: Task[] = this.$tasksContainer.getValue().getTasksByCompId(compId)
     return this.createNewTask(taskCreation).pipe(
       tap(data => {
         let task = data.object
-        tasks.unshift(task)
-        this.$tasks.next(tasks)
+        tasks.push(task)
+        let newArrayTasks: TaskContainerTot = new TaskContainerTot()
+        newArrayTasks.taskContainers = this.$tasksContainer.value?.taskContainers.filter((element)=> element.compartimentId != compId )
+        newArrayTasks.taskContainers.push(new TaskContainer(compId, tasks))
+        this.$tasksContainer.next(newArrayTasks)
       })
     )
   }
 
   public update(task: Task): Observable<ResponseObject<Task>>{
-    console.log(task)
-    let tasks: Task[] = this.$tasks.value
+    let compId = task.compartiment.compartimentId
+    let tasks: Task[] = this.$tasksContainer.getValue().getTasksByCompId(compId)
     return this.updateTask(task).pipe(
       tap(data => {
-        let newTasks = tasks.filter((t)=> t.taskId != task.taskId)
-        let newtask = data.object
+        let newTasks: Task[] = tasks.filter((t)=> t.taskId != task.taskId)
+        let newtask: Task = data.object
         newTasks.unshift(newtask)
-        this.$tasks.next(newTasks)
+        let newArrayTasks: TaskContainerTot = new TaskContainerTot()
+        newArrayTasks.taskContainers = this.$tasksContainer.value?.taskContainers.filter((element)=> element.compartimentId != compId )
+        newArrayTasks.taskContainers.push(new TaskContainer(compId, newTasks))
+        this.$tasksContainer.next(newArrayTasks)
       })
     )
   }
 
-  public delete(id: number):Observable<ResponseDto>{
-    let tasks: Task[] = this.$tasks.value
-    return this.deleteTask(id).pipe(tap(data => {
+  public updateOnDrop(task: Task, newComp: Compartiment): Observable<ResponseObject<Task>>{
+    
+    let oldCompId = task.compartiment.compartimentId
+    let newCompId = newComp.compartimentId
+    
+    task.compartiment = newComp
+
+    let oldTasks: Task[] = this.$tasksContainer.getValue().getTasksByCompId(oldCompId)
+    let newTasks: Task[] = this.$tasksContainer.getValue().getTasksByCompId(newCompId)
+    return this.updateTask(task).pipe(
+      tap(data => {
+        oldTasks = oldTasks.filter((t)=> t.taskId != task.taskId)
+        let newtask: Task = data.object
+        newTasks.push(newtask)
+        let newArrayTasks: TaskContainerTot = new TaskContainerTot()
+        newArrayTasks.taskContainers = this.$tasksContainer.getValue().taskContainers.filter((element)=> !(element.compartimentId in [oldCompId,newCompId]))
+        newArrayTasks.taskContainers.push(new TaskContainer(newCompId, newTasks))
+        newArrayTasks.taskContainers.push(new TaskContainer(oldCompId, oldTasks))
+        this.$tasksContainer.next(newArrayTasks)
+      })
+    )
+  }
+
+  public delete(task: Task):Observable<ResponseDto>{
+    let compId = task.compartiment.compartimentId
+    let tasks: Task[] = this.$tasksContainer.getValue().getTasksByCompId(compId)
+    return this.deleteTask(task.taskId).pipe(tap(data => {
       if(data.executionStatus){
-        this.$tasks.next(tasks.filter(item => item.taskId != id))
+        let newTasks: Task[] = tasks.filter((t)=> t.taskId != task.taskId)
+        let newArrayTasks: TaskContainerTot = new TaskContainerTot()
+        newArrayTasks.taskContainers = this.$tasksContainer.value?.taskContainers.filter((element)=> element.compartimentId != compId )
+        newArrayTasks.taskContainers.push(new TaskContainer(compId, newTasks))
+        this.$tasksContainer.next(newArrayTasks)
       }
     }))
+  }
+
+  public getTask(taskId: number):Task | null{
+    return this.$tasksContainer.getValue().getTaskById(taskId)
+  }
+
+  public handleDroppedTask(task: Task, newCompId: number, newOrder: number){
+    // this.$tasksContainer.
   }
 
 }

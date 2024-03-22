@@ -4,6 +4,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { PlannerService } from '../../../../service/planner/planner.service';
 import { MessageService } from '../../../../service/message.service';
 import { Message } from '../../../../model/message.model';
+import { Task } from '../../../../model/planner/task.model';
 
 @Component({
   selector: 'app-task-menu',
@@ -15,15 +16,15 @@ import { Message } from '../../../../model/message.model';
 })
 export class TaskMenuComponent {
   faTrash = faTrash
-  @Input() id!: number
+  @Input() task!: Task
   
   constructor(private _plannerService: PlannerService, private _messageService: MessageService){
     
   }
 
   public deleteTask(){
-    if(this.id){
-      this._plannerService.delete(this.id).subscribe(data => {
+    if(this.task){
+      this._plannerService.delete(this.task).subscribe(data => {
         this._messageService.$message.next(new Message(!data.executionStatus, data.message));
       })
     }

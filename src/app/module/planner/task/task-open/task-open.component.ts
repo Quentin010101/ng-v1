@@ -9,6 +9,7 @@ import { EnumerationService } from '../../../../service/planner/enumeration.serv
 import { Choice, Choices } from '../../../../model/planner/choice.model';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PlannerService } from '../../../../service/planner/planner.service';
+import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,8 @@ export class TaskOpenService {
   standalone: true,
   imports: [CommonModule, ClickOutsideDirective, ChoiceTagComponent, ChoiceComponent],
   templateUrl: './task-open.component.html',
-  styleUrl: './task-open.component.scss'
+  styleUrl: './task-open.component.scss',
+  animations:[fadeInOnEnterAnimation(), fadeOutOnLeaveAnimation()]
 })
 export class TaskOpenComponent {
   task: Task | null = null
@@ -61,7 +63,9 @@ export class TaskOpenComponent {
       dateCreation: new FormControl(task.dateCreation),
       dateEcheance: new FormControl(task.dateEcheance),
   })
+  console.log(this.taskForm)
   }
+
   private createFormArray(cible: any): FormArray{
     let arr: FormArray = new FormArray<any>([])
     if(cible){
@@ -82,18 +86,20 @@ export class TaskOpenComponent {
 
   onChangeImportance(e: Choice){
     this.taskForm.controls['importance'].setValue(e.data.id)
+    this.taskForm.markAsDirty()
   }
   onChangeProgression(e: Choice){
     this.taskForm.controls['progression'].setValue(e.data.id)
+    this.taskForm.markAsDirty()
   }
 
   private saveTask(){
     if(!this.taskForm.invalid){
-      let task: Task = Object.assign(new Task(), this.taskForm.value);
-      console.log(task)
-      this._taskService.update(task).subscribe(data => {
-        console.log(data)
-      })
+      console.log(this.taskForm)
+      if(this.taskForm.dirty){
+        let task: Task = Object.assign(new Task(), this.taskForm.value);
+        this._taskService.update(task).subscribe()
+      }
     }
   }
 }

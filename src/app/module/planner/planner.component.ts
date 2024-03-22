@@ -9,6 +9,9 @@ import { fadeInOut } from '../../z-other/transition';
 import { fadeInAnimation, fadeInOnEnterAnimation } from 'angular-animations';
 import { TaskOpenComponent } from './task/task-open/task-open.component';
 import { EnumerationService } from '../../service/planner/enumeration.service';
+import { PlannerService } from '../../service/planner/planner.service';
+import { Task } from '../../model/planner/task.model';
+import { TaskContainer, TaskContainerTot } from '../../model/planner/taskContainer.model';
 
 
 @Component({
@@ -21,18 +24,23 @@ import { EnumerationService } from '../../service/planner/enumeration.service';
 })
 export class PlannerComponent {
   compartiments: Compartiment[] | null = null
+  taskContainer!: TaskContainerTot
   headerHover: boolean = false;
   hoverIndex: number | null = null
   animState: boolean = false
 
-  constructor(private _compartimentService: CompartimentService, private _enumService: EnumerationService){
+  constructor(private _compartimentService: CompartimentService, private _enumService: EnumerationService,private _taskService: PlannerService){
       _compartimentService.$compartiment.subscribe(data=>{
         this.compartiments = data
+      })
+      _taskService.$tasksContainer.subscribe(data => {
+        this.taskContainer = data
       })
   }
 
   ngOnInit(){
     this._compartimentService.init()
+    this._taskService.init()
     this._enumService.init()
     
     setTimeout(()=>{
@@ -48,7 +56,5 @@ export class PlannerComponent {
   unsetHeaderHover(i: number){
     this.hoverIndex = null
   }
-
-
 
 }

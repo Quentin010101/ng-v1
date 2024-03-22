@@ -17,14 +17,8 @@ export class TaskComponent {
 
   constructor(private _taskOpenService: TaskOpenService){}
 
-  dragStart(e: Event){
-  }
-
-  dragOver(e: Event){
-    e.preventDefault()
-  }
-
-  drop(e: Event){
+  dragStart(e: DragEvent){
+      e.dataTransfer?.setData("taskId", this.task.taskId.toString());
   }
 
   showTask(){

@@ -12,6 +12,7 @@ export class Task{
     text!: string
     progression!: number
     importance!: number
+    taskorder!: number
     compartiment!: Compartiment
     tag!: Tag
     items!: Item[]
