@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { Compartiment } from '../../../model/planner/compartiment.model';
 import { PlannerService } from '../../../service/planner/planner.service';
 import { Task } from '../../../model/planner/task.model';
@@ -15,21 +15,66 @@ import { taskInT, taskOutT } from '../../../z-other/transition';
   animations: [taskInT, taskOutT]
 })
 export class CompartimentComponent {
+  @ViewChild('compartiment') compartimentElement!: ElementRef
   @Input() compartiment: Compartiment | null = null
   @Input() tasks!: Task[] | null
   tasksCompartiment: Task[] | null = []
   disableAnim:boolean = true
   init:boolean = false
+  tempActive:boolean = false
 
   constructor(private _plannerService: PlannerService){
   }
 
-  dragOver(e: Event){
+  dragOver(e: DragEvent){
     let element = (e.target as HTMLElement)
-    if(element.dataset['element-type'] == 'task'){
-      element.style.border ='solid red 5px'
-    }
     e.preventDefault()
+    if(element.closest('[data-type]') && !this.tempActive){
+      let taskElement = element.closest('[data-type]') as HTMLElement
+      let parent = taskElement.parentElement
+
+      let rect = taskElement.getBoundingClientRect()
+
+      let cursorY = e.y
+      let taskElementTop = rect.top
+      let taskElementBottom = rect.bottom
+
+      if(Math.abs(taskElementTop - cursorY) < Math.abs(taskElementBottom - cursorY)){
+        this.makeSpace(taskElement)
+      }
+      
+    }else if(element.getAttribute("temp") == "ok"){
+
+    }
+    else if(this.tempActive){
+      this.deleteTemp()
+    }
+  }
+
+  private deleteTemp(){
+    let container = this.compartimentElement.nativeElement as HTMLElement
+    const arr = Object.values(container.childNodes) as HTMLElement[]
+    arr.forEach((el)=>{
+      console.log(el)
+      if(typeof el === "HTMLElement")
+      if(el.getAttribute("temp") == "ok"){
+        container.removeChild(el)
+      }
+    })
+    this.tempActive = false
+  }
+
+  private makeSpace(elem: HTMLElement){
+    let container = this.compartimentElement.nativeElement as HTMLElement
+    let template = document.createElement('div')
+    template.setAttribute("temp","ok")
+    template.style.height = '100px'
+    template.style.width = '100%'
+    template.style.border = 'solid blue 3px'
+    
+    container.insertBefore(template, elem)
+
+    this.tempActive = true
   }
 
   drop(e: DragEvent){
@@ -37,12 +82,10 @@ export class CompartimentComponent {
     let taskId = e.dataTransfer?.getData("taskId") as string;
     let taskDroped = this._plannerService.getTask(parseInt(taskId));
     if(taskDroped && this.compartiment){
-      if(taskDroped.compartiment.compartimentId == this.compartiment.compartimentId){
-        this._plannerService.update(taskDroped).subscribe()
-      }else{
-        this._plannerService.updateOnDrop(taskDroped, this.compartiment as Compartiment).subscribe()
-      }
+      taskDroped.compartiment = this.compartiment
+      this._plannerService.update(taskDroped, true).subscribe()
     }
+    this.deleteTemp()
   }
 
 }

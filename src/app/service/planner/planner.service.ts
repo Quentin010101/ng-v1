@@ -16,7 +16,14 @@ export class PlannerService {
   url: string = environnement.backEndUrl + 'task/'
   $tasksContainer = new BehaviorSubject<TaskContainerTot>(new TaskContainerTot())
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.$tasksContainer.subscribe((data)=> {
+      
+      console.log("changing value : ")
+      this.log(data)
+      console.log("--------------")
+    })
+  }
 
   private createNewTask(task: TaskCreationRequest): Observable<ResponseObject<Task>>{
     return this.http.post<ResponseObject<Task>>(this.url + 'create', task)
@@ -30,19 +37,24 @@ export class PlannerService {
     return this.http.post<ResponseObject<Task>>(this.url + 'update', task)
   }
 
+  private updateTaskOnDrop(task: Task): Observable<ResponseObject<Task>>{
+    return this.http.post<ResponseObject<Task>>(this.url + 'update', task)
+  }
+
   private getAllTasks(): Observable<ResponseObject<Task[]>>{
     return this.http.get<ResponseObject<Task[]>>(this.url + 'read')
   }
 
 
-  public init(){
+  public init(forced: boolean = false){
     let tasks: TaskContainerTot = this.$tasksContainer.value
-    if(tasks != null && tasks.taskContainers != null && tasks.taskContainers.length > 0){
+    if(tasks != null && tasks.taskContainers != null && tasks.taskContainers.length > 0 && !forced){
       this.$tasksContainer.next(tasks)
     }else{
       this.getAllTasks().subscribe(data => { 
         if(data.responseDto.executionStatus){
           let taskContainerArr: TaskContainerTot = new TaskContainerTot()
+          
           data.object.forEach(task => {
             let taskCompId = task.compartiment.compartimentId
             let taskCompIdAlreadyExist = false
@@ -58,6 +70,7 @@ export class PlannerService {
               taskContainerArr.taskContainers.push( new TaskContainer(task.compartiment.compartimentId, tasks))
             }
           })
+          this.log(taskContainerArr)
           this.$tasksContainer.next(taskContainerArr)
         }
       })
@@ -66,7 +79,7 @@ export class PlannerService {
 
   public newTask(taskCreation: TaskCreationRequest): Observable<ResponseObject<Task>>{
     let compId = taskCreation.compartiment.compartimentId
-    let tasks: Task[] = this.$tasksContainer.getValue().getTasksByCompId(compId)
+    let tasks: Task[] = this.$tasksContainer.value.getTasksByCompId(compId)
     return this.createNewTask(taskCreation).pipe(
       tap(data => {
         let task = data.object
@@ -79,9 +92,9 @@ export class PlannerService {
     )
   }
 
-  public update(task: Task): Observable<ResponseObject<Task>>{
+  public update(task: Task, global: boolean = false): Observable<ResponseObject<Task>>{
     let compId = task.compartiment.compartimentId
-    let tasks: Task[] = this.$tasksContainer.getValue().getTasksByCompId(compId)
+    let tasks: Task[] = this.$tasksContainer.value.getTasksByCompId(compId)
     return this.updateTask(task).pipe(
       tap(data => {
         let newTasks: Task[] = tasks.filter((t)=> t.taskId != task.taskId)
@@ -90,40 +103,16 @@ export class PlannerService {
         let newArrayTasks: TaskContainerTot = new TaskContainerTot()
         newArrayTasks.taskContainers = this.$tasksContainer.value?.taskContainers.filter((element)=> element.compartimentId != compId )
         newArrayTasks.taskContainers.push(new TaskContainer(compId, newTasks))
-        this.$tasksContainer.next(newArrayTasks)
+        this.$tasksContainer.next(newArrayTasks);
+        if(global) this.init(true)
       })
     )
   }
 
-  public updateOnDrop(task: Task, newComp: Compartiment): Observable<ResponseObject<Task>>{
-    
-    let oldCompId = task.compartiment.compartimentId
-    console.log(oldCompId)
-    let newCompId = newComp.compartimentId
-    console.log(newCompId)
-    task.compartiment = newComp
-
-    let oldTasks: Task[] = this.$tasksContainer.getValue().getTasksByCompId(oldCompId)
-    console.log(oldTasks)
-    let newTasks: Task[] = this.$tasksContainer.getValue().getTasksByCompId(newCompId)
-    console.log(newTasks)
-    return this.updateTask(task).pipe(
-      tap(data => {
-        oldTasks = oldTasks.filter((t)=> t.taskId != task.taskId)
-        let newtask: Task = data.object
-        newTasks.push(newtask)
-        let newArrayTasks: TaskContainerTot = new TaskContainerTot()
-        newArrayTasks.taskContainers = this.$tasksContainer.getValue().taskContainers.filter((element)=> !(element.compartimentId in [oldCompId,newCompId]))
-        newArrayTasks.taskContainers.push(new TaskContainer(newCompId, newTasks))
-        newArrayTasks.taskContainers.push(new TaskContainer(oldCompId, oldTasks))
-        this.$tasksContainer.next(newArrayTasks)
-      })
-    )
-  }
 
   public delete(task: Task):Observable<ResponseDto>{
     let compId = task.compartiment.compartimentId
-    let tasks: Task[] = this.$tasksContainer.getValue().getTasksByCompId(compId)
+    let tasks: Task[] = this.$tasksContainer.value.getTasksByCompId(compId)
     return this.deleteTask(task.taskId).pipe(tap(data => {
       if(data.executionStatus){
         let newTasks: Task[] = tasks.filter((t)=> t.taskId != task.taskId)
@@ -136,11 +125,32 @@ export class PlannerService {
   }
 
   public getTask(taskId: number):Task | null{
-    return this.$tasksContainer.getValue().getTaskById(taskId)
+    return this.$tasksContainer.value.getTaskById(taskId)
   }
 
   public handleDroppedTask(task: Task, newCompId: number, newOrder: number){
     // this.$tasksContainer.
+  }
+
+  public returnFilteredTaskContainerTot(x: number[]){
+    let newArrayTasks: TaskContainerTot = new TaskContainerTot()
+    console.log("not filter")
+    this.log(this.$tasksContainer.value)
+    this.$tasksContainer.value.taskContainers.forEach((element)=>{
+      if(!(element.compartimentId in x)){
+        newArrayTasks.taskContainers.push(element)
+      }
+    })
+    console.log("filter")
+    this.log(newArrayTasks)
+    return newArrayTasks
+  }
+
+  public log(t: TaskContainerTot){
+    console.log(" ================== ")
+    t.taskContainers.forEach((el)=>{
+      console.log("compartiment id: " + el.compartimentId + " number of tasks : " + el.tasks.length)
+    })
   }
 
 }
