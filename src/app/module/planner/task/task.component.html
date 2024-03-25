@@ -1,5 +1,5 @@
 @if(task){
-  <div [attr.draggable]="true" (dragstart)="dragStart($event)" >
+  <div >
     <app-task-menu [task]="task"></app-task-menu>
     <div id="task" (click)="showTask()">
         <div >

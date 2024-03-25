@@ -1,7 +1,7 @@
-<div #compartiment id="task-container" (dragover)="dragOver($event)" (drop)="drop($event)" >
+<div #compartiment id="task-container" (dragover)="dragOver($event)" (dragleave)="leave($event)" (drop)="drop($event)">
     @if(tasks){
         @for(task of tasks; track task){
-            <app-task [task]="task" [attr.id]="task.taskId" [attr.data-type]="'task'"></app-task>
+            <app-task [task]="task" [attr.id]="task.taskId" [attr.data-type]="'task'" [attr.draggable]="true" (dragstart)="dragStart($event)" (dragend)="dragEnd($event)" ></app-task>
         }
     }
 </div>

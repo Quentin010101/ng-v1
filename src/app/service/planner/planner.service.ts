@@ -17,12 +17,6 @@ export class PlannerService {
   $tasksContainer = new BehaviorSubject<TaskContainerTot>(new TaskContainerTot())
 
   constructor(private http: HttpClient) { 
-    this.$tasksContainer.subscribe((data)=> {
-      
-      console.log("changing value : ")
-      this.log(data)
-      console.log("--------------")
-    })
   }
 
   private createNewTask(task: TaskCreationRequest): Observable<ResponseObject<Task>>{
@@ -70,7 +64,6 @@ export class PlannerService {
               taskContainerArr.taskContainers.push( new TaskContainer(task.compartiment.compartimentId, tasks))
             }
           })
-          this.log(taskContainerArr)
           this.$tasksContainer.next(taskContainerArr)
         }
       })
@@ -134,23 +127,13 @@ export class PlannerService {
 
   public returnFilteredTaskContainerTot(x: number[]){
     let newArrayTasks: TaskContainerTot = new TaskContainerTot()
-    console.log("not filter")
-    this.log(this.$tasksContainer.value)
     this.$tasksContainer.value.taskContainers.forEach((element)=>{
       if(!(element.compartimentId in x)){
         newArrayTasks.taskContainers.push(element)
       }
     })
-    console.log("filter")
-    this.log(newArrayTasks)
     return newArrayTasks
   }
 
-  public log(t: TaskContainerTot){
-    console.log(" ================== ")
-    t.taskContainers.forEach((el)=>{
-      console.log("compartiment id: " + el.compartimentId + " number of tasks : " + el.tasks.length)
-    })
-  }
 
 }
