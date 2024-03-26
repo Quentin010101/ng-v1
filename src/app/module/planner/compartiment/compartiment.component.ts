@@ -3,7 +3,7 @@ import { Compartiment } from '../../../model/planner/compartiment.model';
 import { PlannerService } from '../../../service/planner/planner.service';
 import { Task } from '../../../model/planner/task.model';
 import { TaskComponent } from '../task/task.component';
-import { taskInT, taskOutT } from '../../../z-other/transition';
+import { fadeInOnEnterAnimation } from 'angular-animations';
 
 class ElementActive{
   element!: HTMLElement
@@ -16,7 +16,7 @@ class ElementActive{
   imports: [TaskComponent],
   templateUrl: './compartiment.component.html',
   styleUrl: './compartiment.component.scss',
-  animations: [taskInT, taskOutT]
+  animations: [fadeInOnEnterAnimation()]
 })
 export class CompartimentComponent {
   @ViewChild('compartiment') compartimentElement!: ElementRef
@@ -27,18 +27,16 @@ export class CompartimentComponent {
   init:boolean = false
   tempActive:boolean = false
   elementActive!: ElementActive
+  idTaskDragged!: string | null
 
   constructor(private _plannerService: PlannerService){
   }
 
   dragOver(e: DragEvent){
     let element = (e.target as HTMLElement)
-    console.log(e.dataTransfer?.types)
-    console.log(e.dataTransfer?.getData("taskId"))
-        let taskId = e.dataTransfer?.getData("taskId") as string;
-    // console.log(element.closest('[data-type]')?.getAttribute("id"))
+
     e.preventDefault()
-    if(element.closest('[data-type]') && ((element.closest('[data-type]')?.getAttribute("id") && element.closest('[data-type]')?.getAttribute("id") != taskId))){
+    if(element.closest('[data-type]') && (element.closest('[data-type]')?.getAttribute("id") != this.idTaskDragged)){
       let elementDragedOver = element.closest('[data-type]') as HTMLElement
 
       let closerToUp:boolean = this.isDragCloserToUp(elementDragedOver,e)
@@ -128,16 +126,15 @@ export class CompartimentComponent {
       this._plannerService.update(taskDroped, true).subscribe()
     }
     this.deleteTemp()
+    this.idTaskDragged = null
   }
 
 
   dragStart(e: DragEvent){
     let element = (e.target as HTMLElement)
     let id = element.getAttribute("id")?.toString() as string
-    console.log(e.dataTransfer)
+    this.idTaskDragged = id
     e.dataTransfer?.setData("taskId", id);
-    console.log(e.dataTransfer?.types)
-    console.log(e.dataTransfer?.getData("taskId"))
   }
 
   dragEnd(e: DragEvent){
