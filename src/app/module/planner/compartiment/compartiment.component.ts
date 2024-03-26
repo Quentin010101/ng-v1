@@ -33,9 +33,12 @@ export class CompartimentComponent {
 
   dragOver(e: DragEvent){
     let element = (e.target as HTMLElement)
-    let taskId = e.dataTransfer?.getData("taskId") as string;
+    console.log(e.dataTransfer?.types)
+    console.log(e.dataTransfer?.getData("taskId"))
+        let taskId = e.dataTransfer?.getData("taskId") as string;
+    // console.log(element.closest('[data-type]')?.getAttribute("id"))
     e.preventDefault()
-    if(element.closest('[data-type]') && element.closest('[data-type]') && (element.getAttribute("id") || element.getAttribute("id") != taskId)){
+    if(element.closest('[data-type]') && ((element.closest('[data-type]')?.getAttribute("id") && element.closest('[data-type]')?.getAttribute("id") != taskId))){
       let elementDragedOver = element.closest('[data-type]') as HTMLElement
 
       let closerToUp:boolean = this.isDragCloserToUp(elementDragedOver,e)
@@ -130,8 +133,11 @@ export class CompartimentComponent {
 
   dragStart(e: DragEvent){
     let element = (e.target as HTMLElement)
-    e.dataTransfer?.setData("taskId", element.getAttribute("id") as string);
-
+    let id = element.getAttribute("id")?.toString() as string
+    console.log(e.dataTransfer)
+    e.dataTransfer?.setData("taskId", id);
+    console.log(e.dataTransfer?.types)
+    console.log(e.dataTransfer?.getData("taskId"))
   }
 
   dragEnd(e: DragEvent){
