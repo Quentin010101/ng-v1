@@ -34,14 +34,16 @@ export class CompartimentComponent {
   }
 
   dragOver(e: DragEvent){
+    e.preventDefault()
     let element = (e.target as HTMLElement)
     let elementDragedOver = element.closest("#drop-container") as HTMLElement
-    let elementDragedOverId = elementDragedOver.parentElement?.getAttribute("id")
-    if(elementDragedOver && (elementDragedOverId && elementDragedOverId != this.idTaskDragged)){
-      let closerToUp:boolean = this.isDragCloserToUp(elementDragedOver,e)
-      this._dragAndDropService.setNewInfo(new DragInfo(closerToUp, elementDragedOverId ))
+    if(elementDragedOver){
+      let elementDragedOverId = elementDragedOver.parentElement?.getAttribute("id")
+      if(elementDragedOver && (elementDragedOverId && elementDragedOverId != this.idTaskDragged)){
+        let closerToUp:boolean = this.isDragCloserToUp(elementDragedOver,e)
+        this._dragAndDropService.setNewInfo(new DragInfo(closerToUp, elementDragedOverId ))
+      }
     }
-    e.preventDefault()
   }
 
   private deleteTemp(){

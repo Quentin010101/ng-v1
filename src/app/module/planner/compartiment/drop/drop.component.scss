@@ -3,6 +3,7 @@
 .drop1, .drop2{
   height: 0px;
   width: 100%;
+  transition: height 0.1s ease-in;
 }
 .before{
     .drop1{

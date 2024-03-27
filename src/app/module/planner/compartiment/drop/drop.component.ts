@@ -36,7 +36,7 @@ export class DropComponent {
       }
     }else{
       this.dropComponent.nativeElement.classList.remove("after")
-      this.dropComponent.nativeElement.classList.remove("after")
+      this.dropComponent.nativeElement.classList.remove("before")
     }
   }
 }
