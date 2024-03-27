@@ -4,6 +4,8 @@ import { PlannerService } from '../../../service/planner/planner.service';
 import { Task } from '../../../model/planner/task.model';
 import { TaskComponent } from '../task/task.component';
 import { fadeInOnEnterAnimation } from 'angular-animations';
+import { fadeIn } from '../../../z-other/transition';
+import { DropComponent } from './drop/drop.component';
 
 class ElementActive{
   element!: HTMLElement
@@ -13,10 +15,10 @@ class ElementActive{
 @Component({
   selector: 'app-compartiment',
   standalone: true,
-  imports: [TaskComponent],
+  imports: [TaskComponent, DropComponent],
   templateUrl: './compartiment.component.html',
   styleUrl: './compartiment.component.scss',
-  animations: [fadeInOnEnterAnimation()]
+  animations: [fadeInOnEnterAnimation(), fadeIn]
 })
 export class CompartimentComponent {
   @ViewChild('compartiment') compartimentElement!: ElementRef
@@ -25,9 +27,8 @@ export class CompartimentComponent {
   tasksCompartiment: Task[] | null = []
   disableAnim:boolean = true
   init:boolean = false
-  tempActive:boolean = false
-  elementActive!: ElementActive
   idTaskDragged!: string | null
+  idTaskDraggedOver: string | null = null
 
   constructor(private _plannerService: PlannerService){
   }
@@ -35,28 +36,30 @@ export class CompartimentComponent {
   dragOver(e: DragEvent){
     let element = (e.target as HTMLElement)
 
+    if(element.closest('[data-type]') && (element.closest('[data-type]')?.getAttribute("id") != this.idTaskDraggedOver)){
+      console.log("ok")
+      this.deleteTemp()
+    }
+
     e.preventDefault()
     if(element.closest('[data-type]') && (element.closest('[data-type]')?.getAttribute("id") != this.idTaskDragged)){
       let elementDragedOver = element.closest('[data-type]') as HTMLElement
-
       let closerToUp:boolean = this.isDragCloserToUp(elementDragedOver,e)
 
-      if(!this.tempActive){
-        this.addElementTemp(elementDragedOver,closerToUp)
-        this.setElement(elementDragedOver,closerToUp)
-      }{
-        if(this.elementActive.element == elementDragedOver && this.elementActive.closerToUp != closerToUp){
-          this.deleteTemp()
-          this.addElementTemp(elementDragedOver,closerToUp)
-        }
-        this.setElement(elementDragedOver,closerToUp)
-      }
-
-      
-      
+      this.activeElement(elementDragedOver,closerToUp)
+      this.setElement(elementDragedOver)
+  
     }
-    else if(this.tempActive && !element.getAttribute("temp")){
-      this.deleteTemp()
+
+  }
+
+  private activeElement(activeElement: HTMLElement, before: boolean){
+    if(activeElement){
+      if(before){
+        activeElement.classList.add("before")
+      }else{
+        activeElement.classList.add("after")
+      }
     }
   }
 
@@ -64,18 +67,18 @@ export class CompartimentComponent {
     let container = this.compartimentElement.nativeElement as HTMLElement
     const arr = Object.values(container.childNodes) as HTMLElement[]
     arr.forEach((el)=>{
-      if(el instanceof HTMLElement)
-      if(el.getAttribute("temp") == "ok"){
-        container.removeChild(el)
+      if(el instanceof HTMLElement){
+        console.log(el)
+        el.classList.remove('before')
+        el.classList.remove('after')
       }
     })
-    this.tempActive = false
   }
 
-  private setElement(taskElement: HTMLElement, closerToUp:boolean){
-    this.elementActive = new ElementActive()
-    this.elementActive.closerToUp = closerToUp
-    this.elementActive.element = taskElement
+  private setElement(taskElement: HTMLElement){
+    if(taskElement.getAttribute("id")){
+      this.idTaskDraggedOver = taskElement.getAttribute("id")
+    }
   }
 
   private isDragCloserToUp(taskElement: HTMLElement, e:DragEvent): boolean{
@@ -94,28 +97,6 @@ export class CompartimentComponent {
     if(element.getAttribute("temp")){
       this.deleteTemp()
     }
-  }
-
-
-  private addElementTemp(elem: HTMLElement,before: boolean){
-    let container = this.compartimentElement.nativeElement as HTMLElement
-    let template = document.createElement('div')
-    template.setAttribute("temp","ok")
-    template.style.height = '150px'
-    template.style.width = '100%'
-    template.style.border = 'solid blue 3px'
-    
-    
-    if(before){
-      container.insertBefore(template, elem)
-    }else{
-      elem.parentElement?.insertBefore(template, elem.nextSibling)
-    }
-    template.addEventListener('drop', (e)=>{
-      this.drop(e)
-    }) 
-
-    this.tempActive = true
   }
 
   drop(e: DragEvent){

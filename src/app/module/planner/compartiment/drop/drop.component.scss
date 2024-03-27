@@ -1,0 +1,13 @@
+
+:host(.before){
+    .drop1{
+        width: 100%;
+        height: 125px;
+    }
+}
+:host(.after){
+    .drop2{
+        width: 100%;
+        height: 125px;
+    }
+}

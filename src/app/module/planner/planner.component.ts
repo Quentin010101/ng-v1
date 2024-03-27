@@ -5,13 +5,11 @@ import { CompartimentComponent } from './compartiment/compartiment.component';
 import { CompartimentCreationComponent } from './compartiment/creation/creation.component';
 import { TaskCreationComponent } from './task/creation/creation.component';
 import { SupressionComponent } from './compartiment/supression/supression.component';
-import { fadeInOut } from '../../z-other/transition';
 import { fadeInAnimation, fadeInOnEnterAnimation } from 'angular-animations';
 import { TaskOpenComponent } from './task/task-open/task-open.component';
 import { EnumerationService } from '../../service/planner/enumeration.service';
 import { PlannerService } from '../../service/planner/planner.service';
-import { Task } from '../../model/planner/task.model';
-import { TaskContainer, TaskContainerTot } from '../../model/planner/taskContainer.model';
+import { TaskContainerTot } from '../../model/planner/taskContainer.model';
 
 
 @Component({

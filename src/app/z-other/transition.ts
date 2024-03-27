@@ -13,7 +13,7 @@ const heightInT = transition(':enter', [style({opacity: 0,maxHeight: '0px'}),ani
 const heightOutT = transition(':leave', [style({maxHeight: '200px', opacity: 1}),animate('300ms ease-in', style({ maxHeight: '0px', opacity: 0}))])
 // --------------------------------------------------------------------------------------------------------
 
-export const fadeInOut = trigger('fadeInOut', [fadeInT, fadeOutT])
+export const fadeIn = trigger('fadeIn', [fadeInT])
 export const taskInT = trigger('taskInT', [translateInT])
 export const taskOutT = trigger('taskOutT', [translateOutT])
 export const creationIn = trigger('creationIn', [heightInT])
