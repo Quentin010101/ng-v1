@@ -6,6 +6,7 @@ import { TaskComponent } from '../task/task.component';
 import { fadeInOnEnterAnimation } from 'angular-animations';
 import { fadeIn } from '../../../z-other/transition';
 import { DropComponent } from './drop/drop.component';
+import { DragDropService, DragInfo } from '../../../service/utils/drag-drop.service';
 
 class ElementActive{
   element!: HTMLElement
@@ -28,57 +29,28 @@ export class CompartimentComponent {
   disableAnim:boolean = true
   init:boolean = false
   idTaskDragged!: string | null
-  idTaskDraggedOver: string | null = null
 
-  constructor(private _plannerService: PlannerService){
+  constructor(private _plannerService: PlannerService, private _dragAndDropService: DragDropService){
   }
 
   dragOver(e: DragEvent){
     let element = (e.target as HTMLElement)
-
-    if(element.closest('[data-type]') && (element.closest('[data-type]')?.getAttribute("id") != this.idTaskDraggedOver)){
-      console.log("ok")
-      this.deleteTemp()
-    }
-
-    e.preventDefault()
-    if(element.closest('[data-type]') && (element.closest('[data-type]')?.getAttribute("id") != this.idTaskDragged)){
-      let elementDragedOver = element.closest('[data-type]') as HTMLElement
+    let elementDragedOver = element.closest("#drop-container") as HTMLElement
+    let elementDragedOverId = elementDragedOver.parentElement?.getAttribute("id")
+    if(elementDragedOver && (elementDragedOverId && elementDragedOverId != this.idTaskDragged)){
       let closerToUp:boolean = this.isDragCloserToUp(elementDragedOver,e)
-
-      this.activeElement(elementDragedOver,closerToUp)
-      this.setElement(elementDragedOver)
-  
+      this._dragAndDropService.setNewInfo(new DragInfo(closerToUp, elementDragedOverId ))
     }
-
-  }
-
-  private activeElement(activeElement: HTMLElement, before: boolean){
-    if(activeElement){
-      if(before){
-        activeElement.classList.add("before")
-      }else{
-        activeElement.classList.add("after")
-      }
-    }
+    e.preventDefault()
   }
 
   private deleteTemp(){
     let container = this.compartimentElement.nativeElement as HTMLElement
-    const arr = Object.values(container.childNodes) as HTMLElement[]
-    arr.forEach((el)=>{
-      if(el instanceof HTMLElement){
-        console.log(el)
-        el.classList.remove('before')
-        el.classList.remove('after')
-      }
+    const arr2 = container.querySelectorAll("#drop-container")
+    arr2.forEach((el)=>{
+      el.classList.remove('before')
+      el.classList.remove('after')
     })
-  }
-
-  private setElement(taskElement: HTMLElement){
-    if(taskElement.getAttribute("id")){
-      this.idTaskDraggedOver = taskElement.getAttribute("id")
-    }
   }
 
   private isDragCloserToUp(taskElement: HTMLElement, e:DragEvent): boolean{
@@ -92,9 +64,9 @@ export class CompartimentComponent {
     return Math.abs(taskElementTop - cursorY) < Math.abs(taskElementBottom - cursorY)
   }
 
-  public leave(e:DragEvent){
-    let element = (e.target as HTMLElement)
-    if(element.getAttribute("temp")){
+  public leave(e:Event){
+    let elementLeft = (e.target as HTMLElement)
+    if(!elementLeft.closest("#drop-container")){
       this.deleteTemp()
     }
   }
