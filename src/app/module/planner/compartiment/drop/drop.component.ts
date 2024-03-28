@@ -10,33 +10,31 @@ import { DragDropService } from '../../../../service/utils/drag-drop.service';
   styleUrl: './drop.component.scss'
 })
 export class DropComponent {
+  @Input() taskId!: number
   @ViewChild("dropComponent") dropComponent!: ElementRef
-  @Input() id!: number
-  taskId!: string
-  before!: boolean
 
   constructor(private _dragAndDropService: DragDropService){
-    this._dragAndDropService.$dragOverInfo.subscribe(data => {
+    this._dragAndDropService.$isBeingDragged.subscribe(data => {
       if(data){
-        this.before = data?.before
-        this.taskId = data?.id
-        this.setAction()
+        this.isBeingDragged(data)
+      }
+    })
+    this._dragAndDropService.$draggedEnd.subscribe(data => {
+      if(data){
+        this.draggedEnd(data)
       }
     })
   }
 
-  private setAction(){
-    if(this.id == parseInt(this.taskId)){
-      if(this.before){
-        this.dropComponent.nativeElement.classList.add("before")
-        this.dropComponent.nativeElement.classList.remove("after")
-      }else{
-        this.dropComponent.nativeElement.classList.add("after")
-        this.dropComponent.nativeElement.classList.remove("before")
-      }
-    }else{
-      this.dropComponent.nativeElement.classList.remove("after")
-      this.dropComponent.nativeElement.classList.remove("before")
+  public isBeingDragged(id: number){
+    if(this.taskId == id){
+      this.dropComponent.nativeElement.style.display = 'none'
+    }
+  }
+  
+  public draggedEnd(id: number){
+    if(this.taskId == id){
+      this.dropComponent.nativeElement.style.display = 'block'
     }
   }
 }

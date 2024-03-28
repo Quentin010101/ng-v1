@@ -1,17 +1,4 @@
-:host{
-}
-.drop1, .drop2{
-  height: 0px;
-  width: 100%;
-  transition: height 0.1s ease-in;
-}
-.before{
-    .drop1{
-        height: 125px;
-    }
-}
-.after{
-    .drop2{
-        height: 125px;
-    }
-}
+@import '../../../../../styles/color.scss';
+
+$margin: 10;
+$marginCalc: 2*$margin + px;
