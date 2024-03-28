@@ -61,6 +61,7 @@ export class DragDropService {
   $onNewComp = new Subject<NewComp>()
   $normalOpacity = new Subject<boolean>()
   $dragOver = new Subject<DragOver>()
+  $removeTemp = new Subject<boolean>()
 
   constructor() {
     this.$hasStartedBeingDragged.subscribe(d => d ? this.compDraggedOver = d.compId : '')
@@ -78,6 +79,7 @@ export class DragDropService {
   }
 
   private handleDrag(e: DragOver) {
+    if(!this.isElementValid(e.event)) this.$removeTemp.next(true)
     let compartiment = e.compartiment
     let event = e.event
     let cursorY = event.y
@@ -99,12 +101,11 @@ export class DragDropService {
     }
     if (choosenElement && compartiment) {
       let rectChoosen = choosenElement.getBoundingClientRect()
-      let temp = this.createElement()
-      let before = Math.abs(rectChoosen.top - cursorY) > Math.abs(rectChoosen.bottom - cursorY)
-
+      
+      let before = Math.abs(rectChoosen.top - cursorY) < Math.abs(rectChoosen.bottom - cursorY)
       if(this.isFocuseChanged(choosenElement, before)){
-        this.deleteTmpElement(compartiment)
-        
+        this.$removeTemp.next(true)
+        let temp = this.createElement()
         if (before) {
           compartiment.insertBefore(temp, choosenElement)
         } else {
@@ -113,6 +114,10 @@ export class DragDropService {
         this.tempElement = new TempElement(choosenElement, before)
       }
 
+    }else if(compartiment && (e.event.target as HTMLElement).getAttribute("id") != "temp"){
+      this.$removeTemp.next(true)
+      let temp = this.createElement()
+      compartiment.appendChild(temp)
     }
 
 
@@ -120,7 +125,7 @@ export class DragDropService {
 
   private isFocuseChanged(choosenElement: HTMLElement, before: boolean): boolean{
     if(!this.tempElement) return true
-    if(this.tempElement?.element != choosenElement || ((this.tempElement.before && before) || (!this.tempElement.before && !before) )){
+    if(this.tempElement.element != choosenElement || !((this.tempElement.before && before) || (!this.tempElement.before && !before))){
       return true
     }
     return false
@@ -128,9 +133,7 @@ export class DragDropService {
 
   private createElement(): HTMLElement {
     let newTemp = document.createElement("div")
-    newTemp.style.width = "100%";
     newTemp.style.height = "125px";
-    newTemp.style.backgroundColor = "blue";
     newTemp.classList.add("temp-item")
     newTemp.setAttribute("id", "temp")
 
@@ -149,19 +152,27 @@ export class DragDropService {
     for (let i = 0; i < childElementArray.length; i++) {
       let element = childElementArray[i]
       if (element instanceof HTMLElement) {
-        if (element.getAttribute("temp")) {
+        if (element.getAttribute("id") == "temp") {
           tempElement = element
           break;
         }
       }
     }
-
     return tempElement
   }
 
-  private deleteTmpElement(compartiment: HTMLElement){
+  public deleteTmpElement(compartiment: HTMLElement){
     let el = this.getTempElement(compartiment)
     if(el) el.remove()
+  }
+
+  private isElementValid(e: DragEvent):boolean{
+    let el = e.target
+    if(el instanceof HTMLElement){
+      if(el.closest("[taskid]")) return true
+      if(el.getAttribute("id") == "temp") return true
+    }
+    return false
   }
 
 }

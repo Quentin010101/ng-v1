@@ -40,6 +40,11 @@ export class CompartimentComponent {
         this.normalOpacity()
       }
     })
+    this._dragAndDropService.$removeTemp.subscribe((d) =>{
+      if(d){
+        this._dragAndDropService.deleteTmpElement(this.compartimentElement.nativeElement)
+      }
+    })
   }
 
   private lowerOpacity(){
@@ -64,6 +69,7 @@ export class CompartimentComponent {
   public onDragEnd(e:DragEvent, taskId: number){
     this._dragAndDropService.$normalOpacity.next(true)
     this._dragAndDropService.$draggedEnd.next(taskId)
+    this._dragAndDropService.$removeTemp.next(true)
   }
 
   // compartiment
@@ -81,7 +87,7 @@ export class CompartimentComponent {
   }
 
   public onDrop(e: DragEvent, compId: number){
-
+    this._dragAndDropService.$removeTemp.next(true)
   }
 
   private returnCloserCompartimentElement(e: DragEvent): HTMLElement | null{
