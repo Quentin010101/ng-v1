@@ -6,12 +6,8 @@ import { TaskComponent } from '../task/task.component';
 import { fadeInOnEnterAnimation } from 'angular-animations';
 import { fadeIn } from '../../../z-other/transition';
 import { DropComponent } from './drop/drop.component';
-import { DragDropService, DragInfo, DragOver, NewComp, StartInfo } from '../../../service/utils/drag-drop.service';
+import { DragDropService, DragOver, NewComp, StartInfo } from '../../../service/utils/drag-drop.service';
 
-class ElementActive{
-  element!: HTMLElement
-  closerToUp!: boolean
-}
 
 @Component({
   selector: 'app-compartiment',
@@ -27,7 +23,7 @@ export class CompartimentComponent {
   @Input() tasks!: Task[] | null
 
 
-  constructor(private _dragAndDropService: DragDropService){
+  constructor(private _dragAndDropService: DragDropService, private _plannerService: PlannerService){
     this._dragAndDropService.$onNewComp.subscribe((d)=>{
       if(d.newCompId == this.compartiment?.compartimentId){
         this.normalOpacity()
@@ -86,15 +82,17 @@ export class CompartimentComponent {
     this._dragAndDropService.$dragOver.next(new DragOver(this.compartimentElement.nativeElement,e))
   }
 
-  public onDrop(e: DragEvent, compId: number){
+  public onDrop(e: DragEvent, compartiment: Compartiment){
     this._dragAndDropService.$removeTemp.next(true)
+    if(compartiment && this._dragAndDropService.taskDraggedId){
+      let tempElement = this._dragAndDropService.getTempElement(this.compartimentElement.nativeElement)
+      let newOrder = tempElement?.getAttribute("order")
+      this._plannerService.handleDroppedTask(this._dragAndDropService.taskDraggedId, compartiment, parseInt(newOrder as string))
+    }
+    this._dragAndDropService.reset()
   }
 
-  private returnCloserCompartimentElement(e: DragEvent): HTMLElement | null{
-    let element = e.target as HTMLElement
-    let closerCompartiment = element.closest("#task-container") as HTMLElement
-    return closerCompartiment
-  }
+
 
 
 }

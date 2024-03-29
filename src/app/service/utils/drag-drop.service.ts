@@ -51,6 +51,7 @@ export class TempElement {
 })
 export class DragDropService {
   compDraggedOver: number | null = null
+  taskDraggedId: number | null = null
   tempActif: boolean = false
   tempElement: TempElement | null = null
 
@@ -64,7 +65,13 @@ export class DragDropService {
   $removeTemp = new Subject<boolean>()
 
   constructor() {
-    this.$hasStartedBeingDragged.subscribe(d => d ? this.compDraggedOver = d.compId : '')
+    this.$hasStartedBeingDragged.subscribe(d =>  {
+      if(d){
+        this.compDraggedOver = d.compId
+        this.taskDraggedId = d.taskId
+      }
+    }
+    )
     this.$onEnter.subscribe(d => {
       if (d) {
         if (this.compDraggedOver && d != this.compDraggedOver) {
@@ -105,7 +112,7 @@ export class DragDropService {
       let before = Math.abs(rectChoosen.top - cursorY) < Math.abs(rectChoosen.bottom - cursorY)
       if(this.isFocuseChanged(choosenElement, before)){
         this.$removeTemp.next(true)
-        let temp = this.createElement()
+        let temp = this.createElement(before, choosenElement.getAttribute("order") as string)
         if (before) {
           compartiment.insertBefore(temp, choosenElement)
         } else {
@@ -116,7 +123,11 @@ export class DragDropService {
 
     }else if(compartiment && (e.event.target as HTMLElement).getAttribute("id") != "temp"){
       this.$removeTemp.next(true)
-      let temp = this.createElement()
+      let lastChildOrder = null
+      if(compartiment.lastElementChild)
+        lastChildOrder = compartiment.lastElementChild.getAttribute("order")
+      
+      let temp = this.createElement(null, lastChildOrder)
       compartiment.appendChild(temp)
     }
 
@@ -131,11 +142,23 @@ export class DragDropService {
     return false
   }
 
-  private createElement(): HTMLElement {
+  private createElement(before: boolean | null, elementOrder: string | null): HTMLElement {
     let newTemp = document.createElement("div")
     newTemp.style.height = "125px";
     newTemp.classList.add("temp-item")
     newTemp.setAttribute("id", "temp")
+
+    if(before == null){
+      if(elementOrder){
+        newTemp.setAttribute("order", (parseInt(elementOrder) + 1).toString())
+      }else{
+        newTemp.setAttribute("order", "1")
+      }
+    }else if(before){
+      newTemp.setAttribute("order", elementOrder as string)
+    }else{
+      newTemp.setAttribute("order", (parseInt(elementOrder as string) + 1).toString())
+    }
 
     return newTemp
   }
@@ -145,7 +168,7 @@ export class DragDropService {
     return false
   }
 
-  private getTempElement(compartiment: HTMLElement) {
+  public getTempElement(compartiment: HTMLElement) {
     let childElementArray = Array.from(compartiment.childNodes)
 
     let tempElement: HTMLElement | null = null
@@ -173,6 +196,13 @@ export class DragDropService {
       if(el.getAttribute("id") == "temp") return true
     }
     return false
+  }
+
+  public reset(){
+    this.compDraggedOver = null
+    this.taskDraggedId = null
+    this.tempActif = false
+    this.tempElement = null
   }
 
 }

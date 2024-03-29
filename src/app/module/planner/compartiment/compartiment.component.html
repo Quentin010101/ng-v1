@@ -4,11 +4,12 @@
         (dragenter)="onDragEnter($event, compartiment.compartimentId)"
         (dragleave)="onDragLeave($event, compartiment.compartimentId)"
         (dragover)="onDragOver($event, compartiment.compartimentId)"
-        (drop)="onDrop($event, compartiment.compartimentId)"
+        (drop)="onDrop($event, compartiment)"
     >
         @if(tasks){
             @for(task of tasks; track task){
                 <app-drop
+                    [attr.order]="task.taskorder"
                     [attr.taskid]="task.taskId"
                     [taskId]="task.taskId"
                     draggable="true"

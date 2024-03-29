@@ -85,7 +85,7 @@ export class PlannerService {
     )
   }
 
-  public update(task: Task, global: boolean = false): Observable<ResponseObject<Task>>{
+  public update(task: Task): Observable<ResponseObject<Task>>{
     let compId = task.compartiment.compartimentId
     let tasks: Task[] = this.$tasksContainer.value.getTasksByCompId(compId)
     return this.updateTask(task).pipe(
@@ -97,11 +97,79 @@ export class PlannerService {
         newArrayTasks.taskContainers = this.$tasksContainer.value?.taskContainers.filter((element)=> element.compartimentId != compId )
         newArrayTasks.taskContainers.push(new TaskContainer(compId, newTasks))
         this.$tasksContainer.next(newArrayTasks);
-        if(global) this.init(true)
       })
     )
   }
 
+  
+  public updateTasks(oldtask: Task, newComp: Compartiment, newOrder: number, changeComp: boolean): Observable<ResponseObject<Task>>{
+
+    let tasksForNewTask: Task[] = this.$tasksContainer.value.getTasksByCompId(newComp.compartimentId)
+    let tasksWhereNewTaskCameFrom: Task[] = this.$tasksContainer.value.getTasksByCompId(oldtask.compartiment.compartimentId)
+
+    oldtask.taskorder = newOrder
+    
+    if(changeComp){
+      oldtask.compartiment = newComp
+      tasksWhereNewTaskCameFrom = tasksWhereNewTaskCameFrom.filter((el) => el.taskId != oldtask.taskId)
+      tasksForNewTask.push(oldtask)
+      this.changeOrder(tasksWhereNewTaskCameFrom,oldtask)
+      this.changeOrder(tasksForNewTask,oldtask)
+    }else{
+      this.changeOrder(tasksForNewTask, oldtask)
+    }
+    
+    let newArrayTasks: TaskContainerTot = new TaskContainerTot()
+    newArrayTasks.taskContainers = this.$tasksContainer.value.taskContainers.filter((element)=> element.compartimentId != compId )
+    return this.updateTasks().pipe(
+      tap(data => {
+        let newTasks: Task[] = tasks.filter((t)=> t.taskId != task.taskId)
+        let newtask: Task = data.object
+        newTasks.unshift(newtask)
+
+        newArrayTasks.taskContainers.push(new TaskContainer(compId, newTasks))
+        this.$tasksContainer.next(newArrayTasks);
+      })
+    )
+  }
+
+  private changeOrder(tasks: Task[],task: Task){
+    let taskExiste: boolean = false
+    for(let i = 0; i < tasks.length; i++){
+      if(tasks[i].taskId == task.taskId) {
+        taskExiste = true; 
+        break;
+      }
+    }
+
+    if(taskExiste){
+      for(let i = 0; i < tasks.length; i++){
+        if(tasks[i].taskorder > task.taskorder || tasks[i].taskorder == task.taskorder){
+          if(tasks[i].taskId != task.taskId){
+            tasks[i].taskorder ++ 
+          }
+        }
+      }
+    }else{
+      let missingOrder: number | null = null
+      for(let i = 0; i < tasks.length; i++){
+        if(tasks[i].taskorder != i + 1){
+          missingOrder = i + 1
+        }
+      }
+      if(missingOrder){
+        for(let i = 0; i < tasks.length; i++){
+          if(tasks[i].taskorder > missingOrder){
+            tasks[i].taskorder --
+            if(tasks[i].taskorder < 1) throw new Error("order cant be less than 1")
+          }
+        }
+      }else{
+        throw new Error("The compartiment where the task came from has no missing order ..")
+      }
+    }
+
+  }
 
   public delete(task: Task):Observable<ResponseDto>{
     let compId = task.compartiment.compartimentId
@@ -121,8 +189,15 @@ export class PlannerService {
     return this.$tasksContainer.value.getTaskById(taskId)
   }
 
-  public handleDroppedTask(task: Task, newCompId: number, newOrder: number){
-    // this.$tasksContainer.
+  public handleDroppedTask(taskId: number, compartiment: Compartiment, newOrder: number){
+    let oldtask = this.$tasksContainer.getValue().getTaskById(taskId)
+    if(oldtask && oldtask.compartiment.compartimentId == compartiment.compartimentId){
+      // Same comp
+      this.updateTasks(oldtask,compartiment,newOrder,false)
+    }else if(oldtask){
+      // Different comp
+      this.updateTasks(oldtask,compartiment,newOrder,true)
+    }
   }
 
   public returnFilteredTaskContainerTot(x: number[]){
@@ -134,6 +209,8 @@ export class PlannerService {
     })
     return newArrayTasks
   }
+
+
 
 
 }
