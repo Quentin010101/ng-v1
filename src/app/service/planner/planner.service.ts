@@ -2,143 +2,129 @@ import { Injectable } from '@angular/core';
 import { environnement } from '../../../environnement';
 import { HttpClient } from '@angular/common/http';
 import { TaskCreationRequest } from '../../model/planner/taskCreationRequest.model';
-import { BehaviorSubject, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { ResponseObject } from '../../model/response/responseObjectDto.model';
 import { Task } from '../../model/planner/task.model';
-import {  ResponseDto } from '../../model/response/responseDto.model';
-import { TaskContainer, TaskContainerTot } from '../../model/planner/taskContainer.model';
-import { Compartiment } from '../../model/planner/compartiment.model';
+import { ResponseDto } from '../../model/response/responseDto.model';
+import { TaskContainer } from '../../model/planner/taskContainer.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PlannerService {
-  url: string = environnement.backEndUrl + 'task/'
-  $tasksContainer = new BehaviorSubject<TaskContainerTot>(new TaskContainerTot())
+  url: string = environnement.backEndUrl + 'task/';
+  $tasksContainer = new BehaviorSubject<Map<number, Task[]>>(new Map());
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {}
+
+  private createNewTask(
+    task: TaskCreationRequest
+  ): Observable<ResponseObject<Task>> {
+    return this.http.post<ResponseObject<Task>>(this.url + 'create', task);
   }
 
-  private createNewTask(task: TaskCreationRequest): Observable<ResponseObject<Task>>{
-    return this.http.post<ResponseObject<Task>>(this.url + 'create', task)
+  private deleteTask(id: number): Observable<ResponseDto> {
+    return this.http.get<ResponseDto>(this.url + 'delete/' + id);
   }
 
-  private deleteTask(id: number):Observable<ResponseDto>{
-    return this.http.get<ResponseDto>(this.url + 'delete/' + id)
+  private updateTask(task: Task): Observable<ResponseObject<Task>> {
+    return this.http.post<ResponseObject<Task>>(this.url + 'update', task);
   }
 
-  private updateTask(task: Task): Observable<ResponseObject<Task>>{
-    return this.http.post<ResponseObject<Task>>(this.url + 'update', task)
+  private getAllTasks(): Observable<ResponseObject<Task[]>> {
+    return this.http.get<ResponseObject<Task[]>>(this.url + 'read');
   }
 
-  private updateTaskAfterDrag(task: Task): Observable<ResponseDto>{
-    return this.http.post<ResponseDto>(this.url + 'updateDragEvent', task)
-  }
-
-  private getAllTasks(): Observable<ResponseObject<Task[]>>{
-    return this.http.get<ResponseObject<Task[]>>(this.url + 'read')
-  }
-
-
-  public init(forced: boolean = false){
-    let tasks: TaskContainerTot = this.$tasksContainer.value
-    if(tasks != null && tasks.taskContainers != null && tasks.taskContainers.length > 0 && !forced){
-      this.$tasksContainer.next(tasks)
-    }else{
-      this.getAllTasks().subscribe(data => { 
-        if(data.responseDto.executionStatus){
-          let taskContainerArr: TaskContainerTot = new TaskContainerTot()
-          
-          data.object.forEach(task => {
-            let taskCompId = task.compartiment.compartimentId
-            let taskCompIdAlreadyExist = false
-            taskContainerArr.taskContainers.forEach(elem =>{
-              if(elem.compartimentId == taskCompId) {
-                taskCompIdAlreadyExist = true
-                elem.tasks.push(task)
-              }
-            })
-            if(!taskCompIdAlreadyExist){
-              let tasks: Task[] = []
-              tasks.push(task)
-              taskContainerArr.taskContainers.push( new TaskContainer(task.compartiment.compartimentId, tasks))
+  public init() {
+    let tasks = this.$tasksContainer.value;
+    if (tasks != null && tasks.size > 0) {
+      this.$tasksContainer.next(tasks);
+    } else {
+      this.getAllTasks().subscribe((data) => {
+        if (data.responseDto.executionStatus) {
+          let tasksMap = new Map<number, Task[]>();
+          data.object.forEach((task) => {
+            let taskCompId = task.compartiment.compartimentId;
+            let arr: Task[] = [];
+            if (tasksMap.get(taskCompId)) {
+              arr = tasksMap.get(taskCompId) as Task[];
             }
-          })
-          this.$tasksContainer.next(taskContainerArr)
+            arr.push(task);
+            tasksMap.set(taskCompId, arr);
+          });
+          this.$tasksContainer.next(tasksMap);
         }
-      })
+      });
     }
   }
 
-  public newTask(taskCreation: TaskCreationRequest): Observable<ResponseObject<Task>>{
-    let compId = taskCreation.compartiment.compartimentId
-    let tasks: Task[] = this.$tasksContainer.value.getTasksByCompId(compId)
+  public newTask(
+    taskCreation: TaskCreationRequest
+  ): Observable<ResponseObject<Task>> {
     return this.createNewTask(taskCreation).pipe(
-      tap(data => {
-        let task = data.object
-        tasks.push(task)
-        let newArrayTasks: TaskContainerTot = new TaskContainerTot()
-        newArrayTasks.taskContainers = this.$tasksContainer.value?.taskContainers.filter((element)=> element.compartimentId != compId )
-        newArrayTasks.taskContainers.push(new TaskContainer(compId, tasks))
-        this.$tasksContainer.next(newArrayTasks)
+      tap((data) => {
+        if (!data.responseDto.executionStatus)
+          throw new Error('Task creation failed');
+        this.updateMapWithNewTask(data);
       })
-    )
+    );
   }
 
-  public updateAfterDragEvent(task: Task){
-    return this.updateTaskAfterDrag(task).pipe(
-      tap(data => {
-        this.init()
-      })
-    )
-  }
-
-  public update(task: Task): Observable<ResponseObject<Task>>{
-    let compId = task.compartiment.compartimentId
-    let tasks: Task[] = this.$tasksContainer.value.getTasksByCompId(compId)
+  public update(task: Task): Observable<ResponseObject<Task>> {
     return this.updateTask(task).pipe(
-      tap(data => {
-          let newTasks: Task[] = tasks.filter((t)=> t.taskId != task.taskId)
-          let newtask: Task = data.object
-          newTasks.unshift(newtask)
-          let newArrayTasks: TaskContainerTot = new TaskContainerTot()
-          newArrayTasks.taskContainers = this.$tasksContainer.value?.taskContainers.filter((element)=> element.compartimentId != compId )
-          newArrayTasks.taskContainers.push(new TaskContainer(compId, newTasks))
-          this.$tasksContainer.next(newArrayTasks);
+      tap((data) => {
+        if (!data.responseDto.executionStatus)
+          throw new Error('Task update failed');
+        this.updateMapWithNewTask(data);
       })
-    )
+    );
   }
 
-  public delete(task: Task):Observable<ResponseDto>{
-    let compId = task.compartiment.compartimentId
-    let tasks: Task[] = this.$tasksContainer.value.getTasksByCompId(compId)
-    return this.deleteTask(task.taskId).pipe(tap(data => {
-      if(data.executionStatus){
-        let newTasks: Task[] = tasks.filter((t)=> t.taskId != task.taskId)
-        let newArrayTasks: TaskContainerTot = new TaskContainerTot()
-        newArrayTasks.taskContainers = this.$tasksContainer.value?.taskContainers.filter((element)=> element.compartimentId != compId )
-        newArrayTasks.taskContainers.push(new TaskContainer(compId, newTasks))
-        this.$tasksContainer.next(newArrayTasks)
+  public delete(task: Task): Observable<ResponseDto> {
+    return this.deleteTask(task.taskId).pipe(
+      tap((data) => {
+        if (data.executionStatus) {
+          let taskContainer = this.$tasksContainer.value
+          let taskArray: Task[] | undefined = taskContainer.get(task.taskId)
+          if(taskArray){
+            taskArray.filter((el)=> el.taskId != task.taskId)
+            taskContainer.set(task.compartiment.compartimentId, taskArray);
+            this.$tasksContainer.next(taskContainer);
+          }else{
+            throw new Error("Can 't delete item cause compartiment not found.")
+          }
+        }
+      })
+    );
+  }
+
+  public getTasksByCompId(id: number) {
+    return this.$tasksContainer.value.get(id);
+  }
+
+  public getTaskById(id: number): Task | null {
+    let taskContainer = this.$tasksContainer.value;
+    let taskFound: Task | null = null;
+    for (let value of taskContainer.values()) {
+      for (let i = 0; i < value.length; i++) {
+        if (value[i].taskId == id) {
+          taskFound = value[i];
+          break;
+        }
       }
-    }))
+    }
+    return taskFound;
   }
 
-  public getTask(taskId: number):Task | null{
-    return this.$tasksContainer.value.getTaskById(taskId)
+  private updateMapWithNewTask(data: ResponseObject<Task>) {
+    let compartimentId = data.object.compartiment.compartimentId;
+    let tasksMap = this.$tasksContainer.value;
+    let arrayTasks: Task[] | undefined = tasksMap.get(compartimentId);
+
+    if (!arrayTasks) arrayTasks = [];
+    arrayTasks.filter((el)=> el.taskId != data.object.taskId)
+    arrayTasks.push(data.object);
+    tasksMap.set(compartimentId, arrayTasks);
+    this.$tasksContainer.next(tasksMap);
   }
-
-
-  public returnFilteredTaskContainerTot(x: number[]){
-    let newArrayTasks: TaskContainerTot = new TaskContainerTot()
-    this.$tasksContainer.value.taskContainers.forEach((element)=>{
-      if(!(element.compartimentId in x)){
-        newArrayTasks.taskContainers.push(element)
-      }
-    })
-    return newArrayTasks
-  }
-
-
-
-
 }

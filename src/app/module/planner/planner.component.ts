@@ -9,7 +9,8 @@ import { fadeInAnimation, fadeInOnEnterAnimation } from 'angular-animations';
 import { TaskOpenComponent } from './task/task-open/task-open.component';
 import { EnumerationService } from '../../service/planner/enumeration.service';
 import { PlannerService } from '../../service/planner/planner.service';
-import { TaskContainerTot } from '../../model/planner/taskContainer.model';
+import { TaskContainer } from '../../model/planner/taskContainer.model';
+import { Task } from '../../model/planner/task.model';
 
 
 @Component({
@@ -22,7 +23,7 @@ import { TaskContainerTot } from '../../model/planner/taskContainer.model';
 })
 export class PlannerComponent {
   compartiments: Compartiment[] | null = null
-  taskContainer!: TaskContainerTot
+  taskContainer!: Map<number, Task[]>
   headerHover: boolean = false;
   hoverIndex: number | null = null
   animState: boolean = false
@@ -53,6 +54,5 @@ export class PlannerComponent {
   unsetHeaderHover(i: number){
     this.hoverIndex = null
   }
-
 
 }

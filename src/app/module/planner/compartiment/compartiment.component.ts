@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { Compartiment } from '../../../model/planner/compartiment.model';
 import { PlannerService } from '../../../service/planner/planner.service';
 import { Task } from '../../../model/planner/task.model';
@@ -20,8 +20,16 @@ import { CompartimentService } from '../../../service/planner/compartiment.servi
 export class CompartimentComponent {
   @ViewChild("compartimentElement") compartimentElement!: ElementRef
   @Input() compartiment: Compartiment | null = null
-  @Input() tasks!: Task[] | null
+  @Input('tasks') set _tasks(tasks: Task[] | undefined){
+    console.log(tasks)
+    if(tasks)
+    this.tasks = tasks
+  }
+  tasks!: Task[]
 
+  ngOnChange(changes: SimpleChanges){
+    console.log(changes['_tasks'])
+  }
 
   constructor(private _plannerService: PlannerService, private _compartimentService: CompartimentService){
 
@@ -54,17 +62,7 @@ export class CompartimentComponent {
   public onDrop(e: DragEvent){
     const draggable = document.querySelector('.dragging')
     
-    if(draggable && draggable.getAttribute("id")){
-      let newTask = this._plannerService.getTask(parseInt(draggable.getAttribute("id") as string))
-      if(newTask){
-        newTask.compartiment = this.compartiment as Compartiment
-        this._plannerService.updateAfterDragEvent(newTask).subscribe()
-      }else{
-        throw new Error("Task not found")
-      }
-    }else{
-      throw new Error("Missing id attribute on draggable element")
-    }
+
   }
 
   private getElementFromEvent(e: DragEvent): HTMLElement{
@@ -91,16 +89,6 @@ export class CompartimentComponent {
     return closerElement
 
   }
-
-  private getContainerNbChildren(){
-    let container = this.compartimentElement.nativeElement
-    let nb = 0
-    for (let i = 0; i < container.children.length; i++) {
-      nb ++
-    }
-    return nb
-  }
-
 }
 
 
