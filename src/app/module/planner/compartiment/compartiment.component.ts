@@ -20,8 +20,15 @@ import { DragDropService, DragOver, NewComp, StartInfo } from '../../../service/
 export class CompartimentComponent {
   @ViewChild("compartimentElement") compartimentElement!: ElementRef
   @Input() compartiment: Compartiment | null = null
-  @Input() tasks!: Task[] | null
+  @Input('tasks') set _tasks(tasks: Task[]){
+    console.log(tasks)
+    this.tasks = tasks
+  }
+  tasks!: Task[]
 
+  ngOnChange(changes: SimpleChanges){
+    console.log(changes['_tasks'])
+  }
 
   constructor(private _dragAndDropService: DragDropService, private _plannerService: PlannerService){
     this._dragAndDropService.$onNewComp.subscribe((d)=>{
@@ -87,7 +94,6 @@ export class CompartimentComponent {
     if(compartiment && this._dragAndDropService.taskDraggedId){
       let tempElement = this._dragAndDropService.getTempElement(this.compartimentElement.nativeElement)
       let newOrder = tempElement?.getAttribute("order")
-      this._plannerService.handleDroppedTask(this._dragAndDropService.taskDraggedId, compartiment, parseInt(newOrder as string))
     }
     this._dragAndDropService.reset()
   }
