@@ -74,6 +74,11 @@ export class CompartimentService {
     }))
   }
 
+  public getCompartimentById(id: number): Compartiment | undefined{
+    let c = this.$compartiment.value.find((el) => el.compartimentId == id)
+    return c
+  }
+
 }
 
 

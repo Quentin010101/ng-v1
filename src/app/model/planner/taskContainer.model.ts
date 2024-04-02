@@ -19,7 +19,7 @@ export class TaskContainerTot{
                 newTasks = element.tasks
             }
         })
-        return newTasks
+        return newTasks.sort((a,b) => a.taskorder - b.taskorder)
     }
 
     getTaskById(id: number): Task | null{

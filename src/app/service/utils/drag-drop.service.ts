@@ -11,12 +11,14 @@ export class DragInfo {
   id!: string
 }
 export class StartInfo {
-  constructor(compId: number, taskId: number) {
+  constructor(compId: number, taskId: number, height: string) {
     this.compId = compId
     this.taskId = taskId
+    this.taskHeight = height
   }
   compId!: number
   taskId!: number
+  taskHeight!: string
 }
 
 export class NewComp {
@@ -52,8 +54,10 @@ export class TempElement {
 export class DragDropService {
   compDraggedOver: number | null = null
   taskDraggedId: number | null = null
+  taskDraggedHeight: string | null = null
   tempActif: boolean = false
   tempElement: TempElement | null = null
+  order: number | null =null
 
   $isBeingDragged = new Subject<number | null>()
   $draggedEnd = new Subject<number | null>()
@@ -69,6 +73,7 @@ export class DragDropService {
       if(d){
         this.compDraggedOver = d.compId
         this.taskDraggedId = d.taskId
+        this.taskDraggedHeight = d.taskHeight
       }
     }
     )
@@ -86,7 +91,11 @@ export class DragDropService {
   }
 
   private handleDrag(e: DragOver) {
-    if(!this.isElementValid(e.event)) this.$removeTemp.next(true)
+    if(!this.isElementValid(e.event)) {
+      this.$removeTemp.next(true)
+      return
+    }
+    console.log("handle drag")
     let compartiment = e.compartiment
     let event = e.event
     let cursorY = event.y
@@ -106,6 +115,7 @@ export class DragDropService {
         }
       }
     }
+
     if (choosenElement && compartiment) {
       let rectChoosen = choosenElement.getBoundingClientRect()
       
@@ -144,20 +154,25 @@ export class DragDropService {
 
   private createElement(before: boolean | null, elementOrder: string | null): HTMLElement {
     let newTemp = document.createElement("div")
-    newTemp.style.height = "125px";
+    if(this.taskDraggedHeight){
+      newTemp.style.height = this.taskDraggedHeight;
+    }else{
+      newTemp.style.height = "125px"
+    }
+    newTemp.style.borderRadius = "0.25rem";
     newTemp.classList.add("temp-item")
     newTemp.setAttribute("id", "temp")
 
     if(before == null){
       if(elementOrder){
-        newTemp.setAttribute("order", (parseInt(elementOrder) + 1).toString())
+        this.order = parseInt(elementOrder) + 1
       }else{
-        newTemp.setAttribute("order", "1")
+        this.order = 1
       }
     }else if(before){
-      newTemp.setAttribute("order", elementOrder as string)
+      this.order = parseInt(elementOrder as string)
     }else{
-      newTemp.setAttribute("order", (parseInt(elementOrder as string) + 1).toString())
+      this.order = parseInt(elementOrder as string) + 1
     }
 
     return newTemp
@@ -185,6 +200,7 @@ export class DragDropService {
   }
 
   public deleteTmpElement(compartiment: HTMLElement){
+    this.tempElement = null
     let el = this.getTempElement(compartiment)
     if(el) el.remove()
   }
@@ -201,6 +217,7 @@ export class DragDropService {
   public reset(){
     this.compDraggedOver = null
     this.taskDraggedId = null
+    this.taskDraggedHeight = null
     this.tempActif = false
     this.tempElement = null
   }

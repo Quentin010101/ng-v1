@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterOutlet, Routes } from '@angular/router';
-import { SidenavComponent } from '../core/shared/sidenav/sidenav.component';
-import { NavComponent } from '../core/shared/nav/nav.component';
+import { SidenavComponent } from '../shared/sidenav/sidenav.component';
+import { NavComponent } from '../shared/nav/nav.component';
 
 @Component({
   selector: 'app-dashboard',

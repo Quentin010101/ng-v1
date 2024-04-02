@@ -13,9 +13,7 @@
           <app-creation-task [compartiment]="compartiment"></app-creation-task>
         </div>
         @if(taskContainer){
-          <app-compartiment [compartiment]="compartiment" [tasks]="taskContainer.getTasksByCompId(compartiment.compartimentId)"
-
-          ></app-compartiment>
+          <app-compartiment [compartiment]="compartiment" [tasks]="taskContainer.getTasksByCompId(compartiment.compartimentId)"></app-compartiment>
         }
       </div>
     }

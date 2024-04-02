@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Compartiment } from '../../../model/planner/compartiment.model';
 import { PlannerService } from '../../../service/planner/planner.service';
 import { Task } from '../../../model/planner/task.model';
@@ -6,7 +6,7 @@ import { TaskComponent } from '../task/task.component';
 import { fadeInOnEnterAnimation } from 'angular-animations';
 import { fadeIn } from '../../../z-other/transition';
 import { DropComponent } from './drop/drop.component';
-import { DragDropService, DragOver, NewComp, StartInfo } from '../../../service/utils/drag-drop.service';
+import { CompartimentService } from '../../../service/planner/compartiment.service';
 
 
 @Component({
@@ -23,77 +23,83 @@ export class CompartimentComponent {
   @Input() tasks!: Task[] | null
 
 
-  constructor(private _dragAndDropService: DragDropService, private _plannerService: PlannerService){
-    this._dragAndDropService.$onNewComp.subscribe((d)=>{
-      if(d.newCompId == this.compartiment?.compartimentId){
-        this.normalOpacity()
-      }else{
-        this.lowerOpacity()
-      }
-    })
-    this._dragAndDropService.$normalOpacity.subscribe((d)=>{
-      if(d){
-        this.normalOpacity()
-      }
-    })
-    this._dragAndDropService.$removeTemp.subscribe((d) =>{
-      if(d){
-        this._dragAndDropService.deleteTmpElement(this.compartimentElement.nativeElement)
-      }
-    })
+  constructor(private _plannerService: PlannerService, private _compartimentService: CompartimentService){
+
   }
 
-  private lowerOpacity(){
-    this.compartimentElement.nativeElement.style.opacity = 0.7
+  public onDragStart(e:DragEvent){
+    let dragging = this.getElementFromEvent(e);
+    dragging.classList.add('dragging')
   }
 
-  private normalOpacity(){
-    this.compartimentElement.nativeElement.style.opacity = 1
-  }
-
-  public onDrag(e:DragEvent, taskId: number){
-    this._dragAndDropService.$isBeingDragged.next(taskId);
-  }
-
-  public onDragStart(e:DragEvent, taskId: number, compId: number){
-    if(this.compartiment){
-      this._dragAndDropService.$hasStartedBeingDragged.next(new StartInfo(this.compartiment.compartimentId as number, taskId));
-      this._dragAndDropService.$onNewComp.next(new NewComp(compId, 0))
-    }
-  }
-
-  public onDragEnd(e:DragEvent, taskId: number){
-    this._dragAndDropService.$normalOpacity.next(true)
-    this._dragAndDropService.$draggedEnd.next(taskId)
-    this._dragAndDropService.$removeTemp.next(true)
+  public onDragEnd(e:DragEvent){
+    let dragging = this.getElementFromEvent(e);
+    dragging.classList.remove('dragging')
   }
 
   // compartiment
 
-  
-  public onDragEnter(e: DragEvent, compId: number){
-      this._dragAndDropService.$onEnter.next(compId)
-  }
-
-  public onDragLeave(e: DragEvent, compId: number){
-  }
-
-  public onDragOver(e: DragEvent, compId: number){
-    this._dragAndDropService.$dragOver.next(new DragOver(this.compartimentElement.nativeElement,e))
-  }
-
-  public onDrop(e: DragEvent, compartiment: Compartiment){
-    this._dragAndDropService.$removeTemp.next(true)
-    if(compartiment && this._dragAndDropService.taskDraggedId){
-      let tempElement = this._dragAndDropService.getTempElement(this.compartimentElement.nativeElement)
-      let newOrder = tempElement?.getAttribute("order")
-      this._plannerService.handleDroppedTask(this._dragAndDropService.taskDraggedId, compartiment, parseInt(newOrder as string))
+  public onDragOver(e: DragEvent){
+    e.preventDefault()
+    let container = this.compartimentElement.nativeElement
+    const afterElement = this.getDragAfterElement(container, e.clientY) as HTMLElement | null
+    const draggable = document.querySelector('.dragging')
+    if (afterElement == null) {
+      container.appendChild(draggable)
+    } else {
+      container.insertBefore(draggable, afterElement)
     }
-    this._dragAndDropService.reset()
   }
 
+  public onDrop(e: DragEvent){
+    const draggable = document.querySelector('.dragging')
+    
+    if(draggable && draggable.getAttribute("id")){
+      let newTask = this._plannerService.getTask(parseInt(draggable.getAttribute("id") as string))
+      if(newTask){
+        newTask.compartiment = this.compartiment as Compartiment
+        this._plannerService.updateAfterDragEvent(newTask).subscribe()
+      }else{
+        throw new Error("Task not found")
+      }
+    }else{
+      throw new Error("Missing id attribute on draggable element")
+    }
+  }
+
+  private getElementFromEvent(e: DragEvent): HTMLElement{
+    let element = e.target
+    if(!(element instanceof HTMLElement)) throw new Error("This element is not en HTMLElement.");
+    return element
+  }
+  
 
 
+  private getDragAfterElement(container: HTMLElement, y:number) {
+    const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')] as HTMLElement[]
+
+    let value = -10000
+    let closerElement: HTMLElement | null = null
+    draggableElements.forEach((element)=>{
+      const box = element.getBoundingClientRect()
+      const offset = y - box.top - box.height / 2
+      if (offset < 0 && offset > value) {
+        value = offset
+        closerElement = element
+      }
+    })
+    return closerElement
+
+  }
+
+  private getContainerNbChildren(){
+    let container = this.compartimentElement.nativeElement
+    let nb = 0
+    for (let i = 0; i < container.children.length; i++) {
+      nb ++
+    }
+    return nb
+  }
 
 }
 
