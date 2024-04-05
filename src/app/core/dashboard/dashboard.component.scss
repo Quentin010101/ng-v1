@@ -1,14 +1,16 @@
 #wrapper{
   display: flex;
   position: relative;
+  width: 100vw;
 
   #content{
-    width: 100%;
+
   }
   #nav{
     position:sticky;
     top: 0;
-    width: 100%;
+    left:0;
+    right:0;
     z-index: 2;
   }
   #sideNav{
@@ -18,5 +20,6 @@
   }
   #dashpage{
     z-index: 1;
+    width: 50%;
   }
 }

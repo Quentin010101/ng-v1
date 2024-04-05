@@ -30,6 +30,9 @@ export class PlannerService {
   private updateTask(task: Task): Observable<ResponseObject<Task>> {
     return this.http.post<ResponseObject<Task>>(this.url + 'update', task);
   }
+  private updateDragEvent(task: Task): Observable<ResponseDto> {
+    return this.http.post<ResponseDto>(this.url + 'updateDragEvent', task);
+  }
 
   private getAllTasks(): Observable<ResponseObject<Task[]>> {
     return this.http.get<ResponseObject<Task[]>>(this.url + 'read');
@@ -40,22 +43,25 @@ export class PlannerService {
     if (tasks != null && tasks.size > 0) {
       this.$tasksContainer.next(tasks);
     } else {
-      this.getAllTasks().subscribe((data) => {
-        if (data.responseDto.executionStatus) {
-          let tasksMap = new Map<number, Task[]>();
-          data.object.forEach((task) => {
-            let taskCompId = task.compartiment.compartimentId;
-            let arr: Task[] = [];
-            if (tasksMap.get(taskCompId)) {
-              arr = tasksMap.get(taskCompId) as Task[];
-            }
-            arr.push(task);
-            tasksMap.set(taskCompId, arr);
-          });
-          this.$tasksContainer.next(tasksMap);
-        }
-      });
+      this.getAll();
     }
+  }
+  private getAll(){
+    this.getAllTasks().subscribe((data) => {
+      if (data.responseDto.executionStatus) {
+        let tasksMap = new Map<number, Task[]>();
+        data.object.forEach((task) => {
+          let taskCompId = task.compartiment.compartimentId;
+          let arr: Task[] = [];
+          if (tasksMap.get(taskCompId)) {
+            arr = tasksMap.get(taskCompId) as Task[];
+          }
+          arr.push(task);
+          tasksMap.set(taskCompId, arr);
+        });
+        this.$tasksContainer.next(tasksMap);
+      }
+    });
   }
 
   public newTask(
@@ -80,15 +86,26 @@ export class PlannerService {
     );
   }
 
+  public updateDrag(task: Task): Observable<ResponseDto> {
+    return this.updateDragEvent(task).pipe(
+      tap((data) => {
+        if (!data.executionStatus){
+          throw new Error('Task update failed');
+        }
+        this.getAll();
+      })
+    );
+  }
+
   public delete(task: Task): Observable<ResponseDto> {
     return this.deleteTask(task.taskId).pipe(
       tap((data) => {
         if (data.executionStatus) {
           let taskContainer = this.$tasksContainer.value
-          let taskArray: Task[] | undefined = taskContainer.get(task.taskId)
+          let taskArray: Task[] | undefined = taskContainer.get(task.compartiment.compartimentId)
           if(taskArray){
-            taskArray.filter((el)=> el.taskId != task.taskId)
-            taskContainer.set(task.compartiment.compartimentId, taskArray);
+            let taskResult = taskArray.filter((el)=> el.taskId != task.taskId)
+            taskContainer.set(task.compartiment.compartimentId, taskResult);
             this.$tasksContainer.next(taskContainer);
           }else{
             throw new Error("Can 't delete item cause compartiment not found.")

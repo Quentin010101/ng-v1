@@ -1,3 +1,5 @@
+@import '../../../../styles/color.scss';
+
 #messages{
   position: absolute;
   bottom: 0;
@@ -6,8 +8,22 @@
   .message{
     padding: 1rem 1.5rem;
     margin: 1rem;
-    border: solid;
     width: fit-content;
     max-width: 25vw;
+    backdrop-filter: blur(15px);
+    background-color: $bg-sidenav;
+  }
+}
+
+.message.valide{
+  border-left: solid 3px $color-valide;
+  p{
+    color: $color-valide;
+  }
+}
+.message.invalide{
+  border-left: solid 3px $color-invalide;
+  p{
+    color: $color-invalide;
   }
 }

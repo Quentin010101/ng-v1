@@ -1,9 +1,19 @@
 
-#task-container{
+.task-container{
     display: flex;
     flex-direction: column;
-    width: 250px;
+    width: 100%;
     min-height: 100vh;
     transition: opacity 0.2s ease;
+}
+
+.draggable{
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+.dragging{
+    cursor: grabbing !important;
 }
 

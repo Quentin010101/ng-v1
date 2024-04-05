@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { environnement } from '../../../environnement';
 import { Compartiment } from '../../model/planner/compartiment.model';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { ResponseObject } from '../../model/response/responseObjectDto.model';
 import { HttpClient } from '@angular/common/http';
 import { ResponseDto } from '../../model/response/responseDto.model';
+import { PlannerService } from './planner.service';
+import { MessageService } from '../message.service';
+import { Message } from '../../model/message.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +16,7 @@ export class CompartimentService {
   url: string = environnement.backEndUrl + 'task/utils/'
   $compartiment = new BehaviorSubject<Compartiment[]>([])
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private _plannerService: PlannerService) { }
 
   private createCompartiment(compartiment: Compartiment): Observable<ResponseObject<Compartiment>>{
     return this.http.post<ResponseObject<Compartiment>>(this.url + 'create/compartiment', compartiment)
@@ -66,12 +69,17 @@ export class CompartimentService {
   }
 
   public delete(id: number):Observable<ResponseDto>{
-    let compartiments: Compartiment[] = this.$compartiment.value
-    return this.deleteCompartiment(id).pipe(tap(data => {
-      if(data.executionStatus){
-        this.$compartiment.next(compartiments.filter(item => item.compartimentId != id))
-      }
-    }))
+    let hasTaskArr = this._plannerService.getTasksByCompId(id)
+    if(hasTaskArr && hasTaskArr.length>0){
+      return of(new ResponseDto("This category contains tasks and can't be deleted.",false))
+    }else{
+      let compartiments: Compartiment[] = this.$compartiment.value
+      return this.deleteCompartiment(id).pipe(tap(data => {
+        if(data.executionStatus){
+          this.$compartiment.next(compartiments.filter(item => item.compartimentId != id))
+        }
+      }))
+    }
   }
 
   public getCompartimentById(id: number): Compartiment | undefined{

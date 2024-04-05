@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MessageService } from '../../../service/message.service';
 import { Message } from '../../../model/message.model';
 import { CommonModule } from '@angular/common';
+import { bounceInRightOnEnterAnimation, bounceOutRightOnLeaveAnimation, fadeInOnEnterAnimation } from 'angular-animations';
 
 
 
@@ -11,6 +12,7 @@ import { CommonModule } from '@angular/common';
   imports: [ CommonModule],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss',
+  animations: [fadeInOnEnterAnimation(),bounceOutRightOnLeaveAnimation(),bounceInRightOnEnterAnimation()]
 
 })
 export class MessageComponent {

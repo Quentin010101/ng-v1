@@ -14,7 +14,10 @@
         </div>
         @if(taskContainer){
 
-          <app-compartiment [compartiment]="compartiment" [tasks]="taskContainer.get(compartiment.compartimentId)"></app-compartiment>
+          <app-compartiment (dragover)="onDragOver($event)"
+                            (drop)="onDrop($event, compartiment)"
+                            [compartiment]="compartiment"
+                            [tasks]="sorteAndReturnTaskArray(taskContainer, compartiment.compartimentId)"></app-compartiment>
         }
       </div>
     }

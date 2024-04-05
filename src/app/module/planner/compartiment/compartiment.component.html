@@ -1,23 +1,23 @@
-@if(compartiment){
-    <div id="task-container"
-        #compartimentElement
-        (dragover)="onDragOver($event)"
-        (drop)="onDrop($event)"
-    >
-        @if(tasks){
-            @for(task of tasks; track task){
-                <app-drop
-                    [attr.id]="task.taskId"
-                    [attr.order]="task.taskorder"
-                    class="draggable"
-                    [attr.order]="task.taskorder"
-                    draggable="true"
-                    (dragstart)="onDragStart($event)"
-                    (dragend)="onDragEnd($event)"
-                >
-                    <app-task [task]="task"></app-task>
-                </app-drop>
+<div>
+    @if(compartiment){
+        <div class="task-container"
+            #compartimentElement
+
+        >
+            @if(tasks){
+                @for(task of tasks; track task){
+                    <app-drop
+                        [attr.id]="task.taskId"
+                        class="draggable"
+                        [attr.order]="task.taskorder"
+                        draggable="true"
+                        (dragstart)="onDragStart($event)"
+                        (dragend)="onDragEnd($event)"
+                    >
+                        <app-task [task]="task"></app-task>
+                    </app-drop>
+                }
             }
-        }
-    </div>
-}
+        </div>
+    }
+</div>
