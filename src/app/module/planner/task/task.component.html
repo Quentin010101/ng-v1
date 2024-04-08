@@ -1,22 +1,23 @@
 @if(task){
-  <div >
-    <app-task-menu [task]="task"></app-task-menu>
-    <div id="task" (click)="showTask()">
-        <div >
-          <div id="header">
-            <h4>{{task.title | titlecase }}</h4>
-            <h5>{{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
-            <h6>{{ task.taskorder }}</h6>
-          </div>
-        </div>
-        <div id="content">
-          <p>{{ task.text }}</p>
-        </div>
-        @if(task.dateEcheance){
-          <div>
-            <input type="date" name="" id="" value="{{task.dateEcheance}}">
-          </div>
-        }
+<div>
+  <app-task-menu [task]="task"></app-task-menu>
+  <div id="task" (click)="showTask()">
+    <div id="header">
+      <h4>{{task.title | titlecase }}</h4>
+      <h5>{{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
+    </div>
+    <div class="lane"></div>
+    <div id="content">
+      <p>{{ task.text }}</p>
+    </div>
+    <div class="lane"></div>
+    <div id="footer">
+      <app-show-choice [importance]="task.importance"></app-show-choice>
+      <app-show-choice [progression]="task.progression"></app-show-choice>
+      @if(task.dateEcheance){
+        <app-date [date]="task.dateEcheance"></app-date>
+      }
     </div>
   </div>
+</div>
 }

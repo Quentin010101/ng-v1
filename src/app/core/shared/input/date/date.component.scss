@@ -1,0 +1,18 @@
+
+#container{
+  position:relative;
+  width: fit-content;
+  
+  input[type="date"]{
+    position:absolute;
+    inset: 0;
+    visibility: hidden;
+  }
+  .picker{
+    cursor: pointer;
+    background-color: rgb(202, 33, 33);
+    width: fit-content;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+  }
+}

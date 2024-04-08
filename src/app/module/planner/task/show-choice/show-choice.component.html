@@ -1,0 +1,27 @@
+<div class="container">
+  @if(progression){
+    @if(progression == 2){
+      <fa-icon [icon]="faCircleHalfStroke"></fa-icon>
+    }
+    @if(progression == 3){
+      <fa-icon [icon]="faCircleHalfStroke"></fa-icon>
+    }
+    @if(progression == 4){
+      <fa-icon [icon]="faCircle"></fa-icon>
+    }
+  }
+  @if(importance){
+    @if(importance == 2){
+      <fa-icon [icon]="faBell"></fa-icon>
+    }
+    @if(importance == 3){
+      <fa-icon [icon]="faBell"></fa-icon>
+    }
+    @if(importance == 4){
+      <fa-icon [icon]="faBell"></fa-icon>
+    }
+    @if(importance == 5){
+      <fa-icon [icon]="faBell"></fa-icon>
+    }
+  }
+</div>

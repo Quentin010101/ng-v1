@@ -5,26 +5,24 @@ $color-invalide: red;
 
 
 $color-dark: (
-  100:#080d17,
-  200:#0b131b,
-  300:#131d2c,
-  400:#453f3d,
-  500:#57504d,
+  100:rgb(34, 40, 49),
+  200:rgb(46, 50, 58),
+
 );
 
 $color-primary:(
-  100: #84C290,
-  200: #69B578,
-  300: #51A461,
+  100: #00ADB5,
+  200: #00ADB5,
+  300: #00ADB5,
 );
 
-$bg-nav: map-get($map: $color-dark, $key: 100);
 $bg-sidenav: map-get($map: $color-dark, $key: 200);
-$bg-wrapper: map-get($map: $color-dark, $key: 300);
+$bg-nav: map-get($map: $color-dark, $key: 200);
+$bg-wrapper: map-get($map: $color-dark, $key: 100);
 
 $primary-1: map-get($map: $color-primary, $key: 100);
 $primary-2: map-get($map: $color-primary, $key: 200);
-$primary-3: map-get($map: $color-primary, $key: 300);
+$primary-3: map-get($map: $color-primary, $key: 100);
 
 $text-1: rgb(240,240,240);
 $text-2: rgb(225,225,225);

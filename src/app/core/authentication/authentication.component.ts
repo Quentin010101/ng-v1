@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthenticationService } from '../../service/authentication.service';
 import { AuthRequest } from '../../model/auth/authRequest.model';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
 
 
 @Component({

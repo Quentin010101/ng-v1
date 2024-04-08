@@ -1,10 +1,19 @@
+$side-width: 58px;
+
 #wrapper{
   display: flex;
   position: relative;
-  width: 100vw;
+  width: 100%;
 
+  #sideNav{
+    position:sticky;
+    top: 0;
+    height: 100%;
+    width: $side-width;
+  }
   #content{
-
+    width: calc(100% - 58px);
+    position: relative;
   }
   #nav{
     position:sticky;
@@ -13,13 +22,8 @@
     right:0;
     z-index: 2;
   }
-  #sideNav{
-    position:sticky;
-    top: 0;
-    height: 100%;
-  }
   #dashpage{
     z-index: 1;
-    width: 50%;
+    width: 100%;
   }
 }

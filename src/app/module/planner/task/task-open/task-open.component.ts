@@ -7,9 +7,11 @@ import { ChoiceTagComponent } from '../choice-tag/choice-tag.component';
 import { ChoiceComponent } from '../choice/choice.component';
 import { EnumerationService } from '../../../../service/planner/enumeration.service';
 import { Choice, Choices } from '../../../../model/planner/choice.model';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PlannerService } from '../../../../service/planner/planner.service';
 import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
+import { ItemsComponent } from '../items/items.component';
+import { CommentairesComponent } from '../commentaires/commentaires.component';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,7 @@ export class TaskOpenService {
 @Component({
   selector: 'app-task-open',
   standalone: true,
-  imports: [CommonModule, ClickOutsideDirective, ChoiceTagComponent, ChoiceComponent],
+  imports: [ ReactiveFormsModule,CommonModule, ClickOutsideDirective, ChoiceTagComponent, ChoiceComponent, ItemsComponent, CommentairesComponent],
   templateUrl: './task-open.component.html',
   styleUrl: './task-open.component.scss',
   animations:[fadeInOnEnterAnimation(), fadeOutOnLeaveAnimation()]
@@ -53,7 +55,7 @@ export class TaskOpenComponent {
     this.taskForm = new FormGroup({
       taskId: new FormControl(task.taskId, Validators.required),
       title: new FormControl(task.title, Validators.required),
-      text: new FormControl(task.text),
+      text: new FormControl(task.text, Validators.maxLength(250)),
       progression: new FormControl(task.progression),
       importance: new FormControl(task.importance),
       compartiment: new FormControl(task.compartiment),
@@ -90,6 +92,10 @@ export class TaskOpenComponent {
   }
   onChangeProgression(e: Choice){
     this.taskForm.controls['progression'].setValue(e.data.id)
+    this.taskForm.markAsDirty()
+  }
+  onChangeCompartiment(e: Choice){
+    this.taskForm.controls['compartiment'].setValue(e.data)
     this.taskForm.markAsDirty()
   }
 

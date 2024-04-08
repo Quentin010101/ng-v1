@@ -1,22 +1,27 @@
 @if(task){
-  <div id="task-overlay" >
+  <div id="task-overlay">
     <div id="task" (clickOutside)="closeTask()" @fadeInOnEnter @fadeOutOnLeave>
-      <div class="header">
-        <h4>{{task.title}}</h4>
-        <h5>Task created {{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
-      </div>
-      <div class="tag">
-        <app-choice-tag></app-choice-tag>
-      </div>
-      <div class="choice">
-        <app-choice [choices]="importancesChoice" [selected]="task.importance" (onChangeOutput)="onChangeImportance($event)"></app-choice>
-        <app-choice [choices]="progressionsChoice" [selected]="task.progression" (onChangeOutput)="onChangeProgression($event)"></app-choice>
-      </div>
-      <div class="content">
-        <textarea name="" id="" cols="40" rows="10" value="{{task.text}}">
-
-        </textarea>
-      </div>
+      <form [formGroup]="taskForm">
+        <div class="header">
+          <h4>{{task.title}}</h4>
+          <h5>Task created {{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
+        </div>
+        <div class="tag">
+          <app-choice-tag></app-choice-tag>
+        </div>
+        <div class="choice">
+          <app-choice [choices]="importancesChoice" [selected]="task.importance" (onChangeOutput)="onChangeImportance($event)"></app-choice>
+          <app-choice [choices]="progressionsChoice" [selected]="task.progression" (onChangeOutput)="onChangeProgression($event)"></app-choice>
+        </div>
+        <div class="content">
+          <textarea #text   formControlName="text" maxlength="250">
+  
+          </textarea>
+          <p>{{ text.value.length }} / 250</p>
+          <app-items [items]="task.items"></app-items>
+          <app-commentaires [commentaires]="task.commentaires"></app-commentaires>
+        </div>
+      </form>
     </div>
   </div>
 }

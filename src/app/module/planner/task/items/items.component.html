@@ -1,0 +1,8 @@
+<div id="items-container">
+  @for(item of items; track item){
+    <div>
+      <input type="checkbox" [checked]="item.actif">
+      <input type="text" value="{{item.text}}">
+    </div>
+  }
+</div>

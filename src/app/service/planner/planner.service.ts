@@ -137,11 +137,21 @@ export class PlannerService {
     let compartimentId = data.object.compartiment.compartimentId;
     let tasksMap = this.$tasksContainer.value;
     let arrayTasks: Task[] | undefined = tasksMap.get(compartimentId);
-
+    
+    this.log(arrayTasks)
     if (!arrayTasks) arrayTasks = [];
-    arrayTasks.filter((el)=> el.taskId != data.object.taskId)
-    arrayTasks.push(data.object);
-    tasksMap.set(compartimentId, arrayTasks);
+    let filteredArray = arrayTasks.filter((el)=> el.taskId != data.object.taskId)
+    filteredArray.push(data.object);
+    this.log(filteredArray)
+    tasksMap.set(compartimentId, filteredArray);
     this.$tasksContainer.next(tasksMap);
+  }
+
+  private log(tasks: Task[] | undefined | null){
+    if(!tasks) return
+    console.log("log start")
+    tasks.forEach((el)=> {
+      console.log(el)
+    })
   }
 }
