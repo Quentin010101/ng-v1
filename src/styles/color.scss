@@ -7,35 +7,42 @@ $color-invalide: red;
 $color-dark: (
   100:rgb(34, 40, 49),
   200:rgb(46, 50, 58),
+  300:rgb(69, 75, 87),
 
 );
 
 $color-primary:(
   100: #00ADB5,
   200: #00ADB5,
-  300: #00ADB5,
+  300: #0c6368,
 );
 
-$bg-sidenav: map-get($map: $color-dark, $key: 200);
-$bg-nav: map-get($map: $color-dark, $key: 200);
-$bg-wrapper: map-get($map: $color-dark, $key: 100);
+$bg-1: map-get($map: $color-dark, $key: 300);
+$bg-2: map-get($map: $color-dark, $key: 200);
+$bg-3: map-get($map: $color-dark, $key: 100);
+
+$bg-input-text: $bg-1;
+
 
 $primary-1: map-get($map: $color-primary, $key: 100);
 $primary-2: map-get($map: $color-primary, $key: 200);
-$primary-3: map-get($map: $color-primary, $key: 100);
+$primary-3: map-get($map: $color-primary, $key: 300);
 
 $text-1: rgb(240,240,240);
 $text-2: rgb(225,225,225);
 $text-3: rgb(210,210,210);
 
-.bg{
-  background-color: $bg-wrapper;
+.bg-1{
+  background-color: $bg-1;
 }
-.bg-sidenav{
-  background-color: $bg-sidenav;
+.bg-2{
+  background-color: $bg-2;
+}
+.bg-3{
+  background-color: $bg-3;
 }
 .bg-nav{
-  background-color: transparentize($bg-nav, 0.5);
+  background-color: transparentize($bg-3, 0.5);
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
 }

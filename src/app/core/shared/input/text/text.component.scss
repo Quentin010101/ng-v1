@@ -1,0 +1,22 @@
+@import '../../../../../styles/color.scss';
+
+#container{
+    display: flex;
+    gap: 0.25rem;
+    background-color: $bg-input-text;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid transparent;
+    width: 300px;
+    input{
+        color: white;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        width: 100%;
+    }
+}
+
+.onfocus{
+    border: 1px solid transparentize(white, 0.5) !important;
+}

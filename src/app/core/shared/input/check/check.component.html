@@ -1,0 +1,6 @@
+<div id="container">
+    <label for="check">
+        <input id="check" type="checkbox" [checked]="checked" (change)="onChange($event)">
+        <div id="checkmark" [ngClass]="{'active': checked}"></div>
+    </label>
+</div>

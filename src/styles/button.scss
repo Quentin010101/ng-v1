@@ -16,7 +16,19 @@ button.validation{
   background-color: $primary-3;
   padding: 0.5rem;
 
+  &.br{
+    border-radius: 0.25rem;
+  }
   &:hover{
     background-color: $primary-2;
   }
+  &:disabled{
+    cursor: default;
+    background-color: $bg-1;
+    color: rgb(170, 170, 170)
+  }
+}
+button.validation.lg{
+  padding: 0.75rem !important;
+  font-size: 1.05em !important;
 }

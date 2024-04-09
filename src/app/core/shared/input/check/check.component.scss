@@ -1,0 +1,33 @@
+@import '../../../../../styles/color.scss';
+
+#container {
+    position:relative;
+
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    #checkmark{
+        cursor: pointer;
+        width: 20px;
+        aspect-ratio: 1/1;
+        border: 2px solid $bg-1;
+        border-radius: 0.25rem;
+    }
+
+    .active#checkmark{
+        border: 2px solid transparent;
+        background-color: $primary-2;
+        &::after{
+            content: '✔';
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+  }

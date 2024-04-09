@@ -10,8 +10,93 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 </head>
+<script type="module">
+  
+  document.addEventListener("DOMContentLoaded", (event) => {
+    let divArray = document.querySelectorAll("#text > div")
+    let pArray = document.querySelectorAll("#footer > p")
+    let i = 0
+    divArray.forEach((el)=>{
+      gsap.to(el, { x: 0,opacity: 1, duration: 3, delay: 0.3 + i, ease: "elastic" });
+      i = i + 0.3;
+    })
+    let j = 0
+    pArray.forEach((el)=>{
+      gsap.to(el, { x: 0,opacity: 1, duration: 2, delay: 0.7 + i, ease: "power1" });
+      i = i + 0.5;
+    })
+    let concat = divArray.concat(pArray)
+    gsap.to("#loading", { backgroundColor: 'rgb(34, 40, 49)', duration: 5, ease: "power4" });
+
+    concat.forEach((el)=>{
+      gsap.to(el, { opacity: 0, duration: 1, delay: 5, ease: "power1" });
+    })
+
+    let date = new Date()
+    pArray[pArray.length - 1].innerHTML += ' ' + date.getFullYear()
+  });
+ 
+ </script>
+  <style>
+    #loading{
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #text{
+      font-size: 1.5em;
+      font-weight: 600;
+      opacity: 1;
+      color: white;
+      display: flex;
+      gap:1rem;
+    }
+    .d{
+      transform: translateX(200px);
+      opacity:0;
+    }
+    #footer{
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+    }
+    #footer p{
+      font-weight: 300;
+      font-size: 0.9em;
+      opacity: 0;
+      
+    }
+    #footer p:nth-child(1){
+      transform: translateX(-100px);
+    }
+    #footer p:nth-child(2){
+      transform: translateX(75px);
+    }
+  </style>
 <body>
-  <app-root></app-root>
+  <app-root>
+    <div id="loading">
+      <div id="text" class="welcome">
+        <div class="d">W</div>
+        <div class="d">E</div>
+        <div class="d">L</div>
+        <div class="d">C</div>
+        <div class="d">O</div>
+        <div class="d">M</div>
+        <div class="d">E</div>
+      </div>
+    </div>
+    <div id="footer">
+      <p>Made with <strong>Angular</strong></p>
+      <p>&#169; CopyRight</p>
+    </div>
+  </app-root>
 </body>
 </html>
