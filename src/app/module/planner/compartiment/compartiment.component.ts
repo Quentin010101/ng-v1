@@ -3,12 +3,12 @@ import { Compartiment } from '../../../model/planner/compartiment.model';
 import { Task } from '../../../model/planner/task.model';
 import { TaskComponent } from '../task/task.component';
 import { DropComponent } from './drop/drop.component';
-
+import {CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-compartiment',
   standalone: true,
-  imports: [TaskComponent, DropComponent],
+  imports: [TaskComponent, DropComponent, DragDropModule],
   templateUrl: './compartiment.component.html',
   styleUrl: './compartiment.component.scss',
   animations: []
@@ -23,9 +23,19 @@ export class CompartimentComponent {
   tasks!: Task[]
 
 
-  constructor(){
-
+  drop(event: CdkDragDrop<Task[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
   }
+
 
   public onDragStart(e:DragEvent){
       let dragging = this.getElementFromEvent(e);

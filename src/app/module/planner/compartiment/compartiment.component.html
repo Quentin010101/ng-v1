@@ -1,10 +1,9 @@
 <div>
     @if(compartiment){
-        <div class="task-container"
-            #compartimentElement
-
-        >
-
-        </div>
+            <div cdkDropList [cdkDropListData]="tasks" (cdkDropListDropped)="drop($event)" id="task-container">
+              @for(task of tasks; track task){
+                <app-task cdkDrag [task]="task"></app-task>
+              }
+            </div>
     }
 </div>

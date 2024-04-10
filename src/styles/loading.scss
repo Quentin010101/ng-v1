@@ -1,0 +1,47 @@
+#loading-start {
+    #loading {
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    #text {
+        font-size: 1.5em;
+        font-weight: 600;
+        opacity: 1;
+        color: white;
+        display: flex;
+        gap: 1rem;
+    }
+
+    .d {
+        transform: translateX(200px);
+        opacity: 0;
+    }
+
+    #footer {
+        position: absolute;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+    }
+
+    #footer p {
+        font-weight: 300;
+        font-size: 0.9em;
+        opacity: 0;
+
+    }
+
+    #footer p:nth-child(1) {
+        transform: translateX(-100px);
+    }
+
+    #footer p:nth-child(2) {
+        transform: translateX(75px);
+    }
+}

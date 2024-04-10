@@ -1,29 +1,21 @@
 <div id="container" class="dashboardPage">
   <h3>Planner:</h3>
-  <section >
-    <div cdkDropListGroup>
+  <section>
+    <div cdkDropListGroup id="drag-container">
       @for(compartiment of compartiments; track compartiment;let i = $index){
-        <div class="block">
-          <div>
-            <div class="header" (mouseover)="setHeaderHover(i + 1)" (mouseleave)="unsetHeaderHover(i + 1)">
-              <p>{{ compartiment.name }}</p>
-              @if(hoverIndex && hoverIndex === i + 1){
-                <app-supression-compartiment [id]="compartiment.compartimentId"></app-supression-compartiment>
-              }
-            </div>
-            <app-creation-task [compartiment]="compartiment"></app-creation-task>
-          </div>
-          @if(taskContainer){
-          <div 
-          cdkDropList
-          [cdkDropListData]="sorteAndReturnTaskArray(taskContainer, compartiment.compartimentId)"
-          (cdkDropListDropped)="drop($event)">
-            @for(task of sorteAndReturnTaskArray(taskContainer, compartiment.compartimentId); track task){
-              <app-task cdkDrag [task]="task"></app-task>
-            }
-            </div>
+      <div class="block">
+        <div class="header" (mouseover)="setHeaderHover(i + 1)" (mouseleave)="unsetHeaderHover(i + 1)">
+          <p>{{ compartiment.name }}</p>
+          @if(hoverIndex && hoverIndex === i + 1){
+          <app-supression-compartiment [id]="compartiment.compartimentId"></app-supression-compartiment>
           }
+          <app-creation-task [compartiment]="compartiment"></app-creation-task>
         </div>
+        @if(taskContainer){
+        <app-compartiment [compartiment]="compartiment"
+          [tasks]="sorteAndReturnTaskArray(taskContainer, compartiment.compartimentId)"></app-compartiment>
+        }
+      </div>
       }
     </div>
     <app-creation-compartiment></app-creation-compartiment>
