@@ -68,22 +68,22 @@ a.active div[position="after"]::after{
 
 a.active div[position="before"]::before{
   z-index: 2;
-  background-color: $bg-2;
+  background-color: $bg-sidenav;
   border-radius: 0% 0% 100% 0%;
   
 }
 a.active div[position="before"]::after{
   z-index: 1;
-  background-color: $bg-3;
+  background-color: $bg;
 }
 a.active div[position="after"]::before{
   z-index: 2;
-  background-color: $bg-2;
+  background-color: $bg-sidenav;
   border-radius: 0% 100% 0% 0%;
   
 }
 a.active div[position="after"]::after{
   z-index: 1;
-  background-color: $bg-1;
+  background-color: $bg;
 }
 

@@ -14,13 +14,14 @@ button{
 button.validation{
   width: 100%;
   background-color: $primary-3;
-  padding: 0.5rem;
+  padding: 0.75rem 0.5rem;
+  transition: background-color 0.2s;
 
   &.br{
     border-radius: 0.25rem;
   }
   &:hover{
-    background-color: $primary-2;
+    background-color: lighten($color: $primary-3, $amount: 10%);
   }
   &:disabled{
     cursor: default;
@@ -29,6 +30,6 @@ button.validation{
   }
 }
 button.validation.lg{
-  padding: 0.75rem !important;
+  padding: 1rem 0.75rem  !important;
   font-size: 1.05em !important;
 }

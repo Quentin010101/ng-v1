@@ -1,13 +1,15 @@
 <div id="container" style="margin-left:1rem;" (clickOutside)="reset($event)">
-  <button id="buttonCompartiment" [@translateRight]="open? 'open' : 'closed'" (click)="newCompartimentShow()" [disabled]="open">
+  <button id="buttonCompartiment" class="bg-3-hover" [@translateRight]="open? 'open' : 'closed'" (click)="newCompartimentShow()" [disabled]="open">
     Create a new category
     <fa-icon [icon]="faPlus"></fa-icon>
   </button>
   <div id="input">
     <form [formGroup]="compartimentForm" (ngSubmit)="onSubmit()">
-        <div>
-            <input #input type="text" formControlName="name" placeholder="Category name">
-        </div>
+            <app-text [reset]="resetValue" [focus]="focusValue" (inputEmitter)="onCompartimentChange($event)" [type]="'text'" [placeholder]="'Category name'">
+              <p icon>
+                  <fa-icon  class="icon-1" [icon]="faPen"></fa-icon>
+              </p>
+        </app-text>
     </form>
   </div>
 </div>

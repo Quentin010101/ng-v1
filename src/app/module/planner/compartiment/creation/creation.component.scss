@@ -15,7 +15,8 @@ input{
 
 #input{
   position: absolute;
-  inset: 0;
+  inset:0;
+  height: 100%;
   z-index: 1;
 }
 
@@ -28,10 +29,4 @@ input{
   gap: 0.5rem;
   justify-content: center;
   width: 100%;
-  background-color: $bg-1;
-  transition: all 0.3s ease;
-
-  &:hover{
-    background-color: $bg-3;
-  }
 }

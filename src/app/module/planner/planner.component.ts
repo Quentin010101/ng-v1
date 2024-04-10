@@ -10,12 +10,13 @@ import { TaskOpenComponent } from './task/task-open/task-open.component';
 import { EnumerationService } from '../../service/planner/enumeration.service';
 import { PlannerService } from '../../service/planner/planner.service';
 import { Task } from '../../model/planner/task.model';
-
+import {CdkDragDrop, DragDropModule} from '@angular/cdk/drag-drop';
+import { TaskComponent } from './task/task.component';
 
 @Component({
   selector: 'app-planner',
   standalone: true,
-  imports: [CompartimentComponent,CompartimentCreationComponent,TaskCreationComponent, SupressionComponent,TaskOpenComponent],
+  imports: [CompartimentComponent,CompartimentCreationComponent,TaskCreationComponent, SupressionComponent,TaskOpenComponent,DragDropModule, TaskComponent],
   templateUrl: './planner.component.html',
   styleUrl: './planner.component.scss',
   animations: [fadeInAnimation(), fadeInOnEnterAnimation()]
@@ -61,6 +62,7 @@ export class PlannerComponent {
     let arr = taskContainer.get(compId);
     if(!arr) arr = []
     let newArr = arr.sort((a,b)=> a.taskorder - b.taskorder)
+    console.log(newArr)
     return newArr
   }
 
@@ -76,6 +78,10 @@ export class PlannerComponent {
         container.insertBefore(draggable, afterElement)
       }
     }
+  }
+
+  public drop(e:CdkDragDrop<Task[]>){
+
   }
 
   public onDrop(e: DragEvent, compartiment: Compartiment){

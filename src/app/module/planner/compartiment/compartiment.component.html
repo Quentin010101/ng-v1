@@ -4,20 +4,7 @@
             #compartimentElement
 
         >
-            @if(tasks){
-                @for(task of tasks; track task){
-                    <app-drop
-                        [attr.id]="task.taskId"
-                        class="draggable"
-                        [attr.order]="task.taskorder"
-                        draggable="true"
-                        (dragstart)="onDragStart($event)"
-                        (dragend)="onDragEnd($event)"
-                    >
-                        <app-task [task]="task"></app-task>
-                    </app-drop>
-                }
-            }
+
         </div>
     }
 </div>

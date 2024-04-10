@@ -1,8 +1,8 @@
-<div id="container" #input>
+<div #container id="container" [ngClass]="size">
     <div #icon>
         <ng-content select="[icon]"></ng-content>
     </div>
-    <input [type]="type" [placeholder]="placeholder" (blur)="onblur($event)" (click)="onclick()"
+    <input #input [type]="type" [placeholder]="placeholder" (blur)="onblur($event)"
         (focus)="onfocus($event)"
         (input)="oninput($event)">
 </div>

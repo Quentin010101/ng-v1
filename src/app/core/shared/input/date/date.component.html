@@ -1,6 +1,6 @@
 <div id="container" (click)="cancel($event)">
   <div class="picker" (click)="input.showPicker()">
-    <span>{{ input.value  | date : 'dd-MM' }}</span>
+    <span>{{ date  | date : 'dd-MM' }}</span>
     <fa-icon class="icon-1" [icon]="faCalendar"></fa-icon>
   </div>
   <input #input type="date" (change)="onChange($event)"  value="{{ date | date : 'YYYY-MM-dd' }}" min="{{ today | date : 'YYYY-MM-dd' }}">

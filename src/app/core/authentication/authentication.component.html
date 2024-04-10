@@ -1,9 +1,9 @@
 <div id="container">
-    <form [formGroup]="loginForm" id="form">
-        <h2 class="welcome">Welcome</h2>
-        <div>
+    <form [formGroup]="loginForm" id="form" [@enter]>
+        <h2 class="welcome" >Welcome</h2>
+        <div class="width">
             <p class="label">Pseudo: </p>
-            <app-text (inputEmitter)="onPseudoChange($event)" [placeholder]="'Enter your pseudo'">
+            <app-text size="lg" (inputEmitter)="onPseudoChange($event)" [placeholder]="'Enter your pseudo'">
                 <p icon>
                     <fa-icon class="icon-2" [icon]="faUser"></fa-icon>
                 </p>
@@ -14,9 +14,9 @@
                 </small>
             </div>
         </div>
-        <div>
+        <div class="width">
             <p class="label">password: </p>
-            <app-text (inputEmitter)="onPasswordChange($event)" [type]="'password'" [placeholder]="'Enter your password'">
+            <app-text size="lg" (inputEmitter)="onPasswordChange($event)" [type]="'password'" [placeholder]="'Enter your password'">
                 <p icon>
                     <fa-icon  class="icon-2" [icon]="faLock"></fa-icon>
                 </p>

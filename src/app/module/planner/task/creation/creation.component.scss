@@ -9,12 +9,6 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  background-color: $bg-3;
-  transition: all 0.3s ease;
-
-  &:hover{
-    background-color: $bg-2;
-  }
 }
 input{
   color: white;

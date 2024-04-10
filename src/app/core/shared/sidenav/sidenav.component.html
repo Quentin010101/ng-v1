@@ -1,10 +1,10 @@
-<div id="wrapper" class="bg-sidenav">
+<div id="wrapper" class="bg-1">
   <nav>
     <ul>
       @for(route of dashboardChildRoutes; track route){
         @if(route.data){
           <li>
-            <a routerLinkActive="bg active" routerLink="{{route.path}}" >
+            <a routerLinkActive="bg-2 active" routerLink="{{route.path}}" >
               <div position="before"></div>
               <div class="line bg-primary-2"></div>
               <div class="gelatine">

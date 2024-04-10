@@ -15,7 +15,7 @@ function waiting(){
   return new Promise<void>((resolve,reject)=>{
     setTimeout(()=>{
       resolve()
-    },6000) //6000
+    },0) //5100
   })
 }
 bootstrapApplication(AppComponent, appConfig)

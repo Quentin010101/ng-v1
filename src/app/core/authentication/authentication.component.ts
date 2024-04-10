@@ -1,4 +1,4 @@
-import { Component, inject} from '@angular/core';
+import { Component} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../service/authentication.service';
 import { AuthRequest } from '../../model/auth/authRequest.model';
@@ -7,13 +7,15 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 import { TextComponent } from '../shared/input/text/text.component';
 import { CheckComponent } from '../shared/input/check/check.component';
+import { fadeInUpOnEnterAnimation } from 'angular-animations';
 
 @Component({
   selector: 'app-authentication',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule,FontAwesomeModule, TextComponent, CheckComponent],
   templateUrl: './authentication.component.html',
-  styleUrl: './authentication.component.scss'
+  styleUrl: './authentication.component.scss',
+  animations: [ fadeInUpOnEnterAnimation({anchor: 'enter', duration:400, translate: '40px'})]
 })
 export class AuthenticationComponent {
   loginForm!: FormGroup;
@@ -39,8 +41,6 @@ export class AuthenticationComponent {
   }
 
   onStayLogged(bool: boolean){
-    console.log(bool)
-    console.log("action")
     this.loginForm.controls['stayLogged'].setValue(bool)
   }
   
@@ -69,5 +69,6 @@ export class AuthenticationComponent {
 
   }
 }
+
 
 

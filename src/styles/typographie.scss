@@ -14,7 +14,8 @@ h3{
   letter-spacing: 0.15rem;
   text-transform: uppercase;
   margin-bottom: 1rem;
-  background: -webkit-linear-gradient(45deg, #ffffff, $primary-1);
+  background: -webkit-linear-gradient(45deg, $primary-1 , #ffffff);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   width: fit-content;

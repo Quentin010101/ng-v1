@@ -1,14 +1,17 @@
+
 <div (clickOutside)="clickOutside($event)">
-  <button id="buttonTask" (click)="newTaskShow()">
+  <button id="buttonTask" class="bg-3-hover" (click)="newTaskShow()">
       <fa-icon [icon]="faMinus" [ngClass]="{'hide': !open}"></fa-icon>
       <fa-icon [icon]="faPlus" [ngClass]="{'hide': open}"></fa-icon>
   </button>
   @if (open) {
     <div @creationIn @creationOut style="overflow: hidden;">
       <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
-          <div>
-              <input #taskInput type="text" formControlName="title" placeholder="Task title" style="width: 100%">
-          </div>
+          <app-text [reset]="resetValue" [focus]="focusValue" (inputEmitter)="onTaskChange($event)" [type]="'text'" [placeholder]="'Task title'">
+            <p icon>
+                <fa-icon  class="icon-1" [icon]="faPen"></fa-icon>
+            </p>
+          </app-text>
           <div>
             <button class="validation">Add new task</button>
           </div>

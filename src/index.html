@@ -15,25 +15,27 @@
 <script type="module">
   
   document.addEventListener("DOMContentLoaded", (event) => {
+    gsap.to("#loading", { backgroundColor: 'rgb(34, 40, 49)', duration: 5, ease: "power4" });
     let divArray = document.querySelectorAll("#text > div")
     let pArray = document.querySelectorAll("#footer > p")
     let i = 0
+    let timeline = 0
     divArray.forEach((el)=>{
-      gsap.to(el, { x: 0,opacity: 1, duration: 3, delay: 0.3 + i, ease: "elastic" });
+      gsap.to(el, { x: 0,opacity: 1, duration: 2.5, delay: timeline + i, ease: "elastic" });
       i = i + 0.3;
     })
+    timeline = i
     let j = 0
     pArray.forEach((el)=>{
-      gsap.to(el, { x: 0,opacity: 1, duration: 2, delay: 0.7 + i, ease: "power1" });
-      i = i + 0.5;
+      gsap.to(el, { x: 0,opacity: 1, duration: 2, delay: timeline + j, ease: "power1" });
+      j = j + 0.5;
     })
-    let concat = divArray.concat(pArray)
-    gsap.to("#loading", { backgroundColor: 'rgb(34, 40, 49)', duration: 5, ease: "power4" });
-
+    timeline += j + 1.5
+    let concat = document.querySelectorAll("#text > div,#footer > p")
     concat.forEach((el)=>{
-      gsap.to(el, { opacity: 0, duration: 1, delay: 5, ease: "power1" });
+      gsap.to(el, { opacity: 0, duration: 1, delay: timeline, ease: "power1" });
     })
-
+    console.log(timeline)
     let date = new Date()
     pArray[pArray.length - 1].innerHTML += ' ' + date.getFullYear()
   });

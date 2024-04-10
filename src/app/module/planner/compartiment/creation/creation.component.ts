@@ -3,25 +3,30 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CompartimentService } from '../../../../service/planner/compartiment.service';
 import { Compartiment } from '../../../../model/planner/compartiment.model';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faPen } from '@fortawesome/free-solid-svg-icons';
 import { translateRight } from '../../../../z-other/transition';
 import { ClickOutsideDirective } from '../../../../z-other/click-outside.directive';
+import { TextComponent } from '../../../../core/shared/input/text/text.component';
+import { Subject } from 'rxjs';
+
 
 @Component({
   selector: 'app-creation-compartiment',
   standalone: true,
-  imports: [ReactiveFormsModule, FontAwesomeModule,ClickOutsideDirective],
+  imports: [ReactiveFormsModule, FontAwesomeModule,ClickOutsideDirective,TextComponent],
   templateUrl: './creation.component.html',
   styleUrl: './creation.component.scss',
   animations: [translateRight]
 })
 export class CompartimentCreationComponent {
-  @ViewChild('input') inputElement!: ElementRef
+  @ViewChild('input') inputElement!:TextComponent
   compartimentForm!: FormGroup
   compartiments: Compartiment[] = []
   newOrder: number | null = null
-  faPlus = faPlus
+  faPlus = faPlus; faPen=faPen
   open: boolean = false
+  focusValue: Subject<boolean> = new Subject();
+  resetValue: Subject<boolean> = new Subject();
 
   constructor(private fb: FormBuilder, private _compartimentServcie: CompartimentService) {
     this._compartimentServcie.$compartiment.subscribe(data => {
@@ -46,14 +51,20 @@ export class CompartimentCreationComponent {
   public onSubmit(){
     let newArr = this.compartiments.map(a => a.compartimentOrder);
     this.create(Math.max(...newArr))
+    this.resetValue.next(true)
   }
 
   public newCompartimentShow(){
     this.open = true
-    this.inputElement.nativeElement.focus()
+    this.focusValue.next(true)
   }
 
   public reset(e: Event){
     this.open = false;
+    this.resetValue.next(true)
+  }
+
+  public onCompartimentChange(str: string){
+    this.compartimentForm.controls['name'].setValue(str)
   }
 }
