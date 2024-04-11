@@ -1,9 +1,31 @@
 <div>
-    @if(compartiment){
-            <div cdkDropList [cdkDropListData]="tasks" (cdkDropListDropped)="drop($event)" id="task-container">
-              @for(task of tasks; track task){
-                <app-task cdkDrag [task]="task"></app-task>
-              }
-            </div>
+  <div class="title" >
+    <p>{{ compartiment.name }}</p>
+    <app-supression-compartiment [id]="compartiment.compartimentId"></app-supression-compartiment>
+    <app-creation-task [compartiment]="compartiment"></app-creation-task>
+  </div>
+  <div cdkDropList [cdkDropListData]="tasks" (cdkDropListDropped)="drop($event)" id="tasks-container">
+    @for(task of tasks; track task){
+    <div id="container-task" cdkDrag>
+      <app-task-menu [task]="task"></app-task-menu>
+      <div class="task" (click)="showTask(task)">
+        <div class="header">
+          <h4>{{task.title | titlecase }}</h4>
+          <h5>{{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
+        </div>
+        <div class="content">
+          <p>{{ task.text }}</p>
+        </div>
+        <div class="lane"></div>
+        <div class="footer">
+          <app-show-choice [importance]="task.importance"></app-show-choice>
+          <app-show-choice [progression]="task.progression"></app-show-choice>
+          @if(task.dateEcheance){
+          <app-date [date]="task.dateEcheance"></app-date>
+          }
+        </div>
+      </div>
+    </div>
     }
+  </div>
 </div>

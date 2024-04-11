@@ -1,5 +1,5 @@
 
-#container{
+.container{
   position:relative;
   width: fit-content;
   
@@ -10,9 +10,9 @@
   }
   .picker{
     cursor: pointer;
-    background-color: rgb(202, 33, 33);
+    background-color: rgb(192, 73, 73);
     width: fit-content;
-    padding: 0.25rem;
+    padding: 0.25rem 0 0.25rem 0.25rem;
     border-radius: 0.25rem;
   }
 }

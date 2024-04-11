@@ -17,15 +17,7 @@ import { ShowChoiceComponent } from './show-choice/show-choice.component';
 export class TaskComponent {
   @Input() task!: Task
 
-  constructor(private _taskOpenService: TaskOpenService){}
 
-  showTask(){
-    this._taskOpenService.$task.next(this.task)
-  }
-
-  click(e: Event){
-    e.stopPropagation()
-  }
 }
 
 

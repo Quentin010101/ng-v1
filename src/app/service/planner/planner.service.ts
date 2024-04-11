@@ -15,7 +15,7 @@ export class PlannerService {
   url: string = environnement.backEndUrl + 'task/';
   $tasksContainer = new BehaviorSubject<Map<number, Task[]>>(new Map());
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private createNewTask(
     task: TaskCreationRequest
@@ -30,8 +30,8 @@ export class PlannerService {
   private updateTask(task: Task): Observable<ResponseObject<Task>> {
     return this.http.post<ResponseObject<Task>>(this.url + 'update', task);
   }
-  private updateDragEvent(task: Task): Observable<ResponseDto> {
-    return this.http.post<ResponseDto>(this.url + 'updateDragEvent', task);
+  private updateDragEvent(tasks: Task[][]): Observable<ResponseObject<Task[]>> {
+    return this.http.post<ResponseObject<Task[]>>(this.url + 'updateDragEvent', tasks);
   }
 
   private getAllTasks(): Observable<ResponseObject<Task[]>> {
@@ -46,22 +46,26 @@ export class PlannerService {
       this.getAll();
     }
   }
-  private getAll(){
+  private getAll() {
     this.getAllTasks().subscribe((data) => {
       if (data.responseDto.executionStatus) {
-        let tasksMap = new Map<number, Task[]>();
-        data.object.forEach((task) => {
-          let taskCompId = task.compartiment.compartimentId;
-          let arr: Task[] = [];
-          if (tasksMap.get(taskCompId)) {
-            arr = tasksMap.get(taskCompId) as Task[];
-          }
-          arr.push(task);
-          tasksMap.set(taskCompId, arr);
-        });
-        this.$tasksContainer.next(tasksMap);
+        this.handleTasks(data)
       }
     });
+  }
+
+  private handleTasks(data: ResponseObject<Task[]>) {
+    let tasksMap = new Map<number, Task[]>();
+    data.object.forEach((task) => {
+      let taskCompId = task.compartiment.compartimentId;
+      let arr: Task[] = [];
+      if (tasksMap.get(taskCompId)) {
+        arr = tasksMap.get(taskCompId) as Task[];
+      }
+      arr.push(task);
+      tasksMap.set(taskCompId, arr);
+    });
+    this.$tasksContainer.next(tasksMap);
   }
 
   public newTask(
@@ -86,15 +90,29 @@ export class PlannerService {
     );
   }
 
-  public updateDrag(task: Task): Observable<ResponseDto> {
-    return this.updateDragEvent(task).pipe(
-      tap((data) => {
-        if (!data.executionStatus){
-          throw new Error('Task update failed');
-        }
-        this.getAll();
-      })
-    );
+  private updateOnDrop(tasksArray: Task[][]) {
+    return this.updateDragEvent(tasksArray).subscribe(data => {
+      if (data.responseDto.executionStatus) {
+        this.handleTasks(data)
+      }
+    })
+  }
+
+  private handleReorder(tasks: Task[]) {
+    let i = 1;
+    tasks.forEach((el) => {
+      el.taskorder = i
+      i++;
+    })
+    return tasks
+  }
+
+  public handleReorderSingleReorder(tasks: Task[]) {
+    let newTasks = this.handleReorder(tasks)
+    this.updateOnDrop([newTasks])
+  }
+  public handleMultipleReorder(tasksArray: Task[][]) {
+    this.updateOnDrop(tasksArray.map(el => this.handleReorder(el)))
   }
 
   public delete(task: Task): Observable<ResponseDto> {
@@ -103,11 +121,11 @@ export class PlannerService {
         if (data.executionStatus) {
           let taskContainer = this.$tasksContainer.value
           let taskArray: Task[] | undefined = taskContainer.get(task.compartiment.compartimentId)
-          if(taskArray){
-            let taskResult = taskArray.filter((el)=> el.taskId != task.taskId)
+          if (taskArray) {
+            let taskResult = taskArray.filter((el) => el.taskId != task.taskId)
             taskContainer.set(task.compartiment.compartimentId, taskResult);
             this.$tasksContainer.next(taskContainer);
-          }else{
+          } else {
             throw new Error("Can 't delete item cause compartiment not found.")
           }
         }
@@ -115,8 +133,15 @@ export class PlannerService {
     );
   }
 
-  public getTasksByCompId(id: number) {
-    return this.$tasksContainer.value.get(id);
+  public getTasksByCompId(id: number): Task[] {
+    let arr = this.$tasksContainer.value.get(id);
+    if (arr) return arr
+    return []
+  }
+  public getTasksByCompIdOrdered(id: number): Task[] {
+    let arr = this.getTasksByCompId(id);
+    return arr.sort((a,b) => a.taskorder -b.taskorder)
+
   }
 
   public getTaskById(id: number): Task | null {
@@ -137,20 +162,18 @@ export class PlannerService {
     let compartimentId = data.object.compartiment.compartimentId;
     let tasksMap = this.$tasksContainer.value;
     let arrayTasks: Task[] | undefined = tasksMap.get(compartimentId);
-    
-    this.log(arrayTasks)
+
     if (!arrayTasks) arrayTasks = [];
-    let filteredArray = arrayTasks.filter((el)=> el.taskId != data.object.taskId)
+    let filteredArray = arrayTasks.filter((el) => el.taskId != data.object.taskId)
     filteredArray.push(data.object);
-    this.log(filteredArray)
     tasksMap.set(compartimentId, filteredArray);
     this.$tasksContainer.next(tasksMap);
   }
 
-  private log(tasks: Task[] | undefined | null){
-    if(!tasks) return
+  private log(tasks: Task[] | undefined | null) {
+    if (!tasks) return
     console.log("log start")
-    tasks.forEach((el)=> {
+    tasks.forEach((el) => {
       console.log(el)
     })
   }

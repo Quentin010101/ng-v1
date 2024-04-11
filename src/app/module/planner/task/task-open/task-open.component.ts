@@ -52,9 +52,11 @@ export class TaskOpenComponent {
   }
 
   private setForm(task: Task){
+    console.log(task.taskorder)
     this.taskForm = new FormGroup({
       taskId: new FormControl(task.taskId, Validators.required),
       title: new FormControl(task.title, Validators.required),
+      taskorder: new FormControl(task.taskorder, Validators.required),
       text: new FormControl(task.text, Validators.maxLength(250)),
       progression: new FormControl(task.progression),
       importance: new FormControl(task.importance),
@@ -65,7 +67,6 @@ export class TaskOpenComponent {
       dateCreation: new FormControl(task.dateCreation),
       dateEcheance: new FormControl(task.dateEcheance),
   })
-  console.log(this.taskForm)
   }
 
   private createFormArray(cible: any): FormArray{
@@ -100,11 +101,15 @@ export class TaskOpenComponent {
   }
 
   private saveTask(){
+    console.log(this.taskForm)
     if(!this.taskForm.invalid){
-      console.log(this.taskForm)
+      console.log("2")
       if(this.taskForm.dirty){
         let task: Task = Object.assign(new Task(), this.taskForm.value);
-        this._taskService.update(task).subscribe()
+        console.log(task)
+        this._taskService.update(task).subscribe((data)=>{
+          console.log(data)
+        })
       }
     }
   }
