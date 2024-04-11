@@ -5,12 +5,11 @@
     gap: 0.15rem;
     background-color: $bg-input-text;
     padding: 0.4rem;
-    border-radius: 0.25rem;
     border: 1px solid transparent;
     width: 100%;
     input{
         color: white;
-        background-color: transparent;
+        background-color: transparent !important;
         border: none;
         outline: none;
         width: 100%;
@@ -19,8 +18,21 @@
         gap: 0.25rem;
         padding: 0.75rem 0.5rem !important;
     }
+    &.border-md{
+      border-radius: 0.25rem;
+    }
 }
 
 .onfocus{
     border: 1px solid transparentize(white, 0.5) !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #ffffff;
+    transition: background-color 0s ease-in-out 5000s;
+    box-shadow: inset 0 0 20px 20px #23232329;
 }

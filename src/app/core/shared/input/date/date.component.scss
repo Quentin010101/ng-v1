@@ -1,3 +1,5 @@
+@import '../../../../../styles/color.scss';
+
 
 .container{
   position:relative;
@@ -10,9 +12,13 @@
   }
   .picker{
     cursor: pointer;
-    background-color: rgb(192, 73, 73);
+    background-color: $picker-color;
     width: fit-content;
     padding: 0.25rem 0 0.25rem 0.25rem;
     border-radius: 0.25rem;
+    transition: background-color 0.3s;
+    &:hover{
+      background-color: lighten($picker-color, 8%);
+    }
   }
 }

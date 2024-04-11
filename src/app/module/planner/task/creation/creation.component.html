@@ -7,7 +7,7 @@
   @if (open) {
     <div @creationIn @creationOut style="overflow: hidden;">
       <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
-          <app-text [reset]="resetValue" [focus]="focusValue" (inputEmitter)="onTaskChange($event)" [type]="'text'" [placeholder]="'Task title'">
+          <app-text [reset]="resetValue" [focus]="focusValue" (inputEmitter)="onTaskChange($event)" [type]="'text'" [size]="'lg'" [placeholder]="'Task title'">
             <p icon>
                 <fa-icon  class="icon-1" [icon]="faPen"></fa-icon>
             </p>

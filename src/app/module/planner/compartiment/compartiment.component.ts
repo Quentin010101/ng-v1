@@ -24,7 +24,7 @@ import { SupressionComponent } from './supression/supression.component';
 export class CompartimentComponent {
   @ViewChild("compartimentElement") compartimentElement!: ElementRef
   @Input() compartiment!: Compartiment
-
+  suppressionActive: boolean = false
   tasks: Task[] = []
 
   constructor(private _taskOpenService: TaskOpenService, private _taskService: PlannerService){

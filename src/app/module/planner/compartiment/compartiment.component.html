@@ -1,8 +1,12 @@
 <div>
-  <div class="title" >
-    <p>{{ compartiment.name }}</p>
-    <app-supression-compartiment [id]="compartiment.compartimentId"></app-supression-compartiment>
-    <app-creation-task [compartiment]="compartiment"></app-creation-task>
+  <div class="title" (mouseenter)="suppressionActive = true" (mouseleave)="suppressionActive = false">
+    @if(compartiment){
+      <p>{{ compartiment.name }}</p>
+      @if(suppressionActive){
+        <app-supression-compartiment [id]="compartiment.compartimentId"></app-supression-compartiment>
+      }
+      <app-creation-task [compartiment]="compartiment"></app-creation-task>
+    }
   </div>
   <div cdkDropList [cdkDropListData]="tasks" (cdkDropListDropped)="drop($event)" id="tasks-container">
     @for(task of tasks; track task){

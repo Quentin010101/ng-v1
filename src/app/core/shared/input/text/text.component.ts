@@ -18,6 +18,7 @@ export class TextComponent {
   @Input() type: string = "text"
   @Input() placeholder: string = ""
   @Input() size: string = "md"
+  @Input() b_size: string = "border-none"
   @Input() focus!: Subject<boolean>;
   @Input() reset!: Subject<boolean>;
 

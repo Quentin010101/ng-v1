@@ -1,91 +1,98 @@
-@import '../../../../styles/color.scss';
-
+@import "../../../../styles/color.scss";
 
 #tasks-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 100vh;
-    transition: opacity 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  transition: opacity 0.2s ease;
+}
+.title {
+  position: relative;
+  p {
+    font-size: 0.9em;
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 0.75rem;
+  }
 }
 
-
-
-
 .cdk-drag-placeholder {
-    opacity: 0;
+  opacity: 0;
 }
 
 .cdk-drag-animating {
-    transition: transform 150ms cubic-bezier(0, 0, 0.2, 1);
+  transition: transform 150ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-#tasks-container.cdk-drop-list-dragging #container-task:not(.cdk-drag-placeholder) {
-    transition: transform 150ms cubic-bezier(0, 0, 0.2, 1);
+#tasks-container.cdk-drop-list-dragging
+  #container-task:not(.cdk-drag-placeholder) {
+  transition: transform 150ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-#container-task, .cdk-drag-preview {
-    cursor: pointer;
+#container-task,
+.cdk-drag-preview {
+  cursor: pointer;
 
-    .task {
-        font-size: 0.8em;
-        padding: 0.5rem 0.25rem 0.25rem 0.25rem;
-        width: 100%;
-        max-height: 400px;
-        background-color: $bg-3;
-        margin-top: 0.75rem;
-        border-top-right-radius: 0.25rem;
-        border-bottom-right-radius: 0.25rem;
-        border-left: solid 0.5rem $primary-3;
+  .task {
+    font-size: 0.8em;
+    padding: 0.5rem 0.25rem 0.25rem 0.25rem;
+    width: 100%;
+    max-height: 400px;
+    background-color: $bg-3;
+    margin-top: 0.75rem;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    border-left: solid 0.5rem $primary-3;
+  }
+
+  h4 {
+    font-weight: 100;
+  }
+
+  h5 {
+    font-style: italic;
+    font-size: 0.8em;
+    font-weight: 400;
+    opacity: 0.6;
+  }
+
+  .header {
+    padding: 0 0.5rem;
+  }
+
+  .content {
+    position: relative;
+    padding: 0.25rem 0.5rem;
+    overflow: hidden;
+
+    p {
+      font-family: Arial, Helvetica, sans-serif;
+      word-break: break-all;
+      color: rgb(185, 185, 185);
+      font-size: 0.85em;
+      font-weight: 100;
     }
+  }
 
-    h4 {
-        font-weight: 100;
-    }
+  .lane {
+    height: 1px;
+    width: 100%;
+    background-color: rgba($color: white, $alpha: 0.3);
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
 
-    h5 {
-        font-style: italic;
-        font-size: 0.8em;
-        font-weight: 400;
-        opacity: 0.6;
-    }
-
-    .header {
-        padding: 0 0.5rem;
-    }
-
-    .content {
-        position: relative;
-        padding: 0.25rem 0.5rem;
-        overflow: hidden;
-
-        p {
-            font-family: Arial, Helvetica, sans-serif;
-            word-break: break-all;
-            color: rgb(185, 185, 185);
-            font-size: 0.85em;
-            font-weight: 100;
-        }
-    }
-
-    .lane {
-        height: 1px;
-        width: 100%;
-        background-color: rgba($color: white, $alpha: 0.3);
-        margin-top: 0.5rem;
-        margin-bottom: 0.25rem;
-    }
-
-    .footer {
-        padding: 0;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap:0.5rem;
-    }
+  .footer {
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+  }
 }
 
-.cdk-drag-preview .task{
-    box-shadow: 4px 4px 5px rgba($color: $bg-1, $alpha: 0.8);
+.cdk-drag-preview .task {
+  box-shadow: 4px 4px 5px rgba($color: $bg-1, $alpha: 0.8);
 }
-
