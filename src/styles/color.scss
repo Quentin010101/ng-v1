@@ -24,6 +24,7 @@ $bg-3: map-get($map: $color-dark, $key: 300);
 
 $bg-input-text: $bg-1;
 $bg-sidenav: $bg-1;
+$bg-task: $bg-3;
 $bg: $bg-2; 
 
 $primary-1: map-get($map: $color-primary, $key: 100);

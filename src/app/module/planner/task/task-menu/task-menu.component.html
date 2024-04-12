@@ -1,3 +1,10 @@
-<div id="menu" >
-    <button (click)="deleteTask()"><fa-icon [icon]="faTrash"></fa-icon>delete</button>
+<div id="menu" (clickOutside)="clickOutside($event)">
+    <button (click)="menuOpen = !menuOpen" id="button">
+        <fa-icon [icon]="faEllipsis" [@rotate]="menuOpen"></fa-icon>
+    </button>
+    @if(menuOpen){
+    <div class="item-container" >
+            <button (click)="deleteTask($event)"><fa-icon [icon]="faTrash"></fa-icon>delete</button>
+        </div>
+    }
 </div>

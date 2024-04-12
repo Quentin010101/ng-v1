@@ -12,11 +12,19 @@
   }
   .picker{
     cursor: pointer;
-    background-color: $picker-color;
+    background-color: darken($bg-task, 5%);
     width: fit-content;
     padding: 0.25rem 0 0.25rem 0.25rem;
     border-radius: 0.25rem;
     transition: background-color 0.3s;
+    &:hover{
+      background-color: $bg-task;
+    }
+  }
+
+  .picker.active{
+    background-color: $picker-color;
+
     &:hover{
       background-color: lighten($picker-color, 8%);
     }

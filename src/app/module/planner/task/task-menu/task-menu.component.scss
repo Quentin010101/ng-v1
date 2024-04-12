@@ -1,0 +1,23 @@
+@import '../../../../../styles/color.scss';
+
+#menu{
+    position:absolute;
+}
+
+.item-container{
+    position: absolute;
+    left: 100%;
+    top: 0;
+    width: max-content;
+    background-color: $bg-task;
+    padding: 0.25rem;
+    box-shadow: 2px 2px 5px $bg-1;
+}
+#button{
+    border:solid;
+    width: 30px;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

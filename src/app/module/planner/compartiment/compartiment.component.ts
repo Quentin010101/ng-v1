@@ -74,6 +74,11 @@ export class CompartimentComponent {
     })
   }
 
+  public onDateEcheanceChange(date: Date, task:Task){
+    task.dateEcheance = date
+    this._taskService.update(task).subscribe()
+  }
+
 }
 
 

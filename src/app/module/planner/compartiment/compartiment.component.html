@@ -11,7 +11,9 @@
   <div cdkDropList [cdkDropListData]="tasks" (cdkDropListDropped)="drop($event)" id="tasks-container">
     @for(task of tasks; track task){
     <div id="container-task" cdkDrag>
-      <app-task-menu [task]="task"></app-task-menu>
+      <div class="task-menu">
+        <app-task-menu [task]="task"></app-task-menu>
+      </div>
       <div class="task" (click)="showTask(task)">
         <div class="header">
           <h4>{{task.title | titlecase }}</h4>
@@ -24,9 +26,7 @@
         <div class="footer">
           <app-show-choice [importance]="task.importance"></app-show-choice>
           <app-show-choice [progression]="task.progression"></app-show-choice>
-          @if(task.dateEcheance){
-          <app-date [date]="task.dateEcheance"></app-date>
-          }
+          <app-date [date]="task.dateEcheance" (dateEmit)="onDateEcheanceChange($event, task)"></app-date>
         </div>
       </div>
     </div>
