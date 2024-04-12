@@ -23,7 +23,6 @@ import { TaskComponent } from './task/task.component';
 })
 export class PlannerComponent {
   compartiments: Compartiment[] | null = null
-  taskContainer: Map<number, Task[]> | null = null
   headerHover: boolean = false;
   hoverIndex: number | null = null
   animState: boolean = false
@@ -32,12 +31,14 @@ export class PlannerComponent {
       _compartimentService.$compartiment.subscribe(data=>{
         this.compartiments = data
       })
+      
+      this._compartimentService.init()
+      this._taskService.init()
+      this._enumService.init()
   }
 
   ngOnInit(){
-    this._compartimentService.init()
-    this._taskService.init()
-    this._enumService.init()
+
     
     setTimeout(()=>{
       this.animState = true

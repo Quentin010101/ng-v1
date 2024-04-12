@@ -1,7 +1,7 @@
 @import '../../../../../styles/color.scss';
 
 #menu{
-    position:absolute;
+    position:relative;
 }
 
 .item-container{
@@ -14,7 +14,6 @@
     box-shadow: 2px 2px 5px $bg-1;
 }
 #button{
-    border:solid;
     width: 30px;
     aspect-ratio: 1/1;
     display: flex;

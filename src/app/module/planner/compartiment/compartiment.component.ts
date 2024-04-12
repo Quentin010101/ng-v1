@@ -2,7 +2,6 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Compartiment } from '../../../model/planner/compartiment.model';
 import { Task } from '../../../model/planner/task.model';
 import { TaskComponent } from '../task/task.component';
-import { DropComponent } from './drop/drop.component';
 import {CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { TaskOpenService } from '../task/task-open/task-open.component';
 import { CommonModule } from '@angular/common';
@@ -16,7 +15,7 @@ import { SupressionComponent } from './supression/supression.component';
 @Component({
   selector: 'app-compartiment',
   standalone: true,
-  imports: [TaskComponent, DropComponent, DragDropModule,CommonModule,TaskMenuComponent,DateComponent,ShowChoiceComponent,TaskCreationComponent, SupressionComponent],
+  imports: [ DragDropModule,CommonModule,TaskMenuComponent,DateComponent,ShowChoiceComponent,TaskCreationComponent, SupressionComponent],
   templateUrl: './compartiment.component.html',
   styleUrl: './compartiment.component.scss',
   animations: []

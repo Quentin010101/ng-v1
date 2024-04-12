@@ -140,6 +140,7 @@ export class PlannerService {
   }
   public getTasksByCompIdOrdered(id: number): Task[] {
     let arr = this.getTasksByCompId(id);
+    console.log(arr)
     return arr.sort((a,b) => a.taskorder -b.taskorder)
 
   }
