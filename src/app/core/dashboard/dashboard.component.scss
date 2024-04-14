@@ -1,29 +1,34 @@
-$side-width: 58px;
+$width-side: 58px;
+$height-nav: 55px;
+$min-height-tot: 600px; 
+
 
 #wrapper{
   display: flex;
   position: relative;
   width: 100%;
+  height: 100vh;
+  min-height: $min-height-tot;
 
   #sideNav{
     position:sticky;
     top: 0;
+    width: $width-side;
     height: 100%;
-    width: $side-width;
   }
   #content{
-    width: calc(100% - 58px);
+    width: calc(100vw - $width-side);
     position: relative;
-  }
-  #nav{
-    position:sticky;
-    top: 0;
-    left:0;
-    right:0;
-    z-index: 2;
-  }
-  #dashpage{
-    z-index: 1;
-    width: 100%;
+    overflow: hidden;
+
+    #nav{
+      height: $height-nav;
+    }
+
+    #dashpage{
+      width: calc(100vw - $width-side);
+      height: calc(100vh - $height-nav);
+      overflow-x: scroll; 
+    }
   }
 }

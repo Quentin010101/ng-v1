@@ -1,0 +1,13 @@
+<div id="container">
+  @if(object){
+    @for(item of object; track item; let i = $index){
+      <div class="chip">
+        <ng-container [ngTemplateOutlet]="iconRef"></ng-container>
+        <p>{{ item.name }}</p>
+        <div class="delete" (click)="deleteObejct(item, i)">
+          <fa-icon [icon]="faXmark"></fa-icon>
+        </div>
+      </div>
+    }
+  }
+</div>

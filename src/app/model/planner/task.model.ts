@@ -14,7 +14,7 @@ export class Task{
     importance!: number
     taskorder!: number
     compartiment!: Compartiment
-    tag!: Tag
+    tags!: Tag[]
     items!: Item[]
     commentaires!: Commentaire[]
 }

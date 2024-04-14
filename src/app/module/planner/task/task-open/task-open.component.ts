@@ -12,6 +12,7 @@ import { PlannerService } from '../../../../service/planner/planner.service';
 import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 import { ItemsComponent } from '../items/items.component';
 import { CommentairesComponent } from '../commentaires/commentaires.component';
+import { Tag } from '../../../../model/planner/tag.model';
 
 @Injectable({
   providedIn: 'root'
@@ -61,7 +62,7 @@ export class TaskOpenComponent {
       progression: new FormControl(task.progression),
       importance: new FormControl(task.importance),
       compartiment: new FormControl(task.compartiment),
-      tag:new FormControl(task.tag),
+      tags: this.createFormArray(task.tags),
       items: this.createFormArray(task.items),
       commentaires: this.createFormArray(task.commentaires),
       dateCreation: new FormControl(task.dateCreation),
@@ -112,6 +113,12 @@ export class TaskOpenComponent {
         })
       }
     }
+  }
+
+  onTaskTagDelete(i: number){
+    let tagArray = this.taskForm.controls['tags'] as FormArray
+    console.log(tagArray)
+    // tagArray.removeAt(i)
   }
 
   

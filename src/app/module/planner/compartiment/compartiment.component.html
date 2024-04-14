@@ -1,4 +1,4 @@
-<div>
+<div id="container">
   <div class="title" (mouseenter)="suppressionActive = true" (mouseleave)="suppressionActive = false">
     @if(compartiment){
       <p>{{ compartiment.name }}</p>
@@ -8,12 +8,11 @@
       <app-creation-task [compartiment]="compartiment"></app-creation-task>
     }
   </div>
-  @if(tasks){
   <div cdkDropList [cdkDropListData]="tasks" (cdkDropListDropped)="drop($event)" id="tasks-container">
        @for(task of tasks; track task){
-       <div id="container-task" cdkDrag>
+       <div id="container-task" cdkDrag #taskElement (cdkDragStarted)="dragStart(taskElement)" >
          <div class="task-menu">
-           <app-task-menu [task]="task"></app-task-menu>
+           <app-task-menu [task]="task" (action)="menuAction($event, taskElement)"></app-task-menu>
          </div>
          <div class="task" (click)="showTask(task)">
            <div class="header">
@@ -33,5 +32,4 @@
        </div>
        }
       </div>
-    }
 </div>

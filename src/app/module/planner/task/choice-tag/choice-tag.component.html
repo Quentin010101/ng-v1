@@ -1,1 +1,17 @@
-<p>choice-tag works!</p>
+<div id="select">
+  <app-select [object]="tags" default="Choose a tag"></app-select>
+  @if(task && task.tags){
+    <app-chips [object]="task.tags" (onDeleteIndex)="onTagDelete($event)">
+      <ng-template #icon>
+        <fa-icon  class="icon-0" [icon]="faTag"></fa-icon>
+      </ng-template>
+    </app-chips>
+  }
+</div>
+<div id="add">
+  <app-text [placeholder]="'Add new Tag'" b_size="border-md">
+    <p icon>
+      <fa-icon  class="icon-1" [icon]="faTags"></fa-icon>
+    </p>
+  </app-text>
+</div>

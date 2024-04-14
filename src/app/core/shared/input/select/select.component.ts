@@ -1,0 +1,14 @@
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-select',
+  standalone: true,
+  imports: [],
+  templateUrl: './select.component.html',
+  styleUrl: './select.component.scss'
+})
+export class SelectComponent {
+  @Input() object!: any[]
+  @Input() default!: string
+
+}

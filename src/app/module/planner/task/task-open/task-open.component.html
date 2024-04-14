@@ -4,10 +4,14 @@
       <form [formGroup]="taskForm">
         <div class="header">
           <h4>{{task.title}}</h4>
-          <h5>Task created {{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
+          <h5>Task created the {{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
         </div>
         <div class="tag">
-          <app-choice-tag></app-choice-tag>
+          <app-choice-tag 
+          [task]="task"
+          (onTaskTagDelete)="onTaskTagDelete($event)"
+          
+          ></app-choice-tag>
         </div>
         <div class="choice">
           <app-choice [choices]="importancesChoice" [selected]="task.importance" (onChangeOutput)="onChangeImportance($event)"></app-choice>

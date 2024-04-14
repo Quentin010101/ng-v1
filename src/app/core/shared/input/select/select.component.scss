@@ -1,0 +1,13 @@
+@import '../../../../../styles/color.scss';
+
+select{
+  background-color: $bg-input-text;
+  color: white;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  cursor: pointer;
+
+  option:hover{
+    box-shadow: 0 0 10px 100px #a318a8 inset;
+  }
+}

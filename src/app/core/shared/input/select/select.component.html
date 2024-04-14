@@ -1,0 +1,12 @@
+<div id="container">
+  @if(object){
+    <select name="select" id="select">
+      @if(default){
+        <option selected>{{ default }}</option>
+      }
+      @for(item of object;track item){
+        <option [value]="item">{{ item.name }}</option>
+      }
+    </select>
+  }
+</div>
