@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { TagService } from '../../../../service/planner/tag.service';
 import { Tag } from '../../../../model/planner/tag.model';
 import { TextComponent } from '../../../../core/shared/input/text/text.component';
@@ -29,10 +29,27 @@ export class ChoiceTagComponent {
   tagsList!: Tag[]
 
   constructor(private _tagService: TagService, private fb: FormBuilder){
-    this._tagService.$tags.subscribe(data => this.tagsList = data)
+    this._tagService.$tags.subscribe(data => 
+      this.tagsList = data
+    )
   }
+
+  public filterTagList(tags: Tag[]): Tag[]{
+    return tags.filter((el)=> {
+      let test = true
+      for(let i = 0; i < this.tags.value.length; i++){
+        if(el.tagId == this.tags.value[i].tagId){
+          test = false
+        }
+      }
+      if(test) return el
+    }
+  )
+  }
+
   ngOnInit(){
     this._tagService.init();
+    console.log(this.tags.value)
   }
   onNewTagInList(name:string){
     if(name.length > 0){
@@ -40,8 +57,9 @@ export class ChoiceTagComponent {
       tag.name = name
       this._tagService.newTag(tag).subscribe()
     }
-    this.buttonAppear()
+    this.inputOpen = false
     this.inputReset.next(true)
+
   }
   onTagSelected(tag: Tag){
     this.tags.push(this.addTagItem(tag))
@@ -54,20 +72,12 @@ export class ChoiceTagComponent {
 
   onClickInputAdd(e: Event){
     e.stopPropagation()
-    this.buttonDisappear()
+    this.inputOpen = true
     this.inputFocus.next(true)
   }
 
   inputClickOutside(){
-    this.buttonAppear()
-  }
-
-  private buttonAppear(){
-    console.log("appear")
-    this.buttonElement.nativeElement.style.zIndex = 3;
-  }
-  private buttonDisappear(){
-    this.buttonElement.nativeElement.style.zIndex = 1;
+    this.inputOpen = false
   }
 
   private addTagItem(tag: Tag): FormGroup {

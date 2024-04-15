@@ -10,6 +10,7 @@
           <app-choice-tag [taskFomrGroup]="taskForm"></app-choice-tag>
         </div>
         <div class="choice">
+          <h6 class="h6-lane">Settings: <span></span></h6>
           <app-choice [choices]="importancesChoice" [selected]="task.importance" (onChangeOutput)="onChangeImportance($event)"></app-choice>
           <app-choice [choices]="progressionsChoice" [selected]="task.progression" (onChangeOutput)="onChangeProgression($event)"></app-choice>
         </div>
@@ -19,6 +20,8 @@
           </textarea>
           <p>{{ text.value.length }} / 250</p>
           <app-items [items]="task.items"></app-items>
+        </div>
+        <div class="commentaire">
           <app-commentaires [commentaires]="task.commentaires"></app-commentaires>
         </div>
       </form>

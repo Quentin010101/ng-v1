@@ -20,6 +20,7 @@ export class TextComponent {
   @Input() placeholder: string = ""
   @Input() size: string = "md"
   @Input() b_size: string = "border-none"
+  @Input() dark: string = "light"
   @Input() focus!: Subject<boolean>;
   @Input() reset!: Subject<boolean>;
 

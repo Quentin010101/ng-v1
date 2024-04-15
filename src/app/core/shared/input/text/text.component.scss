@@ -3,9 +3,9 @@
 #container{
     display: flex;
     gap: 0.15rem;
-    background-color: $bg-input-text;
     padding: 0.4rem;
     border: 1px solid transparent;
+    background-color: $bg-input-text;
     width: 100%;
     input{
         color: white;
@@ -20,6 +20,12 @@
     }
     &.border-md{
       border-radius: 0.25rem;
+    }
+    &.dark{
+      background-color: $bg-input-text-2;
+    }
+    &.light{
+      background-color: $bg-input-text;
     }
 }
 

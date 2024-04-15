@@ -7,7 +7,7 @@ $picker-color: rgb(221, 50, 50);
 
 $color-dark: (
   100:rgb(28, 28, 28),
-  200:rgb(34, 34, 34),
+  200:rgb(40, 40, 40),
   300:rgb(54, 54, 54),
 
 );
@@ -22,7 +22,8 @@ $bg-1: map-get($map: $color-dark, $key: 100);
 $bg-2: map-get($map: $color-dark, $key: 200);
 $bg-3: map-get($map: $color-dark, $key: 300);
 
-$bg-input-text: $bg-1;
+$bg-input-text: $bg-2;
+$bg-input-text-2: $bg-1;
 $bg-sidenav: $bg-1;
 $bg-task: $bg-3;
 $bg: $bg-2; 

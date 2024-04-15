@@ -1,46 +1,55 @@
-@import '../../../../../styles/color.scss';
+@import "../../../../../styles/color.scss";
 
-
-#choice{
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+#choice {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
-#select{
-    app-select{
-        margin-right: 1rem;
-    }
-    display: flex;
-    align-items: center;
+#select {
+  app-select {
+    margin-right: 1rem;
+  }
+  display: flex;
+  align-items: center;
 }
-.tag-container{
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
+.tag-container {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
-#add{
+#add {
+  position: relative;
+
+  .button-add {
+    cursor: pointer;
     position: relative;
-
-    button{
-        position: relative;
-        padding: 0.5rem;
-        width: 100%;
-        display: flex;
-        outline: none;
-        border: none;
-        background-color: $bg-task;
+    padding: 0.5rem;
+    width: 100%;
+    display: flex;
+    outline: none;
+    border: none;
+    background-color: $bg-task;
+    transition: background-color 0.2s;
+    
+    &:hover{
+      background-color: lighten($bg-task, 5%);
     }
+  }
 
-    #button-text{
-        position: relative;
-        display: block;
-        z-index: 3;
-    }
+  #button-text {
+    display: block;
+    position: relative;
+    z-index: 1;
 
-    #app-text{
-        position:absolute;
-        inset: 0;
-        z-index: 2;
+    &.top{
+      z-index: 3;
     }
+  }
+
+  #app-text {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
 }
