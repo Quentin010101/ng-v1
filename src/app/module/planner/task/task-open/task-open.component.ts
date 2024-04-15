@@ -53,7 +53,6 @@ export class TaskOpenComponent {
   }
 
   private setForm(task: Task){
-    console.log(task.taskorder)
     this.taskForm = new FormGroup({
       taskId: new FormControl(task.taskId, Validators.required),
       title: new FormControl(task.title, Validators.required),
@@ -62,7 +61,7 @@ export class TaskOpenComponent {
       progression: new FormControl(task.progression),
       importance: new FormControl(task.importance),
       compartiment: new FormControl(task.compartiment),
-      tags: this.createFormArray(task.tags),
+      tags: this.createTagFormArray(task.tags),
       items: this.createFormArray(task.items),
       commentaires: this.createFormArray(task.commentaires),
       dateCreation: new FormControl(task.dateCreation),
@@ -79,8 +78,21 @@ export class TaskOpenComponent {
     }
     return arr;
   }
+  private createTagFormArray(tags: Tag[]): FormArray{
+    let arr: FormArray = new FormArray<any>([])
+    if(tags){
+      for(let i = 0; i < tags.length; i++){
+        arr.push(new FormGroup({
+          tagId: new FormControl(tags[i].tagId),
+          name: new FormControl(tags[i].name),
+        }))
+      }
+    }
+    return arr;
+  }
 
   closeTask(){
+    console.log("close task")
     if(this.init){
       this.saveTask()
       this.task = null
@@ -117,8 +129,7 @@ export class TaskOpenComponent {
 
   onTaskTagDelete(i: number){
     let tagArray = this.taskForm.controls['tags'] as FormArray
-    console.log(tagArray)
-    // tagArray.removeAt(i)
+    tagArray.removeAt(i)
   }
 
   

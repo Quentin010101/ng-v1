@@ -4,5 +4,7 @@
     </div>
     <input #input [type]="type" [placeholder]="placeholder" (blur)="onblur($event)"
         (focus)="onfocus($event)"
-        (input)="oninput($event)">
+        (input)="oninput($event)"
+        (keydown)="onKeyUp($event)"
+        >
 </div>

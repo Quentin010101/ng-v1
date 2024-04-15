@@ -31,7 +31,6 @@ export class CompartimentComponent {
       if(this.compartiment){
         this.tasks = _taskService.getTasksByCompIdOrdered(this.compartiment.compartimentId)
         if(this.tasks[0] && this.tasks[0].taskId == 1){
-          console.log("test")
           this._taskOpenService.$task.next(this.tasks[0])
         }
       }

@@ -15,6 +15,7 @@ export class TextComponent {
   @ViewChild("container") container!:ElementRef
   @ViewChild("icon") icon!:ElementRef
   @Output() inputEmitter = new EventEmitter<string>()
+  @Output() inputEmitterOnEnter = new EventEmitter<string>()
   @Input() type: string = "text"
   @Input() placeholder: string = ""
   @Input() size: string = "md"
@@ -49,6 +50,12 @@ export class TextComponent {
 
   public oninput(e: Event){
     this.inputEmitter.emit((e.target as HTMLInputElement).value)
+  }
+
+  public onKeyUp(e: KeyboardEvent){
+    if(e.key === 'Enter'){
+      this.inputEmitterOnEnter.emit(this.input.nativeElement.value)
+    }
   }
 
   private addClass(str: string){

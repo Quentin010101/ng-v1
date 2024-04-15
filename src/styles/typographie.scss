@@ -22,3 +22,18 @@ h3{
   top: 1rem;
   z-index: 2;
 }
+.h6-lane{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 200;
+  opacity: 0.8;
+
+  span{
+    opacity: 0.8;
+    display: block;
+    height: 1px;
+    width: 100%;
+    background-color: white;
+  }
+}

@@ -4,21 +4,20 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-chips',
+  selector: 'app-chip',
   standalone: true,
   imports: [FontAwesomeModule,CommonModule],
-  templateUrl: './chips.component.html',
-  styleUrl: './chips.component.scss'
+  templateUrl: './chip.component.html',
+  styleUrl: './chip.component.scss'
 })
-export class ChipsComponent {
-  @Input() object!: any[]
-  @Output() onDelete = new EventEmitter<any>()
-  @Output() onDeleteIndex = new EventEmitter<number>()
+export class ChipComponent {
+  @Input() name!: string
+  @Output() onDelete = new EventEmitter<boolean>()
   @ContentChild('icon',{static: false}) iconRef!: TemplateRef<any>;
   faXmark=faXmark;
 
-  deleteObejct(item: any, i:number){
-    this.onDelete.emit(item)
-    this.onDeleteIndex.emit(i)
+  deleteObejct(e:Event){
+    e.stopPropagation()
+    this.onDelete.emit(true)
   }
 }

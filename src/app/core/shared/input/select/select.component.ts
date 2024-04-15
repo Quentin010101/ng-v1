@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-select',
@@ -10,5 +10,11 @@ import { Component, Input } from '@angular/core';
 export class SelectComponent {
   @Input() object!: any[]
   @Input() default!: string
+  @Output() onSelectOutput = new EventEmitter<any>()
+
+  onSelect(e:Event){
+    let idSelected = (e.target as HTMLInputElement).value
+    this.onSelectOutput.emit(this.object[parseInt(idSelected)])
+  }
 
 }

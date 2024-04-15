@@ -1,0 +1,29 @@
+@import '../../../../../styles/color.scss';
+
+.chip {
+  background-color: $bg;
+  display: flex;
+  gap: 0.1rem;
+  align-items: center;
+  font-size: 0.7em;
+  border: darken(white, 20%) solid 1px;
+  border-radius: 0.25rem;
+  padding: 0.1rem;
+  width: fit-content;
+
+  .delete {
+    border-radius: 100%;
+    width: fit-content;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: lighten($bg, 10%);
+    }
+  }
+
+}

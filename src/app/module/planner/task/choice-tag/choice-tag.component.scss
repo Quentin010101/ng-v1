@@ -1,0 +1,46 @@
+@import '../../../../../styles/color.scss';
+
+
+#choice{
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+#select{
+    app-select{
+        margin-right: 1rem;
+    }
+    display: flex;
+    align-items: center;
+}
+.tag-container{
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+#add{
+    position: relative;
+
+    button{
+        position: relative;
+        padding: 0.5rem;
+        width: 100%;
+        display: flex;
+        outline: none;
+        border: none;
+        background-color: $bg-task;
+    }
+
+    #button-text{
+        position: relative;
+        display: block;
+        z-index: 3;
+    }
+
+    #app-text{
+        position:absolute;
+        inset: 0;
+        z-index: 2;
+    }
+}

@@ -1,0 +1,9 @@
+<div class="chip">
+  @if(name){
+    <ng-container [ngTemplateOutlet]="iconRef"></ng-container>
+    <p>{{ name }}</p>
+    <div class="delete" (click)="deleteObejct($event)">
+      <fa-icon [icon]="faXmark"></fa-icon>
+    </div>
+  }
+</div>

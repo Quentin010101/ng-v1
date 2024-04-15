@@ -1,17 +1,32 @@
-<div id="select">
-  <app-select [object]="tags" default="Choose a tag"></app-select>
-  @if(task && task.tags){
-    <app-chips [object]="task.tags" (onDeleteIndex)="onTagDelete($event)">
-      <ng-template #icon>
-        <fa-icon  class="icon-0" [icon]="faTag"></fa-icon>
-      </ng-template>
-    </app-chips>
-  }
-</div>
-<div id="add">
-  <app-text [placeholder]="'Add new Tag'" b_size="border-md">
-    <p icon>
-      <fa-icon  class="icon-1" [icon]="faTags"></fa-icon>
-    </p>
-  </app-text>
+<div id="choice">
+  <h6 class="h6-lane">Tags: <span></span></h6>
+  <div id="select" [formGroup]="taskFomrGroup">
+    <app-select [object]="tagsList" default="Choose a tag" (onSelectOutput)="onTagSelected($event)"></app-select>
+    <div formArrayName="tags" class="tag-container">
+      @for(item of tags.controls; track item; let i = $index){
+      <app-chip [name]="item.value.name" (onDelete)="onTagDelete(i)">
+        <ng-template #icon>
+          <fa-icon class="icon-0" [icon]="faTag"></fa-icon>
+        </ng-template>
+      </app-chip>
+      }
+    </div>
+  </div>
+  <div id="add">
+    <div id="button-text" #button>
+      <button (click)="onClickInputAdd($event)">
+        <p icon>
+          <fa-icon class="icon-1" [icon]="faTags"></fa-icon>
+        </p>
+        <p>Add a new Tag</p>
+      </button>
+    </div>
+    <div id="app-text" (clickOutside)="inputClickOutside()">
+      <app-text #inputText [focus]="inputFocus" [reset]="inputReset" [placeholder]="'Add a new Tag'" b_size="border-md" (inputEmitterOnEnter)="onNewTagInList($event);" >
+        <p icon>
+          <fa-icon class="icon-1" [icon]="faTags"></fa-icon>
+        </p>
+      </app-text>
+    </div>
+  </div>
 </div>

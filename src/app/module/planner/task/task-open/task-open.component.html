@@ -7,11 +7,7 @@
           <h5>Task created the {{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
         </div>
         <div class="tag">
-          <app-choice-tag 
-          [task]="task"
-          (onTaskTagDelete)="onTaskTagDelete($event)"
-          
-          ></app-choice-tag>
+          <app-choice-tag [taskFomrGroup]="taskForm"></app-choice-tag>
         </div>
         <div class="choice">
           <app-choice [choices]="importancesChoice" [selected]="task.importance" (onChangeOutput)="onChangeImportance($event)"></app-choice>

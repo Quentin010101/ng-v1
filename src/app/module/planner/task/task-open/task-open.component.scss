@@ -16,6 +16,11 @@
     padding: 2rem;
     background-color: $bg-3;
     color: $text-2;
+    min-width: 700px;
+
+    .tag{
+      margin: 0.5rem 0;
+    }
 
     h4{
       font-weight: 500;
