@@ -10,6 +10,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class CheckComponent {
   @Input() checked: boolean = false
+  @Input() id: number = 1
+  @Input() round: boolean = false
   @Output() outputEmitter = new EventEmitter<boolean>()
 
   onChange(e: Event){

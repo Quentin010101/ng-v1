@@ -2,6 +2,12 @@
 
 #container {
     position:relative;
+    width: fit-content;
+
+    label{
+        display:block;
+        width: fit-content;
+    }
 
     input {
         position: absolute;
@@ -11,15 +17,18 @@
         width: 0;
     }
 
-    #checkmark{
+    .checkmark{
         cursor: pointer;
         width: 20px;
         aspect-ratio: 1/1;
         border: 2px solid white;
         border-radius: 0.25rem;
+        &.round{
+            border-radius: 100%;
+        }
     }
 
-    .active#checkmark{
+    .active.checkmark{
         border: 2px solid transparent;
         background-color: $primary-2;
         &::after{

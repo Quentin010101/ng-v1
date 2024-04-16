@@ -1,11 +1,10 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {  Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { TagService } from '../../../../service/planner/tag.service';
 import { Tag } from '../../../../model/planner/tag.model';
 import { TextComponent } from '../../../../core/shared/input/text/text.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTag, faTags } from '@fortawesome/free-solid-svg-icons';
 import { SelectComponent } from '../../../../core/shared/input/select/select.component';
-import { Task } from '../../../../model/planner/task.model';
 import { ChipComponent } from '../../../../core/shared/input/chip/chip.component';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -49,8 +48,8 @@ export class ChoiceTagComponent {
 
   ngOnInit(){
     this._tagService.init();
-    console.log(this.tags.value)
   }
+  
   onNewTagInList(name:string){
     if(name.length > 0){
       let tag = new Tag()

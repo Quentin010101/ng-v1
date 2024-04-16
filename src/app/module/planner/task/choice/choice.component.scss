@@ -1,8 +1,20 @@
 @import '../../../../../styles/color.scss';
 
-select{
-    outline: none;
-    color: $text-2;
-    background-color: $bg-3;
-    padding: 0.25rem;
+#container{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    
+    label{
+        color: $text-5;
+    }
+    select{
+        outline: none;
+        color: $text-2;
+        background-color: $bg-input-text;
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+        cursor: pointer;
+    }
 }
+

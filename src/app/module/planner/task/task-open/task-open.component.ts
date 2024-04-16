@@ -13,6 +13,7 @@ import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animati
 import { ItemsComponent } from '../items/items.component';
 import { CommentairesComponent } from '../commentaires/commentaires.component';
 import { Tag } from '../../../../model/planner/tag.model';
+import { Item } from '../../../../model/planner/item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -62,7 +63,7 @@ export class TaskOpenComponent {
       importance: new FormControl(task.importance),
       compartiment: new FormControl(task.compartiment),
       tags: this.createTagFormArray(task.tags),
-      items: this.createFormArray(task.items),
+      items: this.createItemFormArray(task.items),
       commentaires: this.createFormArray(task.commentaires),
       dateCreation: new FormControl(task.dateCreation),
       dateEcheance: new FormControl(task.dateEcheance),
@@ -85,6 +86,19 @@ export class TaskOpenComponent {
         arr.push(new FormGroup({
           tagId: new FormControl(tags[i].tagId),
           name: new FormControl(tags[i].name),
+        }))
+      }
+    }
+    return arr;
+  }
+  private createItemFormArray(items: Item[]): FormArray{
+    let arr: FormArray = new FormArray<any>([])
+    if(items){
+      for(let i = 0; i < items.length; i++){
+        arr.push(new FormGroup({
+          itemId: new FormControl(items[i].itemId),
+          text: new FormControl(items[i].text),
+          actif: new FormControl(items[i].actif),
         }))
       }
     }

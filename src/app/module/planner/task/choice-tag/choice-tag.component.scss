@@ -19,6 +19,7 @@
   gap: 0.25rem;
 }
 #add {
+  margin-top: 0.25rem;
   position: relative;
 
   .button-add {
@@ -31,6 +32,7 @@
     border: none;
     background-color: $bg-task;
     transition: background-color 0.2s;
+    border-radius: 0.25rem;
     
     &:hover{
       background-color: lighten($bg-task, 5%);

@@ -13,6 +13,9 @@
         border: none;
         outline: none;
         width: 100%;
+        &.strikeThrough{
+          text-decoration: line-through;
+        }
     }
     &.lg{
         gap: 0.25rem;
@@ -24,9 +27,13 @@
     &.dark{
       background-color: $bg-input-text-2;
     }
-    &.light{
+    &.normal{
       background-color: $bg-input-text;
     }
+    &.light{
+      background-color: lighten($bg-input-text, 10%);
+    }
+
 }
 
 .onfocus{

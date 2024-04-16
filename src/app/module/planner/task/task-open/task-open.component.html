@@ -11,15 +11,18 @@
         </div>
         <div class="choice">
           <h6 class="h6-lane">Settings: <span></span></h6>
-          <app-choice [choices]="importancesChoice" [selected]="task.importance" (onChangeOutput)="onChangeImportance($event)"></app-choice>
-          <app-choice [choices]="progressionsChoice" [selected]="task.progression" (onChangeOutput)="onChangeProgression($event)"></app-choice>
+          <div>
+            <app-choice [choices]="importancesChoice" [selected]="task.importance" (onChangeOutput)="onChangeImportance($event)"></app-choice>
+            <app-choice [choices]="progressionsChoice" [selected]="task.progression" (onChangeOutput)="onChangeProgression($event)"></app-choice>
+          </div>
         </div>
         <div class="content">
-          <textarea #text   formControlName="text" maxlength="250">
+          <h6 class="h6-lane">Notes: <span></span></h6>
+          <textarea #text   formControlName="text" maxlength="250" spellcheck="false">
   
           </textarea>
           <p>{{ text.value.length }} / 250</p>
-          <app-items [items]="task.items"></app-items>
+          <app-items [items]="task.items" [taskFomrGroup]="taskForm"></app-items>
         </div>
         <div class="commentaire">
           <app-commentaires [commentaires]="task.commentaires"></app-commentaires>

@@ -1,8 +1,17 @@
 <div id="items-container">
-  @for(item of items; track item){
+  @for(item of itemsList.value; track item; let i = $index){
     <div>
-      <input type="checkbox" [checked]="item.actif">
-      <input type="text" value="{{item.text}}">
+        <app-check [id]="i" [round]="true" [checked]="item.actif" (outputEmitter)="onCheck($event, i);"></app-check>
+        <app-text [strikeThrough]="item.actif" placeholder="New item" [content]="item.text" light="light" b_size="border-md">
+          <icon-pen-to-square icon></icon-pen-to-square>
+        </app-text>
+        <div class="delete" (click)="deleteItem($event,i)">
+          <icon-delete [hover]="true" ></icon-delete>
+        </div>
     </div>
   }
+  <div class="button-add" (click)="addNewItem($event)">
+    <fa-icon [icon]="faPlus"></fa-icon>
+    <p>Add a new Item</p>
+  </div>
 </div>

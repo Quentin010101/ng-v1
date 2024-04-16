@@ -1,0 +1,35 @@
+@import '../../../../../styles/color.scss';
+
+#items-container{
+    margin-top: 0.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    &>div{
+        width: 100%;
+        display:flex;
+        align-items: center;
+        gap: 1rem;
+        app-text{
+            width: 100%;
+        }
+        .delete{
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+            &:hover{
+                opacity: 1;
+            }
+        }
+    }
+    .button-add{
+        margin: 0.25rem 0;
+        transition: background-color 0.2s;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        &:hover{
+            background-color: lighten($bg-3,5%);
+        }
+    }
+}

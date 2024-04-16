@@ -16,11 +16,13 @@ export class TextComponent {
   @ViewChild("icon") icon!:ElementRef
   @Output() inputEmitter = new EventEmitter<string>()
   @Output() inputEmitterOnEnter = new EventEmitter<string>()
+  @Input() content: string = ""
   @Input() type: string = "text"
   @Input() placeholder: string = ""
   @Input() size: string = "md"
   @Input() b_size: string = "border-none"
-  @Input() dark: string = "light"
+  @Input() light: string = "normal"
+  @Input() strikeThrough: boolean = false
   @Input() focus!: Subject<boolean>;
   @Input() reset!: Subject<boolean>;
 
