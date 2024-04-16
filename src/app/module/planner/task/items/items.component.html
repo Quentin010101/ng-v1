@@ -2,7 +2,7 @@
   @for(item of itemsList.value; track item; let i = $index){
     <div>
         <app-check [id]="i" [round]="true" [checked]="item.actif" (outputEmitter)="onCheck($event, i);"></app-check>
-        <app-text [strikeThrough]="item.actif" placeholder="New item" [content]="item.text" light="light" b_size="border-md">
+        <app-text [focus]="inputFocus" [strikeThrough]="item.actif" placeholder="New item" [content]="item.text" light="light" b_size="border-md" (inputEmitterOnEnter)="saveItem($event,i)" (inputEmitterOnBlur)="saveItem($event,i)">
           <icon-pen-to-square icon></icon-pen-to-square>
         </app-text>
         <div class="delete" (click)="deleteItem($event,i)">
@@ -10,8 +10,8 @@
         </div>
     </div>
   }
-  <div class="button-add" (click)="addNewItem($event)">
+  <button class="button-add" (click)="addNewItemControl($event)" [disabled]="addItemDisabled">
     <fa-icon [icon]="faPlus"></fa-icon>
     <p>Add a new Item</p>
-  </div>
+  </button>
 </div>

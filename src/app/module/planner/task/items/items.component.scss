@@ -24,12 +24,21 @@
         }
     }
     .button-add{
+      display: flex;
+      align-items: center;
         margin: 0.25rem 0;
         transition: background-color 0.2s;
         border-radius: 0.25rem;
         cursor: pointer;
         &:hover{
             background-color: lighten($bg-3,5%);
+        }
+        &:disabled{
+          color: $text-5;
+          cursor: auto;
+        }
+        &:disabled:hover{
+          background-color: $bg-3;
         }
     }
 }

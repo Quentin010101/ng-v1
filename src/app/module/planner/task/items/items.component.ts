@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Item } from '../../../../model/planner/item.model';
 import { CheckComponent } from '../../../../core/shared/input/check/check.component';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,6 +11,7 @@ import { IconDeleteComponent } from '../../../../core/shared/icon/delete/icon-de
 import { IconPenToSquareComponent } from '../../../../core/shared/icon/icon-pen-to-square/icon-pen-to-square.component';
 import { ClickOutsideDirective } from '../../../../z-other/click-outside.directive';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-items',
@@ -22,13 +23,21 @@ import { CommonModule } from '@angular/common';
 export class ItemsComponent {
   @Input() items: Item[] = []
   @Input() taskFomrGroup!: FormGroup
+  @ViewChild("arrayItem") arrayItem!: ElementRef
   faTrashCan=faTrashCan as IconProp
   faTrash=faTrash
   faPlus=faPlus
+  addItemDisabled:boolean = false
+  inputFocus: Subject<boolean> = new Subject()
 
 
   ngOnInit(){
+    this.itemsList.statusChanges.subscribe(result =>{
+      if(result === 'VALID') this.addItemDisabled = false
+    })
   }
+
+
 
   get itemsList(): FormArray { return this.taskFomrGroup.get('items') as FormArray; }
 
@@ -40,6 +49,14 @@ export class ItemsComponent {
       actif: new FormControl(item.actif),
     })
   }
+
+  public saveItem(str: string,index: number){
+    let item: Item = this.itemsList.at(index).value
+    item.text = str
+    this.itemsList.setControl(index,this.addItem(item))
+    this.taskFomrGroup.markAsDirty()
+  }
+
   public deleteItem(e:Event,index: number){
     e.stopPropagation()
     this.itemsList.removeAt(index)
@@ -48,17 +65,20 @@ export class ItemsComponent {
 
   public onCheck(checked: boolean, index: number){
     let item: Item = this.itemsList.at(index).value
-    this.itemsList.updateOn
     item.actif = checked
     this.itemsList.setControl(index,this.addItem(item))
+    this.taskFomrGroup.markAsDirty()
   }
 
-  public addNewItem(e:Event){
-    console.log(this.itemsList.invalid)
+  public addNewItemControl(e:Event){
     let item = new Item()
     item.actif= false
     item.text=''
     this.itemsList.push(this.addItem(item))
+    this.addItemDisabled = true
+    setTimeout(()=>{
+      this.inputFocus.next(true)
+    }, 10)
   }
 
 

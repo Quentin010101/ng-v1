@@ -1,4 +1,4 @@
-<div id="container" (mouseover)="onmouseover()" (mouseleave)="onmouseleave()">
+<div id="container" (mouseenter)="onmouseover()" (mouseout)="onmouseleave()">
     @if(hover){
         <div class="onhover">
             <ng-content select="[icon1]"></ng-content>
