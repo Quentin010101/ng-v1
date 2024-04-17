@@ -1,8 +1,12 @@
-<div id="commentaires-container" [formGroup]="taskFomrGroup">
+<div id="commentaires-container">
   <h6 class="h6-lane">Commentaire: <span></span></h6>
-  <div formArrayName="commentaires">
+  <textarea placeholder="Add a new comment"></textarea>
+  <div>
     @for(comm of commentairesList.value; track comm){
-      {{ comm.text }}
+      <div>
+        <p id="date">{{ comm.dateCreation | date: 'dd MMMM, y' }} at {{ comm.dateCreation | date: 'shortTime' }}</p>
+        <p>{{ comm.text }}</p>
+      </div>
     }
   </div>
 </div>

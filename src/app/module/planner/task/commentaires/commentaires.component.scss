@@ -1,0 +1,17 @@
+@import '../../../../../styles/color.scss';
+
+textarea{
+    background-color: $bg-input-text;
+    color: $text-4;
+    resize: none;
+    width: 100%;
+    border-radius: 0.25rem;
+    height: 75px;
+    padding: 0.5rem;
+    border: 1px transparent solid;
+    outline: none;
+    &:focus{
+      outline: none;
+      border: 1px $text-4 solid;
+    }
+  }

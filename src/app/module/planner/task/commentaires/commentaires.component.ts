@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Commentaire } from '../../../../model/planner/commentaire.model';
 
 @Component({
   selector: 'app-commentaires',
@@ -16,12 +17,18 @@ export class CommentairesComponent {
     return this.taskFomrGroup.get('commentaires') as FormArray
   }
 
-  public addCommentaire(){
-
+  private addCommentaire(commentaire: Commentaire){
+    this.commentairesList.push(new FormGroup({
+      commentaireId: new FormControl(commentaire.commentaireId),
+      text: new FormControl(commentaire.text),
+      dateCreation: new FormControl(commentaire.dateCreation),
+    }))
+    this.taskFomrGroup.markAsDirty()
   }
 
-  public deleteCommentaire(){
-
+  public deleteCommentaire(index: number){
+    this.commentairesList.removeAt(index);
+    this.taskFomrGroup.markAsDirty()
   }
 
 
