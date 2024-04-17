@@ -1,4 +1,4 @@
-<div id="container">
+<div id="container" [ngClass]="size">
     <label [for]="'check' + id">
         <input [id]="'check' + id" type="checkbox" [checked]="checked" (change)="onChange($event)">
         <div class="checkmark" [ngClass]="{'active': checked, 'round':round}"></div>

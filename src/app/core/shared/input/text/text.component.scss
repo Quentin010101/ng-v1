@@ -21,6 +21,13 @@
         gap: 0.25rem;
         padding: 0.75rem 0.5rem !important;
     }
+    &.sm{
+      gap: 0.10rem;
+      padding: 0.2rem 0.2rem !important;
+      input{
+          font-size: 0.7em;
+      }
+    }
     &.border-md{
       border-radius: 0.25rem;
     }
@@ -31,6 +38,9 @@
       background-color: $bg-input-text;
     }
     &.light{
+      input{
+        color: $text-3;
+      }
       background-color: lighten($bg-input-text, 10%);
     }
 

@@ -22,10 +22,10 @@
   
           </textarea>
           <p>{{ text.value.length }} / 250</p>
-          <app-items [items]="task.items" [taskFomrGroup]="taskForm"></app-items>
+          <app-items [taskFomrGroup]="taskForm"></app-items>
         </div>
         <div class="commentaire">
-          <app-commentaires [commentaires]="task.commentaires"></app-commentaires>
+          <app-commentaires [taskFomrGroup]="taskForm"></app-commentaires>
         </div>
       </form>
     </div>

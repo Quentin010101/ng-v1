@@ -12,6 +12,7 @@ export class CheckComponent {
   @Input() checked: boolean = false
   @Input() id: number = 1
   @Input() round: boolean = false
+  @Input() size: string = ""
   @Output() outputEmitter = new EventEmitter<boolean>()
 
   onChange(e: Event){

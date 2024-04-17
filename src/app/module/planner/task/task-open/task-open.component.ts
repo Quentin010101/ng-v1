@@ -14,6 +14,7 @@ import { ItemsComponent } from '../items/items.component';
 import { CommentairesComponent } from '../commentaires/commentaires.component';
 import { Tag } from '../../../../model/planner/tag.model';
 import { Item } from '../../../../model/planner/item.model';
+import { Commentaire } from '../../../../model/planner/commentaire.model';
 
 @Injectable({
   providedIn: 'root'
@@ -64,17 +65,21 @@ export class TaskOpenComponent {
       compartiment: new FormControl(task.compartiment),
       tags: this.createTagFormArray(task.tags),
       items: this.createItemFormArray(task.items),
-      commentaires: this.createFormArray(task.commentaires),
+      commentaires: this.createCommentaireFormArray(task.commentaires),
       dateCreation: new FormControl(task.dateCreation),
       dateEcheance: new FormControl(task.dateEcheance),
   })
   }
 
-  private createFormArray(cible: any): FormArray{
+  private createCommentaireFormArray(commentaires: Commentaire[]): FormArray{
     let arr: FormArray = new FormArray<any>([])
-    if(cible){
-      for(let i = 0; i < cible.length; i++){
-        arr.push(new FormControl(cible[i]))
+    if(commentaires){
+      for(let i = 0; i < commentaires.length; i++){
+        arr.push(new FormGroup({
+          commentaireId: new FormControl(commentaires[i].commentaireId),
+          text: new FormControl(commentaires[i].text),
+          dateCreation: new FormControl(commentaires[i].dateCreation),
+        }))
       }
     }
     return arr;
@@ -128,23 +133,15 @@ export class TaskOpenComponent {
   }
 
   private saveTask(){
-    console.log(this.taskForm)
     if(!this.taskForm.invalid){
-      console.log("2")
       if(this.taskForm.dirty){
         let task: Task = Object.assign(new Task(), this.taskForm.value);
-        console.log(task)
         this._taskService.update(task).subscribe((data)=>{
-          console.log(data)
         })
       }
     }
   }
 
-  onTaskTagDelete(i: number){
-    let tagArray = this.taskForm.controls['tags'] as FormArray
-    tagArray.removeAt(i)
-  }
 
   
 }

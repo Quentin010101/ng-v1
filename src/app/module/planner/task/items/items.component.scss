@@ -1,44 +1,53 @@
 @import '../../../../../styles/color.scss';
 
-#items-container{
+#items-container {
     margin-top: 0.5rem;
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    &>div{
+
+    #array>div {
         width: 100%;
-        display:flex;
+        display: flex;
         align-items: center;
-        gap: 1rem;
-        app-text{
+        gap: 0.5rem;
+
+        app-text {
             width: 100%;
         }
-        .delete{
+
+        .delete {
             cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-            &:hover{
-                opacity: 1;
-            }
         }
     }
-    .button-add{
-      display: flex;
-      align-items: center;
+
+    .control {
+        font-size: 0.8em;
+        color: $text-5;
+        margin-bottom: 0.25rem;
+        font-weight: 500;
+    }
+
+    .button-add {
+        display: flex;
+        align-items: center;
         margin: 0.25rem 0;
         transition: background-color 0.2s;
         border-radius: 0.25rem;
         cursor: pointer;
-        &:hover{
-            background-color: lighten($bg-3,5%);
+
+        &:hover {
+            background-color: lighten($bg-3, 5%);
         }
-        &:disabled{
-          color: $text-5;
-          cursor: auto;
+
+        &:disabled {
+            color: $text-5;
+            cursor: auto;
         }
-        &:disabled:hover{
-          background-color: $bg-3;
+
+        &:disabled:hover {
+            background-color: $bg-3;
         }
     }
 }

@@ -6,12 +6,13 @@ import { TextComponent } from '../../../../core/shared/input/text/text.component
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faTrashCan   } from '@fortawesome/free-regular-svg-icons';
-import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPlus, faTag } from '@fortawesome/free-solid-svg-icons';
 import { IconDeleteComponent } from '../../../../core/shared/icon/delete/icon-delete.component';
 import { IconPenToSquareComponent } from '../../../../core/shared/icon/icon-pen-to-square/icon-pen-to-square.component';
 import { ClickOutsideDirective } from '../../../../z-other/click-outside.directive';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
+import { ChipComponent } from '../../../../core/shared/input/chip/chip.component';
 
 @Component({
   selector: 'app-items',
@@ -21,12 +22,11 @@ import { Subject } from 'rxjs';
   styleUrl: './items.component.scss'
 })
 export class ItemsComponent {
-  @Input() items: Item[] = []
   @Input() taskFomrGroup!: FormGroup
-  @ViewChild("arrayItem") arrayItem!: ElementRef
   faTrashCan=faTrashCan as IconProp
   faTrash=faTrash
   faPlus=faPlus
+  faTag=faTag
   addItemDisabled:boolean = false
   inputFocus: Subject<boolean> = new Subject()
 
@@ -39,7 +39,9 @@ export class ItemsComponent {
 
 
 
-  get itemsList(): FormArray { return this.taskFomrGroup.get('items') as FormArray; }
+  get itemsList(): FormArray { 
+    return this.taskFomrGroup.get('items') as FormArray;
+   }
 
 
   private addItem(item:Item){
@@ -51,6 +53,7 @@ export class ItemsComponent {
   }
 
   public saveItem(str: string,index: number){
+    console.log("dirty")
     let item: Item = this.itemsList.at(index).value
     item.text = str
     this.itemsList.setControl(index,this.addItem(item))
@@ -58,12 +61,14 @@ export class ItemsComponent {
   }
 
   public deleteItem(e:Event,index: number){
+    console.log("dirty")
     e.stopPropagation()
     this.itemsList.removeAt(index)
     this.taskFomrGroup.markAsDirty()
   }
 
   public onCheck(checked: boolean, index: number){
+    console.log("dirty")
     let item: Item = this.itemsList.at(index).value
     item.actif = checked
     this.itemsList.setControl(index,this.addItem(item))
@@ -71,6 +76,7 @@ export class ItemsComponent {
   }
 
   public addNewItemControl(e:Event){
+    console.log("t")
     let item = new Item()
     item.actif= false
     item.text=''
@@ -79,6 +85,10 @@ export class ItemsComponent {
     setTimeout(()=>{
       this.inputFocus.next(true)
     }, 10)
+  }
+
+  public getActiveList(): number{
+    return this.itemsList.getRawValue().filter((el)=> el.actif == true).length
   }
 
 
