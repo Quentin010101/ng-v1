@@ -8,7 +8,8 @@ import { NotfoundComponent } from './core/shared/notfound/notfound.component';
 import { SettingsComponent } from './core/settings/settings.component';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { faPenClip } from '@fortawesome/free-solid-svg-icons';
-import { faGear } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { AdminComponent } from './module/admin/admin/admin.component';
 
 export const routes: Routes = [
     {path: 'login', component: AuthenticationComponent},
@@ -30,6 +31,11 @@ export const routes: Routes = [
         {
             path: 'settings', component: SettingsComponent, data: {
               icon: faGear, text: 'settings'
+            }
+        },
+        {
+            path: 'admin', component: AdminComponent, data: {
+              icon: faUsers, text: 'admin'
             }
         },
     ]},

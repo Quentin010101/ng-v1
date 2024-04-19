@@ -10,6 +10,7 @@ import { Component, Input } from '@angular/core';
 })
 export class TooltipComponent {
   @Input() text: string = '';
+  @Input() size: string = '';
   @Input() position: string = 'top';
   isVisible: boolean = false;
 

@@ -1,6 +1,6 @@
 <div
   class="tooltip"
-  [ngClass]="{'top': position === 'top', 'bottom': position === 'bottom', 'left': position === 'left', 'right': position === 'right'}"
+  [ngClass]="{'top': position === 'top', 'bottom': position === 'bottom', 'left': position === 'left', 'right': position === 'right', 'sm' : size === 'sm'}"
   [ngStyle]="{'display': isVisible ? 'block' : 'none'}"
 >
   {{ text }}

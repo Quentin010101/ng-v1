@@ -11,6 +11,11 @@
     box-shadow: 2px 3px 4px $bg;
     z-index: 10;
     text-wrap: nowrap;
+
+    &.sm{
+      padding: 0.3rem;
+      font-size: 0.7em;
+    }
   }
   
   .top {

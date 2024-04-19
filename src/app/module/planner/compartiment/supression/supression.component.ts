@@ -4,11 +4,12 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { CompartimentService } from '../../../../service/planner/compartiment.service';
 import { MessageService } from '../../../../service/message.service';
 import { Message } from '../../../../model/message.model';
+import { TooltipComponent } from '../../../../core/shared/tooltip/tooltip.component';
 
 @Component({
   selector: 'app-supression-compartiment',
   standalone: true,
-  imports: [FontAwesomeModule],
+  imports: [FontAwesomeModule, TooltipComponent],
   templateUrl: './supression.component.html',
   styleUrl: './supression.component.scss'
 })

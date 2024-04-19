@@ -1,5 +1,8 @@
-<div id="delete" (click)="deleteCompartiment()">
-  <div #icon>
-    <fa-icon [icon]="faTrashCan" class="icon-0"></fa-icon>
+<div>
+  <app-tooltip #tool text="delete this compartiment" size="sm" position="right"></app-tooltip>
+  <div id="delete" (click)="deleteCompartiment()" (mouseover)="tool.showTooltip()" (mouseleave)="tool.hideTooltip()">
+    <div #icon>
+      <fa-icon [icon]="faTrashCan" class="icon-0"></fa-icon>
+    </div>
   </div>
 </div>

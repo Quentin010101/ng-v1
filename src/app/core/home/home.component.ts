@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AdministrationService } from '../../service/administration.service';
 
 @Component({
   selector: 'app-home',
@@ -9,8 +10,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-
-
-
-  
+ 
 }
