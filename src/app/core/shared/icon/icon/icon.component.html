@@ -1,5 +1,5 @@
 <div id="container" (mouseover)="onmouseover()" (mouseout)="onmouseleave()">
-        <div class="i2">
+        <div [ngClass]="{'i2':true , 'color':color}">
             <ng-content select="[icon1]"></ng-content>
         </div>
         <div class="i1">

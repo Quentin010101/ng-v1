@@ -11,11 +11,14 @@ import { PlannerService } from '../../../service/planner/planner.service';
 import { TaskCreationComponent } from '../task/creation/creation.component';
 import { SupressionComponent } from './supression/supression.component';
 import { CloseableService } from '../../../service/utils/closeable.service';
+import { ChipComponent } from '../../../core/shared/input/chip/chip.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faTag } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-compartiment',
   standalone: true,
-  imports: [ DragDropModule,CommonModule,TaskMenuComponent,DateComponent,ShowChoiceComponent,TaskCreationComponent, SupressionComponent],
+  imports: [ DragDropModule,CommonModule,TaskMenuComponent,DateComponent,ShowChoiceComponent,TaskCreationComponent, SupressionComponent,ChipComponent,FontAwesomeModule],
   templateUrl: './compartiment.component.html',
   styleUrl: './compartiment.component.scss',
   animations: []
@@ -25,14 +28,12 @@ export class CompartimentComponent {
   @Input() compartiment!: Compartiment
   suppressionActive: boolean = false
   tasks: Task[] = []
-
+  faTag = faTag
+  
   constructor(private _taskOpenService: TaskOpenService, private _taskService: PlannerService, private _closeableService: CloseableService){
     _taskService.$tasksContainer.subscribe(data => {
       if(this.compartiment){
         this.tasks = _taskService.getTasksByCompIdOrdered(this.compartiment.compartimentId)
-        if(this.tasks[0] && this.tasks[0].taskId == 1){
-          this._taskOpenService.$task.next(this.tasks[0])
-        }
       }
     })
   }

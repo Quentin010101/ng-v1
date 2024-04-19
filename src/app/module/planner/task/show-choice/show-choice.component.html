@@ -1,27 +1,29 @@
-<div class="container">
+<div id="container">
   @if(progression){
+    <app-tooltip #tool [text]="getProgression(progression)" position="right"></app-tooltip>
     @if(progression == 2){
-      <fa-icon [icon]="faCircleHalfStroke"></fa-icon>
+      <fa-icon [icon]="faCircle" class="ico-primary" (mouseover)="tool.showTooltip()" (mouseout)="tool.hideTooltip()"></fa-icon>
     }
     @if(progression == 3){
-      <fa-icon [icon]="faCircleHalfStroke"></fa-icon>
+      <fa-icon [icon]="faCircleHalfStroke" class="ico-primary" (mouseover)="tool.showTooltip()" (mouseout)="tool.hideTooltip()"></fa-icon>
     }
     @if(progression == 4){
-      <fa-icon [icon]="faCircle"></fa-icon>
+      <fa-icon [icon]="faCircle2" class="ico-primary" (mouseover)="tool.showTooltip()" (mouseout)="tool.hideTooltip()"></fa-icon>
     }
   }
   @if(importance){
+    <app-tooltip #tool2 [text]="getImportance(importance)" position="right"></app-tooltip>
     @if(importance == 2){
-      <fa-icon [icon]="faBell"></fa-icon>
+      <fa-icon [icon]="faTemperatureFull" class="ico-invalide" (mouseover)="tool2.showTooltip()" (mouseout)="tool2.hideTooltip()"></fa-icon>
     }
     @if(importance == 3){
-      <fa-icon [icon]="faBell"></fa-icon>
+      <fa-icon [icon]="faTemperatureHalf" class="ico-valide-3" (mouseover)="tool2.showTooltip()" (mouseout)="tool2.hideTooltip()"></fa-icon>
     }
     @if(importance == 4){
-      <fa-icon [icon]="faBell"></fa-icon>
+      <fa-icon [icon]="faTemperatureQuarter" class="ico-valide-2" (mouseover)="tool2.showTooltip()" (mouseout)="tool2.hideTooltip()"></fa-icon>
     }
     @if(importance == 5){
-      <fa-icon [icon]="faBell"></fa-icon>
+      <fa-icon [icon]="faTemperatureEmpty" class="ico-valide" (mouseover)="tool2.showTooltip()" (mouseout)="tool2.hideTooltip()"></fa-icon>
     }
   }
 </div>

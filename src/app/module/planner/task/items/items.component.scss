@@ -7,19 +7,26 @@
     flex-direction: column;
     gap: 0.25rem;
 
-    #array>div {
-        width: 100%;
+    #array{
         display: flex;
-        align-items: center;
-        gap: 0.5rem;
+        flex-direction: column;
+        gap: 0.25rem;
 
-        app-text {
+        &>div {
             width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+    
+            app-text {
+                width: 100%;
+            }
+    
+            .delete {
+                cursor: pointer;
+            }
         }
 
-        .delete {
-            cursor: pointer;
-        }
     }
 
     .control {
@@ -31,11 +38,14 @@
 
     .button-add {
         display: flex;
+        gap: 0.5rem;
         align-items: center;
         margin: 0.25rem 0;
         transition: background-color 0.2s;
         border-radius: 0.25rem;
         cursor: pointer;
+        font-size: 0.9em;
+        padding: 0.5rem;
 
         &:hover {
             background-color: lighten($bg-3, 5%);

@@ -1,7 +1,7 @@
 <div class="menu" (clickOutside)="clickOutside($event)">
-  <button (click)="menuClick($event)" class="button-menu">
-    <fa-icon [icon]="faEllipsis"></fa-icon>
-  </button>
+    <button (click)="menuClick($event)" class="button-menu">
+      <fa-icon [icon]="faEllipsis"></fa-icon>
+    </button>
   @if(menuOpen){
   <div class="item-container">
     <button (click)="deleteTask($event)"><fa-icon [icon]="faTrash"></fa-icon>delete</button>

@@ -8,11 +8,15 @@
     justify-content: center;
     align-items: center;
     .i1{
-        display: block;
+        height: fit-content;
+        display: flex;
+        align-items: center;
     }
     .i2{
-        color: $primary-2;
-        display: none
+        display: none;
+        &.color{
+            color: $primary-2;
+        }
     }
     
     &:hover{

@@ -2,10 +2,11 @@
   <div  [ngClass]="{'picker': true, 'active' : date!=null}" (click)="input.showPicker()">
     @if(date){
       <span>{{ date  | date : 'dd-MM' }}</span>
+      <fa-icon class="icon-1" [icon]="faCalendarCheck"></fa-icon>
     }@else{
       <span>Echeance</span>
+      <fa-icon class="icon-1" [icon]="faCalendar"></fa-icon>
     }
-    <fa-icon class="icon-1" [icon]="faCalendar"></fa-icon>
   </div>
   <input #input type="date" (change)="onChange($event)"  value="{{ date | date : 'YYYY-MM-dd' }}" min="{{ today | date : 'YYYY-MM-dd' }}">
 </div>

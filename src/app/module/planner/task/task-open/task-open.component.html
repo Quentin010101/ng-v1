@@ -1,10 +1,10 @@
 @if(task){
   <div id="task-overlay">
     <div id="task" (clickOutside)="closeTask()" @fadeInOnEnter @fadeOutOnLeave>
-      <form [formGroup]="taskForm">
+      <form [formGroup]="taskForm" class="form-task">
         <div class="header">
           <h4>{{task.title}}</h4>
-          <h5>Task created the {{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
+          <h5>Task created the <span>{{task.dateCreation | date: 'dd MMMM yyyy' }}</span></h5>
         </div>
         <div class="tag">
           <app-choice-tag [taskFomrGroup]="taskForm"></app-choice-tag>
@@ -18,9 +18,7 @@
         </div>
         <div class="content">
           <h6 class="h6-lane">Notes: <span></span></h6>
-          <textarea #text   formControlName="text" maxlength="250" spellcheck="false">
-  
-          </textarea>
+          <textarea #text formControlName="text" maxlength="250" spellcheck="false"></textarea>
           <p>{{ text.value.length }} / 250</p>
           <app-items [taskFomrGroup]="taskForm"></app-items>
         </div>

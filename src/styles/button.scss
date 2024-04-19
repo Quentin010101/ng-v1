@@ -29,6 +29,25 @@ button.validation{
     color: rgb(170, 170, 170)
   }
 }
+button.validation1{
+  width: fit-content;
+  background-color: $bg-3;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s;
+  border-radius: 0.25rem;
+  border: 1px solid lighten($color: $bg-3, $amount: 10%);
+
+  &:hover{
+    background-color: lighten($color: $bg-3, $amount: 10%);
+  }
+  &:disabled{
+    cursor: default;
+    color: $text-5;
+  }
+  &:disabled:hover{
+    background-color: $bg-3;
+  }
+}
 button.validation.lg{
   padding: 1rem 0.75rem  !important;
   font-size: 1.05em !important;

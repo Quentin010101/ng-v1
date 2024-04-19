@@ -18,14 +18,27 @@
            <div class="header">
              <h4>{{task.title | titlecase }}</h4>
              <h5>{{task.dateCreation | date: 'dd MMMM yyyy' }}</h5>
+             @if(task.tags){
+              <div class="tag-flex">
+                @for(tag of task.tags; track tag){
+                  <app-chip [name]="tag.name" [actif]="false">
+                    <ng-template #icon>
+                      <fa-icon class="icon-0" [icon]="faTag"></fa-icon>
+                    </ng-template>
+                  </app-chip>
+                }
+              </div>
+             }
            </div>
            <div class="content">
              <p>{{ task.text }}</p>
            </div>
            <div class="lane"></div>
            <div class="footer">
-             <app-show-choice [importance]="task.importance"></app-show-choice>
-             <app-show-choice [progression]="task.progression"></app-show-choice>
+            <div class="icon">
+              <app-show-choice [importance]="task.importance"></app-show-choice>
+              <app-show-choice [progression]="task.progression"></app-show-choice>
+            </div>
              <app-date [date]="task.dateEcheance" (dateEmit)="onDateEcheanceChange($event, task)"></app-date>
            </div>
          </div>

@@ -14,12 +14,12 @@
   </div>
   <div id="add">
     <div id="button-text" [ngClass]="{'top':!inputOpen}">
-      <div class="button-add" (click)="onClickInputAdd($event)">
+      <button class="button-add" (click)="onClickInputAdd($event)">
         <p icon>
           <fa-icon class="icon-1" [icon]="faTags"></fa-icon>
         </p>
         <p>Add a new Tag</p>
-      </div>
+      </button>
     </div>
     <div id="app-text" (clickOutside)="inputClickOutside()">
       <app-text #inputText [focus]="inputFocus" [reset]="inputReset" [placeholder]="'Add a new Tag'" b_size="border-md"

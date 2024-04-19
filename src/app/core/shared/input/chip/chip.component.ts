@@ -12,6 +12,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 })
 export class ChipComponent {
   @Input() name!: string
+  @Input() actif: boolean = true
   @Output() onDelete = new EventEmitter<boolean>()
   @ContentChild('icon',{static: false}) iconRef!: TemplateRef<any>;
   faXmark=faXmark;

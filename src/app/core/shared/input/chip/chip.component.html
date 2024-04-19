@@ -1,9 +1,11 @@
-<div class="chip">
+<div [ngClass]="{'chip':true, 'actif':actif}">
   @if(name){
     <ng-container [ngTemplateOutlet]="iconRef"></ng-container>
     <p>{{ name }}</p>
-    <div class="delete" (click)="deleteObejct($event)">
-      <fa-icon [icon]="faXmark"></fa-icon>
-    </div>
+    @if(actif){
+      <div class="delete" (click)="deleteObejct($event)">
+        <fa-icon [icon]="faXmark"></fa-icon>
+      </div>
+    }
   }
 </div>

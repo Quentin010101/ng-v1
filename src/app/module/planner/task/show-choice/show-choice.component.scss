@@ -1,0 +1,24 @@
+@import '../../../../../styles/color.scss';
+
+#container{
+    position: relative;
+    width: fit-content;
+    fa-icon{
+        padding: 0.25rem !important;
+    }
+    .ico-primary{
+        color: $primary-2;
+    }
+    .ico-invalide{
+        color: $color-invalide;
+    }
+    .ico-valide{
+        color: $color-valide;
+    }
+    .ico-valide-2{
+        color: $color-valide-2;
+    }
+    .ico-valide-3{
+        color: $color-invalide-2;
+    }
+}

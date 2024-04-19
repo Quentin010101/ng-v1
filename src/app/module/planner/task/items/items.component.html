@@ -1,7 +1,7 @@
 <div id="items-container"  [formGroup]="taskFomrGroup">
+  @if(itemsList.getRawValue().length > 0){
   <p class="control">Controls List {{getActiveList() }}/{{ itemsList.value.length }}:</p>
   <div formArrayName="items" id="array">
-    @if(itemsList.getRawValue().length > 0){
       @for(item of itemsList.value; track item; let i = $index){
         <div>
             <app-check size="sm" [id]="i" [round]="true" [checked]="item.actif" (outputEmitter)="onCheck($event, i);"></app-check>
@@ -13,8 +13,8 @@
             </div>
         </div>
       }
-    }
-  </div>
+    </div>
+  }
   <button class="button-add" (click)="addNewItemControl($event)" [disabled]="addItemDisabled">
     <fa-icon [icon]="faPlus"></fa-icon>
     <p>Add a new Item</p>

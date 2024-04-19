@@ -1,5 +1,7 @@
 
 $color-valide: green;
+$color-valide-2: rgb(126, 128, 0);
+$color-invalide-2: rgb(221, 147, 50);
 $color-invalide: rgb(221, 50, 50);
 
 $picker-color: rgb(221, 50, 50);
@@ -78,6 +80,4 @@ $text-5: rgb(170,170,170);
   background-color: $primary-3
 }
 
-fa-icon{
-  padding: 0.5rem;
-}
+

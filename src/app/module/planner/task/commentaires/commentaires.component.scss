@@ -1,17 +1,56 @@
 @import '../../../../../styles/color.scss';
 
-textarea{
-    background-color: $bg-input-text;
-    color: $text-4;
-    resize: none;
-    width: 100%;
-    border-radius: 0.25rem;
-    height: 75px;
-    padding: 0.5rem;
-    border: 1px transparent solid;
-    outline: none;
-    &:focus{
+
+#commentaires-container{
+  textarea{
+      background-color: $bg-input-text;
+      color: $text-4;
+      resize: none;
+      width: 100%;
+      border-radius: 0.25rem;
+      height: 75px;
+      padding: 0.5rem;
+      border: 1px transparent solid;
       outline: none;
-      border: 1px $text-4 solid;
+      &:focus{
+        outline: none;
+        border: 1px $text-4 solid;
+      }
     }
-  }
+  
+    #comments{
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap:1rem;
+    }
+  
+    .date{
+      text-align: end;
+      font-size: 0.7em;
+      font-style: italic;
+      color: $text-5;
+    }
+    .text-container{
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      .delete{
+        cursor: pointer;
+      }
+
+      .text{
+        font-size: 0.85em;
+      }
+    }
+    .button-container{
+      text-align: end;
+      padding: 0.5rem;
+      button{
+        margin-right: 0;
+        margin-left: auto;
+      }
+
+    }
+
+}

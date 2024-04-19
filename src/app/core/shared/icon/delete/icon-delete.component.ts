@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 export class IconDeleteComponent {
   @Input() hover: boolean = false
   @Input() size: string = ""
+  @Input() color: boolean = false
 
   faTrashCan2=t2
   faTrashCan1=t1 as IconProp

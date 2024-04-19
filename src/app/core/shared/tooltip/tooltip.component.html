@@ -1,0 +1,7 @@
+<div
+  class="tooltip"
+  [ngClass]="{'top': position === 'top', 'bottom': position === 'bottom', 'left': position === 'left', 'right': position === 'right'}"
+  [ngStyle]="{'display': isVisible ? 'block' : 'none'}"
+>
+  {{ text }}
+</div>

@@ -1,11 +1,19 @@
 <div id="commentaires-container">
-  <h6 class="h6-lane">Commentaire: <span></span></h6>
-  <textarea placeholder="Add a new comment"></textarea>
-  <div>
-    @for(comm of commentairesList.value; track comm){
+  <h6 class="h6-lane">Commentaires: <span></span></h6>
+  <textarea #textarea placeholder="Add a new comment" (input)="onTextareaInput($event)"></textarea>
+  <div class="button-container" >
+    <button (click)="addNewCommentaire(textarea.value);textarea.value=''" class="validation1" [disabled]="textareaIsEmpty" >Send</button>
+  </div>
+  <div id="comments">
+    @for(comm of orderList(commentairesList.value); track comm; let i = $index; let c = $count){
       <div>
-        <p id="date">{{ comm.dateCreation | date: 'dd MMMM, y' }} at {{ comm.dateCreation | date: 'shortTime' }}</p>
-        <p>{{ comm.text }}</p>
+        <p class="date">{{ comm.dateCreation | date: 'dd MMMM, y' }} at {{ comm.dateCreation | date: 'shortTime' }}</p>
+        <div class="text-container">
+          <div class="delete" (click)="deleteCommentaire($event,commentairesList.value.length - i - 1)">
+            <icon-delete size="icon-1" [hover]="true" ></icon-delete>
+          </div>
+          <p class="text">{{ comm.text }}</p>
+        </div>
       </div>
     }
   </div>

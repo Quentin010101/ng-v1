@@ -27,7 +27,6 @@ export class TaskMenuComponent {
   
   constructor(private _plannerService: PlannerService, private _messageService: MessageService, private _closeableService:CloseableService){
     _closeableService.$closeableMenu.subscribe(data => {
-      console.log("close")
       if(data) this.menuOpen = false
     })
   }
