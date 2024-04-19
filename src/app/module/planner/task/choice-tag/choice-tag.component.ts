@@ -62,6 +62,7 @@ export class ChoiceTagComponent {
   }
   onTagSelected(tag: Tag){
     this.tags.push(this.addTagItem(tag))
+    this.taskFomrGroup.markAsDirty()
   }
 
   onTagDelete(i: number){

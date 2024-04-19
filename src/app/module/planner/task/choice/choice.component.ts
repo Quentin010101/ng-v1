@@ -20,4 +20,6 @@ export class ChoiceComponent {
     choiceback.data =  this.choices.data.find((data) => data.id == id) as MapNumberString
     this.onChangeOutput.emit(choiceback)
   }
+
+
 }

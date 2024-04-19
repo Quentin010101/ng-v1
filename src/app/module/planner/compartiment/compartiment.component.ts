@@ -29,7 +29,7 @@ export class CompartimentComponent {
   suppressionActive: boolean = false
   tasks: Task[] = []
   faTag = faTag
-  
+
   constructor(private _taskOpenService: TaskOpenService, private _taskService: PlannerService, private _closeableService: CloseableService){
     _taskService.$tasksContainer.subscribe(data => {
       if(this.compartiment){
@@ -44,7 +44,6 @@ export class CompartimentComponent {
   }
 
   drop(event: CdkDragDrop<Task[]>) {
-    console.log("deopped")
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this._taskService.handleReorderSingleReorder(event.container.data)
