@@ -1,8 +1,16 @@
 <div class="dashboardPage">
     <h3>Administration:</h3>
-    <div id="users-container">
-        @for(user of users; track user){
-            <p>{{user.pseudo}}</p>
+    <div id="users-container" class="card">
+      <div class="table-grid table-header">
+        <h4>id</h4>
+        <h4>pseudo</h4>
+        <h4>role</h4>
+        <h4>account status</h4>
+      </div>
+      @for(user of users; track user){
+        <div class="table-content">
+          <app-user-table [user]="user"></app-user-table>
+        </div>
         }
     </div>
 </div>

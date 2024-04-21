@@ -1,0 +1,19 @@
+<form [formGroup]="userForm">
+  <section class="table-grid table-row">
+    <div>
+      <p>id: {{user.userId}}</p>
+    </div>
+    <div>
+      <p>pseudo: {{user.pseudo}}</p>
+    </div>
+    <div>
+      <p>role: {{ user.role }}</p>
+    </div>
+    <div>
+      <p>Account locked </p>
+      {{ user.isAccountNonLocked ? 'true' : 'false'  }}
+      <app-check [checked]="user.isAccountNonLocked"></app-check>
+    </div>
+  </section>
+</form>
+

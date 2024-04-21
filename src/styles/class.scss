@@ -1,0 +1,22 @@
+.table-header{
+  color: $text-1;
+  background-color: lighten($bg-task, 8%);
+  padding: 0.75rem;
+}
+.table-content{
+  &:nth-child(odd){
+    background-color: darken($bg-task, 4%) !important;
+  }
+}
+
+.table-row{
+  color: $text-4;
+  padding: 0.5rem 0.75rem;
+
+
+}
+
+.table-grid{
+  display: grid;
+  grid-template-columns: repeat(4, 2fr);
+}
