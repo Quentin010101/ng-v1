@@ -13,12 +13,29 @@ export class AdministrationService {
 
   $users = new BehaviorSubject<User[]>([])
 
-  constructor(private http: HttpClient) {
-
-  }
+  constructor(private http: HttpClient) {}
 
   private getAllUsers(): Observable<ResponseObject<User[]>>{
-    return this.http.get<ResponseObject<User[]>>(this.url + "users/all")
+    return this.http.get<ResponseObject<User[]>>(this.url + "user/all")
+  }
+
+  private updateUser(user: User): Observable<ResponseObject<User>>{
+    return this.http.post<ResponseObject<User>>(this.url + "user/update", user)
+  }
+
+  public update(user: User){
+    let users = this.$users.getValue()
+    this.updateUser(user).subscribe(data => {
+      console.log(data)
+       let newUsers = users.filter((el)=> {
+        if(data.object.userId != el.userId) {
+          return el
+        }else{
+          return data.object
+        }
+    })
+       this.$users.next(this.setAccountOrder(newUsers))
+    })
   }
 
   public init(){
@@ -27,10 +44,15 @@ export class AdministrationService {
       this.$users.next(users)
     }else{
       this.getAllUsers().subscribe(data => { 
+        console.log(data)
         if(data.responseDto.executionStatus)
-        this.$users.next(data.object)
+        this.$users.next(this.setAccountOrder(data.object))
       })
     }
+  }
+
+  private setAccountOrder(users :User[]): User[]{
+    return users.sort((a,b) => a.userId - b.userId)
   }
 
 }

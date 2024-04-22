@@ -1,18 +1,17 @@
 <form [formGroup]="userForm">
   <section class="table-grid table-row">
     <div>
-      <p>id: {{user.userId}}</p>
+      <p>{{user.userId}}</p>
     </div>
     <div>
-      <p>pseudo: {{user.pseudo}}</p>
+      <p>{{user.pseudo}}</p>
     </div>
     <div>
-      <p>role: {{ user.role }}</p>
+      <p>{{ user.role }}</p>
     </div>
-    <div>
+    <div id="status">
       <p>Account locked </p>
-      {{ user.isAccountNonLocked ? 'true' : 'false'  }}
-      <app-check [checked]="user.isAccountNonLocked"></app-check>
+      <app-check [checked]="!userForm.controls['accountNonLocked'].value" [id]="user.userId" (outputEmitter)="onStatusChange($event)"></app-check>
     </div>
   </section>
 </form>

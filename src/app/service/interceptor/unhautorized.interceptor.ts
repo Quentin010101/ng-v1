@@ -11,7 +11,6 @@ export function UnhautorizedInterceptor(req: HttpRequest<unknown>,
   next: HttpHandlerFn) {
     const auth = inject(AuthenticationService)
     const messageService = inject(MessageService)
-
     return next(req)
   
 }

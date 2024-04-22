@@ -2,7 +2,7 @@ export class User{
     userId!: number
     pseudo!: string
     role!: Role
-    isAccountNonLocked!: boolean
+    accountNonLocked!: boolean
 }
 
 export enum Role {

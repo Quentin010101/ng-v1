@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
 import { Message } from '../model/message.model';
+import { LogOutService } from './utils/log-out.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AuthenticationService {
 
   private isAuth: boolean = false;
 
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private _platformId: Object, private router: Router, private _messageService: MessageService) { 
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private _platformId: Object, private router: Router, private _messageService: MessageService, private _logOutService: LogOutService) { 
     this.initAuth()
   }
 
@@ -43,6 +44,7 @@ export class AuthenticationService {
   public logOut(){
     this.isAuth = false
     this.clearLocalStorage()
+    this._logOutService.clearServicesData()
     this.router.navigate(['login'])
   }
 

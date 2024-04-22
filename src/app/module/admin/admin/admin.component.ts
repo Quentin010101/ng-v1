@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { AdministrationService } from '../../../service/administration.service';
 import { User } from '../../../model/auth/user.model';
 import { CheckComponent } from '../../../core/shared/input/check/check.component';
-import { FormControl, FormGroup } from '@angular/forms';
 import { UserTableComponent } from '../user-table/user-table.component';
 
 @Component({
