@@ -7,7 +7,7 @@
         width: 200%;
         height: 200%;
         background: radial-gradient(500px circle ,transparentize($primary-3, 0.9) ,$bg);
-        filter: blur(40px);
+        filter: blur(20px);
         opacity: 0;
         transition: opacity 400ms ease, transform 0.2s ease;
         z-index: 1;

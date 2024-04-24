@@ -1,42 +1,52 @@
-@import '../../../styles/color.scss';
+@import "../../../styles/color.scss";
 
-#container{
-    height: 100vh;
+#container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  #form {
+    h2 {
+      font-size: 3em;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    fa-icon {
+      color: $primary-2;
+      filter: drop-shadow(2px 2px 3px $bg-3);
+    }
+    .label {
+      padding-bottom: 0.5rem;
+    }
+  }
+  #button-container {
+    width: 150px;
+    margin: 0 auto;
+  }
+  #logged {
+    margin-bottom: 1rem;
+    font-size: smaller;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
 
-    #form{
-        h2{
-            font-size: 3em;
-            margin-bottom: 1.5rem;
-            display: flex;
-            justify-content: center;
-            font-family:Verdana, Geneva, Tahoma, sans-serif;
-        }
-        fa-icon {
-            color: $primary-2;
-            filter: drop-shadow( 2px 2px 3px $bg-3);
-        }
-        .label{
-            padding-bottom: 0.5rem;
-        }
-    }
-    #button-container{
-        width: 150px;
-        margin: 0 auto;
-    }
-    #logged{
-        margin-bottom: 1rem;
-        font-size: smaller;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 0.5rem;
-    }
+  .width {
+    width: 300px;
+  }
 
-    .width{
-        width: 300px;
-    }
-
+  .title {
+    background: radial-gradient(200px circle ,white, mix($primary-1,white,70%));
+    background-size: 400% 800%;
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
 }

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import gsap from 'gsap';
 
 @Component({
   selector: 'app-card',
@@ -19,8 +20,7 @@ export class CardComponent {
     let x = e.clientX - rect.left - width;
     
     let y = e.clientY - rect.top - height;
-
-    this.element.nativeElement.style.transform = "translate(" + x + "px," + y + "px)"
+    gsap.to(this.element.nativeElement, {x: x, y:y ,duration: 0.3, ease: 'power4'} )
 
   }
 }

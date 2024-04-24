@@ -1,7 +1,7 @@
-<app-card>
+<app-card (mousemove)="onmousemove($event)">
     <div id="container">
         <form [formGroup]="loginForm" id="form" [@enter]>
-            <h2 class="welcome" >Welcome</h2>
+            <h2 class="welcome title" #title >Welcome</h2>
             <div class="width">
                 <p class="label">Pseudo: </p>
                 <app-text light="dark" size="lg" b_size="border-md" (inputEmitter)="onPseudoChange($event)" [placeholder]="'Enter your pseudo'">

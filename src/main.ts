@@ -1,6 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
+import { environnement } from './environnement';
 
 
 
@@ -15,7 +16,7 @@ function waiting(){
   return new Promise<void>((resolve,reject)=>{
     setTimeout(()=>{
       resolve()
-    },0) //5100
+    },environnement.startAnimation.time) 
   })
 }
 bootstrapApplication(AppComponent, appConfig)

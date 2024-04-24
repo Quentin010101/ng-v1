@@ -1,5 +1,5 @@
-import { Component} from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, ElementRef, ViewChild} from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../service/authentication.service';
 import { AuthRequest } from '../../model/auth/authRequest.model';
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,8 @@ import { CheckComponent } from '../shared/input/check/check.component';
 import { fadeInUpOnEnterAnimation } from 'angular-animations';
 import { Validation } from '../../../validation';
 import { CardComponent } from '../shared/card/card.component';
+import gsap from 'gsap';
+
 
 @Component({
   selector: 'app-authentication',
@@ -20,6 +22,7 @@ import { CardComponent } from '../shared/card/card.component';
   animations: [ fadeInUpOnEnterAnimation({anchor: 'enter', duration:400, translate: '40px'})]
 })
 export class AuthenticationComponent {
+  @ViewChild('title') title!: ElementRef
   loginForm!: FormGroup;
   message!: string | null;
   faUser=faUser;
@@ -69,6 +72,20 @@ export class AuthenticationComponent {
     auth.stayLogged = this.loginForm.controls['stayLogged'].value
     return auth;
 
+  }
+
+  public onmousemove(e: MouseEvent){
+    let rect = this.title.nativeElement.getBoundingClientRect();
+    let x = rect.left + (rect.right - rect.left)/2
+    let y = rect.top + (rect.bottom - rect.top)/2
+    let resultX = 100 - e.clientX * 50/ x
+    let resultY = 100 - e.clientY * 50/ y
+    
+
+    if(resultX < 0) resultX = 0
+    if(resultY < 0) resultY = 0
+
+    gsap.to(this.title.nativeElement, {backgroundPosition: `${resultX}% ${resultY}%`,duration: 3, ease: 'power4'} )
   }
 }
 
