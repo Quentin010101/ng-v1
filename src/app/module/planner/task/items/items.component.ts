@@ -12,7 +12,7 @@ import { IconPenToSquareComponent } from '../../../../core/shared/icon/icon-pen-
 import { ClickOutsideDirective } from '../../../../z-other/click-outside.directive';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
-import { ChipComponent } from '../../../../core/shared/input/chip/chip.component';
+import { Validation } from '../../../../../validation';
 
 @Component({
   selector: 'app-items',
@@ -46,9 +46,9 @@ export class ItemsComponent {
 
   private addItem(item:Item){
     return new FormGroup({
-      itemId: new FormControl(item.itemId),
-      text: new FormControl(item.text, Validators.required),
-      actif: new FormControl(item.actif),
+      itemId: new FormControl(item.itemId,Validation.input.task.item.itemId),
+      text: new FormControl(item.text,Validation.input.task.item.text),
+      actif: new FormControl(item.actif,Validation.input.task.item.actif),
     })
   }
 

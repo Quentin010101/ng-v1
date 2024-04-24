@@ -3,7 +3,10 @@ import { environnement } from '../../environnement';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ResponseObject } from '../model/response/responseObjectDto.model';
-import { User } from '../model/auth/user.model';
+import { User, UserCreate } from '../model/auth/user.model';
+import { ResponseDto } from '../model/response/responseDto.model';
+import { MessageService } from './message.service';
+import { Message } from '../model/message.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +16,7 @@ export class AdministrationService {
 
   $users = new BehaviorSubject<User[]>([])
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private _messageService: MessageService) {}
 
   private getAllUsers(): Observable<ResponseObject<User[]>>{
     return this.http.get<ResponseObject<User[]>>(this.url + "user/all")
@@ -21,6 +24,14 @@ export class AdministrationService {
 
   private updateUser(user: User): Observable<ResponseObject<User>>{
     return this.http.post<ResponseObject<User>>(this.url + "user/update", user)
+  }
+
+  private createUser(user: UserCreate): Observable<ResponseObject<User>>{
+    return this.http.post<ResponseObject<User>>(this.url + "user/create", user)
+  }
+
+  private deleteUser(id: number): Observable<ResponseDto>{
+    return this.http.get<ResponseDto>(this.url + "user/delete/" + id)
   }
 
   public update(user: User){
@@ -38,21 +49,47 @@ export class AdministrationService {
     })
   }
 
+  public delete(id: number){
+    let users: User[] = this.$users.value
+    this.deleteUser(id).subscribe(data => {
+      if(data.executionStatus){
+        let newUsers = users.filter((el)=> el.userId != id)
+        this.$users.next(newUsers)
+        this._messageService.$message.next(new Message(false,"User has been deleted."))
+      }else{
+        this._messageService.$message.next(new Message(true,"Something went wrong."))
+      }
+    })
+  }
+
   public init(){
     let users: User[] = this.$users.value
     if(users != null && users.length > 0) {
       this.$users.next(users)
     }else{
-      this.getAllUsers().subscribe(data => { 
-        console.log(data)
+      this.getAllUsers().subscribe(data => {
         if(data.responseDto.executionStatus)
         this.$users.next(this.setAccountOrder(data.object))
       })
     }
   }
 
+  public newUser(userCreate: UserCreate){
+    let users: User[] = this.$users.value
+    this.createUser(userCreate).subscribe(data => {
+      if(data.responseDto.executionStatus){
+        users.push(data.object)
+        this.$users.next(users)
+        this._messageService.$message.next(new Message(false,"User has been created."))
+      }else{
+        this._messageService.$message.next(new Message(true,"Something went wrong."))
+      }
+    })
+  }
+
   private setAccountOrder(users :User[]): User[]{
     return users.sort((a,b) => a.userId - b.userId)
   }
+
 
 }

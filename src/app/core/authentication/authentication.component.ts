@@ -1,5 +1,5 @@
 import { Component} from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../service/authentication.service';
 import { AuthRequest } from '../../model/auth/authRequest.model';
 import { CommonModule } from '@angular/common';
@@ -8,11 +8,13 @@ import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 import { TextComponent } from '../shared/input/text/text.component';
 import { CheckComponent } from '../shared/input/check/check.component';
 import { fadeInUpOnEnterAnimation } from 'angular-animations';
+import { Validation } from '../../../validation';
+import { CardComponent } from '../shared/card/card.component';
 
 @Component({
   selector: 'app-authentication',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,FontAwesomeModule, TextComponent, CheckComponent],
+  imports: [CommonModule, ReactiveFormsModule,FontAwesomeModule, TextComponent, CheckComponent, CardComponent],
   templateUrl: './authentication.component.html',
   styleUrl: './authentication.component.scss',
   animations: [ fadeInUpOnEnterAnimation({anchor: 'enter', duration:400, translate: '40px'})]
@@ -23,12 +25,12 @@ export class AuthenticationComponent {
   faUser=faUser;
   faLock=faLock
 
-  constructor(private fb: FormBuilder, private _authService: AuthenticationService) {
-    this.loginForm = this.fb.group({
-      pseudo: ['', Validators.required],
-      password: ['', Validators.required],
-      stayLogged: [false],
-    });
+  constructor(private _authService: AuthenticationService) {
+    this.loginForm = new FormGroup({
+      pseudo: new FormControl('', Validation.input.user.pseudo),
+      password: new FormControl('', Validation.input.user.password),
+      stayLogged: new FormControl(false)
+    })
     this.loginForm.touched
   }
 

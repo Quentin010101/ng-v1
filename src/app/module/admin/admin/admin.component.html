@@ -1,24 +1,35 @@
 <div class="dashboardPage">
-    <h3>Administration:</h3>
-    <div id="container">
-        <div id="users-container" class="card">
-          <h4>Liste Utilisateurs</h4>
+  <h3>Administration:</h3>
+  <div id="container">
+    <div id="users-container">
+      <h4>Liste Utilisateurs</h4>
+      <div>
+        <div class="table-grid table-header">
+          <h5>id</h5>
+          <h5>pseudo</h5>
+          <h5>role</h5>
+          <h5>account status</h5>
+          <h5>delete account</h5>
+        </div>
+        @for(user of users; track user){
+        <div class="table-media">
           <div class="table-grid table-header">
             <h5>id</h5>
             <h5>pseudo</h5>
             <h5>role</h5>
             <h5>account status</h5>
+            <h5>delete account</h5>
           </div>
-          @for(user of users; track user){
-            <div class="table-content">
-              <app-user-table [user]="user"></app-user-table>
-            </div>
-            }
+          <div class="table-content">
+            <app-user-table [user]="user"></app-user-table>
+          </div>
         </div>
-        <div id="users-creation" class="card">
-          <h4>Creation Utilisateur</h4>
-          
-        </div>
+        }
+      </div>
     </div>
+    <div id="users-creation">
+      <h4>Creation Utilisateur</h4>
+      <app-creation-user></app-creation-user>
+    </div>
+  </div>
 </div>
-  

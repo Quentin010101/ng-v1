@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { TextComponent } from '../../../../core/shared/input/text/text.component';
 import { Subject } from 'rxjs';
 import { SupressionComponent } from '../../compartiment/supression/supression.component';
+import { Validation } from '../../../../../validation';
 
 @Component({
   selector: 'app-creation-task',
@@ -31,7 +32,7 @@ export class TaskCreationComponent {
   
   constructor(private _plannerService: PlannerService){
     this.taskForm = new FormGroup({
-      title: new FormControl('', Validators.required)
+      title: new FormControl('',Validation.input.task.title)
     })
   }
 

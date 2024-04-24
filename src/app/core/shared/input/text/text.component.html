@@ -1,5 +1,5 @@
-<div #container id="container" [ngClass]="[size, b_size, light]">
-    <div #icon (click)="input.focus()">
+<div #container id="container" [ngClass]="[size, b_size, light]" (click)="input.focus()">
+    <div #icon>
         <ng-content select="[icon]"></ng-content>
     </div>
     <input [ngClass]="{'strikeThrough':strikeThrough}" #input [value]="content" [type]="type" [placeholder]="placeholder" (blur)="onblur($event)"

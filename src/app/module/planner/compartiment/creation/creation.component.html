@@ -5,7 +5,7 @@
   </button>
   <div id="input">
     <form [formGroup]="compartimentForm" (ngSubmit)="onSubmit()">
-            <app-text [reset]="resetValue" [focus]="focusValue" (inputEmitter)="onCompartimentChange($event)" [type]="'text'" [placeholder]="'Category name'">
+            <app-text size="lg" [reset]="resetValue" [focus]="focusValue" (inputEmitter)="onCompartimentChange($event)" [type]="'text'" [placeholder]="'Category name'">
               <p icon>
                   <fa-icon  class="icon-1" [icon]="faPen"></fa-icon>
               </p>

@@ -5,6 +5,11 @@ export class User{
     accountNonLocked!: boolean
 }
 
+export class UserCreate{
+    pseudo!: string
+    password!: string
+}
+
 export enum Role {
     ADMIN = 'ADMIN',
     DEMO = 'DEMO',

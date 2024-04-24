@@ -10,6 +10,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Va
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { ClickOutsideDirective } from '../../../../z-other/click-outside.directive';
+import { Validation } from '../../../../../validation';
 
 @Component({
   selector: 'app-choice-tag',
@@ -82,8 +83,8 @@ export class ChoiceTagComponent {
 
   private addTagItem(tag: Tag): FormGroup {
     return this.fb.group({
-      tagId: new FormControl(tag.tagId),
-      name: new FormControl(tag.name, Validators.required)
+      tagId: new FormControl(tag.tagId,Validation.input.task.tag.tagId),
+      name: new FormControl(tag.name,Validation.input.task.tag.name)
     });
   }
 

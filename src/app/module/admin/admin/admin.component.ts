@@ -3,11 +3,14 @@ import { AdministrationService } from '../../../service/administration.service';
 import { User } from '../../../model/auth/user.model';
 import { CheckComponent } from '../../../core/shared/input/check/check.component';
 import { UserTableComponent } from '../user-table/user-table.component';
+import { CreationUserComponent } from '../creation-user/creation-user.component';
+
+
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CheckComponent, UserTableComponent],
+  imports: [CheckComponent, UserTableComponent,CreationUserComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
@@ -20,5 +23,7 @@ export class AdminComponent {
     this._administrationService.init()
   }
 
-
+  onmouseover(){
+    console.log("action")
+  }
 }

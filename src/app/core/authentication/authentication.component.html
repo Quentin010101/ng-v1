@@ -1,38 +1,40 @@
-<div id="container">
-    <form [formGroup]="loginForm" id="form" [@enter]>
-        <h2 class="welcome" >Welcome</h2>
-        <div class="width">
-            <p class="label">Pseudo: </p>
-            <app-text light="dark" size="lg" b_size="border-md" (inputEmitter)="onPseudoChange($event)" [placeholder]="'Enter your pseudo'">
-                <p icon>
-                    <fa-icon class="icon-2" [icon]="faUser"></fa-icon>
-                </p>
-            </app-text>
-            <div [ngStyle]="{'visibility': pseudo?.invalid && (pseudo?.dirty || pseudo?.touched) ? 'visible' : 'hidden'}">
-                <small>
-                    This field is required.
-                </small>
+<app-card>
+    <div id="container">
+        <form [formGroup]="loginForm" id="form" [@enter]>
+            <h2 class="welcome" >Welcome</h2>
+            <div class="width">
+                <p class="label">Pseudo: </p>
+                <app-text light="dark" size="lg" b_size="border-md" (inputEmitter)="onPseudoChange($event)" [placeholder]="'Enter your pseudo'">
+                    <p icon>
+                        <fa-icon class="icon-2" [icon]="faUser"></fa-icon>
+                    </p>
+                </app-text>
+                <div [ngStyle]="{'visibility': pseudo?.invalid && (pseudo?.dirty || pseudo?.touched) ? 'visible' : 'hidden'}">
+                    <small>
+                        This field is required.
+                    </small>
+                </div>
             </div>
-        </div>
-        <div class="width">
-            <p class="label">password: </p>
-            <app-text light="dark" size="lg" b_size="border-md" (inputEmitter)="onPasswordChange($event)" [type]="'password'" [placeholder]="'Enter your password'">
-                <p icon>
-                    <fa-icon  class="icon-2" [icon]="faLock"></fa-icon>
-                </p>
-            </app-text>
-            <div [ngStyle]="{'visibility': password?.invalid && (password?.dirty || password?.touched) ? 'visible' : 'hidden'}">
-                <small>
-                    This field is required.
-                </small>
+            <div class="width">
+                <p class="label">password: </p>
+                <app-text light="dark" size="lg" b_size="border-md" (inputEmitter)="onPasswordChange($event)" [type]="'password'" [placeholder]="'Enter your password'">
+                    <p icon>
+                        <fa-icon  class="icon-2" [icon]="faLock"></fa-icon>
+                    </p>
+                </app-text>
+                <div [ngStyle]="{'visibility': password?.invalid && (password?.dirty || password?.touched) ? 'visible' : 'hidden'}">
+                    <small>
+                        This field is required.
+                    </small>
+                </div>
             </div>
-        </div>
-        <div id="logged">
-            <p>Stay logged:</p>
-            <app-check (outputEmitter)="onStayLogged($event)" [checked]="loginForm.controls['stayLogged'].value"></app-check>
-        </div>
-        <div id="button-container">
-            <button class="validation lg br" (click)="login()" [disabled]="loginForm.invalid">Valider</button>
-        </div>
-    </form>
-</div>
+            <div id="logged">
+                <p>Stay logged:</p>
+                <app-check (outputEmitter)="onStayLogged($event)" [checked]="loginForm.controls['stayLogged'].value"></app-check>
+            </div>
+            <div id="button-container">
+                <button class="validation lg br dark" (click)="login()" [disabled]="loginForm.invalid">Valider</button>
+            </div>
+        </form>
+    </div>
+</app-card>

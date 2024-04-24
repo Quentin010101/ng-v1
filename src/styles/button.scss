@@ -16,6 +16,9 @@ button.validation{
   background-color: $primary-3;
   padding: 0.75rem 0.5rem;
   transition: background-color 0.2s;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
 
   &.br{
     border-radius: 0.25rem;
@@ -25,8 +28,11 @@ button.validation{
   }
   &:disabled{
     cursor: default;
-    background-color: $bg-1;
-    color: rgb(170, 170, 170)
+    color: $text-5;
+    background-color: $bg;
+    &.dark{
+      background-color: $bg-1;
+    }
   }
 }
 button.validation1{

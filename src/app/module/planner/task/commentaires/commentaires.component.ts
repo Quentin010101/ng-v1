@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Commentaire } from '../../../../model/planner/commentaire.model';
 import { IconDeleteComponent } from '../../../../core/shared/icon/delete/icon-delete.component';
+import { Validation } from '../../../../../validation';
 
 @Component({
   selector: 'app-commentaires',
@@ -21,9 +22,9 @@ export class CommentairesComponent {
 
   private addCommentaire(commentaire: Commentaire){
     this.commentairesList.push(new FormGroup({
-      commentaireId: new FormControl(commentaire.commentaireId),
-      text: new FormControl(commentaire.text),
-      dateCreation: new FormControl(commentaire.dateCreation),
+      commentaireId: new FormControl(commentaire.commentaireId, Validation.input.task.commentaire.commentaireId),
+      text: new FormControl(commentaire.text, Validation.input.task.commentaire.text),
+      dateCreation: new FormControl(commentaire.dateCreation, Validation.input.task.commentaire.dateCreation),
     }))
     this.taskFomrGroup.markAsDirty()
   }

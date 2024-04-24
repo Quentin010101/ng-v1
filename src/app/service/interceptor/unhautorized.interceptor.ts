@@ -11,6 +11,30 @@ export function UnhautorizedInterceptor(req: HttpRequest<unknown>,
   next: HttpHandlerFn) {
     const auth = inject(AuthenticationService)
     const messageService = inject(MessageService)
-    return next(req)
+
+
+    return next(req).pipe(
+      catchError((error: HttpErrorResponse) => {
+       let errorMsg = "";
+       if (error.error instanceof ErrorEvent) {
+        console.warn("this is client side error");
+        errorMsg = `Client Error: ${error.error.message}`;
+       } else {
+        if(error.status === 403){
+          let m = new Message(true,"You need to log in.")
+          messageService.$message.next(m)
+          auth.logOut()
+        }else if(error.status === 650){
+          let m = new Message(true,error.error.message)
+          messageService.$message.next(m)
+        }else{
+          console.warn("this is server side error");
+          errorMsg = `Server Error Code: ${error.status}, Message: ${error.message}`;
+        }
+       }
+
+       return throwError(() => errorMsg);
+      }),
+    );
   
 }

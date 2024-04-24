@@ -3,11 +3,13 @@ import { User } from '../../../model/auth/user.model';
 import { CheckComponent } from '../../../core/shared/input/check/check.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AdministrationService } from '../../../service/administration.service';
+import { Validation } from '../../../../validation';
+import { IconDeleteComponent } from '../../../core/shared/icon/delete/icon-delete.component';
 
 @Component({
   selector: 'app-user-table',
   standalone: true,
-  imports: [CheckComponent, ReactiveFormsModule],
+  imports: [CheckComponent, ReactiveFormsModule, IconDeleteComponent],
   templateUrl: './user-table.component.html',
   styleUrl: './user-table.component.scss'
 })
@@ -25,10 +27,10 @@ export class UserTableComponent {
 
   private createForm(){
     this.userForm = new FormGroup({
-      userId: new FormControl(this.user.userId),
-      pseudo: new FormControl(this.user.pseudo),
-      role: new FormControl(this.user.role),
-      accountNonLocked: new FormControl(this.user.accountNonLocked)
+      userId: new FormControl(this.user.userId,Validation.input.user.userId),
+      pseudo: new FormControl(this.user.pseudo,Validation.input.user.pseudo),
+      role: new FormControl(this.user.role,Validation.input.user.role),
+      accountNonLocked: new FormControl(this.user.accountNonLocked,Validation.input.user.accountNonLocked)
 
     })
   }
@@ -41,6 +43,10 @@ export class UserTableComponent {
       console.log(user)
       this._administrationService.update(user)
     }
+  }
+
+  public onDelete(id: number){
+    this._administrationService.delete(id)
   }
 
 

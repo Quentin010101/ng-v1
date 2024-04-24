@@ -1,1 +1,20 @@
-<p>creation-user works!</p>
+<div id="container">
+    <form [formGroup]="newUserForm" (submit)="onSubmit()">
+        <div class="input">
+            <label>Pseudo:</label>
+            <app-text [reset]="resetInput" (inputEmitter)="onPseudoChange($event)" placeholder="Enter new user pseudo" b_size="border-md"></app-text>
+        </div>
+        <div class="input">
+            <label>Password:</label>
+            <app-text [reset]="resetInput" type="password" (inputEmitter)="onPasswordChange($event)" placeholder="Enter new user password" b_size="border-md"></app-text>
+        </div>
+        <div class="input item-button">
+            <button class="validation" [disabled]="newUserForm.invalid">
+                @if(!newUserForm.invalid){
+                    <fa-icon [icon]="faUserCheck"></fa-icon>
+                }               
+                Create
+            </button>
+        </div>
+    </form>
+</div>

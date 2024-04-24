@@ -15,7 +15,7 @@
 <script type="module">
   
   document.addEventListener("DOMContentLoaded", (event) => {
-    gsap.to("#loading", { backgroundColor: 'rgb(34, 40, 49)', duration: 5, ease: "power4" });
+    gsap.from("#loading", { backgroundColor: 'rgb(240, 240, 240)', duration: 5, ease: "power4" });
     let divArray = document.querySelectorAll("#text > div")
     let pArray = document.querySelectorAll("#footer > p")
     let i = 0
