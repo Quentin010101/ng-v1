@@ -10,6 +10,7 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { faPenClip } from '@fortawesome/free-solid-svg-icons';
 import { faGear, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { AdminComponent } from './module/admin/admin/admin.component';
+import { plannerGuard } from './guard/config.guard';
 
 export const routes: Routes = [
     {path: 'login', component: AuthenticationComponent},
@@ -24,7 +25,7 @@ export const routes: Routes = [
             }
         },
         {
-            path: 'planner', component: PlannerComponent, data: {
+            path: 'planner', component: PlannerComponent, canActivate: [plannerGuard], data: {
               icon: faPenClip, text: 'planner'
             }
         },
