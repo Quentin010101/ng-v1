@@ -4,7 +4,7 @@
             <h2 class="welcome title" #title >Welcome</h2>
             <div class="width">
                 <p class="label">Pseudo: </p>
-                <app-text light="dark" size="lg" b_size="border-md" (inputEmitter)="onPseudoChange($event)" [placeholder]="'Enter your pseudo'">
+                <app-text light="dark" size="lg" b_size="border-md" (inputEmitter)="onPseudoChange($event)" [placeholder]="'Enter your pseudo'" [autocomplete]="true">
                     <p icon>
                         <fa-icon class="icon-2" [icon]="faUser"></fa-icon>
                     </p>
@@ -17,7 +17,7 @@
             </div>
             <div class="width">
                 <p class="label">password: </p>
-                <app-text light="dark" size="lg" b_size="border-md" (inputEmitter)="onPasswordChange($event)" [type]="'password'" [placeholder]="'Enter your password'">
+                <app-text light="dark" size="lg" b_size="border-md" (inputEmitter)="onPasswordChange($event)" [type]="'password'" [placeholder]="'Enter your password'" [autocomplete]="true"  [reset]="reset">
                     <p icon>
                         <fa-icon  class="icon-2" [icon]="faLock"></fa-icon>
                     </p>

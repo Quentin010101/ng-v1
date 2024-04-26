@@ -1,7 +1,7 @@
 <div id="wrapper" class="bg-1">
   <nav>
     <ul>
-      @for(route of dashboardChildRoutes; track route){
+      @for(route of routes; track route){
         @if(route.data){
           <li>
             <a routerLinkActive="bg-2 active" routerLink="{{route.path}}" >

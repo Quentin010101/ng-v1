@@ -11,6 +11,7 @@ import { fadeInUpOnEnterAnimation } from 'angular-animations';
 import { Validation } from '../../../validation';
 import { CardComponent } from '../shared/card/card.component';
 import gsap from 'gsap';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class AuthenticationComponent {
   message!: string | null;
   faUser=faUser;
   faLock=faLock
+  reset=  new Subject<boolean>()
 
   constructor(private _authService: AuthenticationService) {
     this.loginForm = new FormGroup({
@@ -61,7 +63,8 @@ export class AuthenticationComponent {
   public login(){
     if(!this.loginForm.invalid){
       this._authService.login(this.buildAuthRequest())
-      this.loginForm.reset()
+      this.password?.setValue('');
+      this.reset.next(true)
     }
   }
 

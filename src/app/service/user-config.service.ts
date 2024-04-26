@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { UserConfig } from '../model/admin/config.model';
 import { environnement } from '../../environnement';
+import { ResponseObject } from '../model/response/responseObjectDto.model';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,14 @@ export class UserConfigService {
 
   constructor(private http: HttpClient) { }
 
-  private readConf(): Observable<UserConfig>{
-    return this.http.get<UserConfig>(this.url + 'read');
+  private readConf(): Observable<ResponseObject<UserConfig>>{
+    return this.http.get<ResponseObject<UserConfig>>(this.url + 'read').pipe(
+      tap((data) => this.$userConf.next(data.object))
+    );
+  }
+
+  public init(){
+    return this.readConf()
   }
 
 }

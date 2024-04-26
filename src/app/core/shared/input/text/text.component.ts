@@ -32,6 +32,7 @@ export class TextComponent {
   @Input() strikeThrough: boolean = false;
   @Input() focus!: Subject<boolean>;
   @Input() reset!: Subject<boolean>;
+  @Input() autocomplete: boolean = false;
 
   ngOnInit() {
     if (this.focus) {

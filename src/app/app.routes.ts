@@ -10,31 +10,32 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { faPenClip } from '@fortawesome/free-solid-svg-icons';
 import { faGear, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { AdminComponent } from './module/admin/admin/admin.component';
+import { plannerGuard } from './guard/config.guard';
 
 export const routes: Routes = [
-    {path: 'login', component: AuthenticationComponent},
+    {path: 'login', component: AuthenticationComponent, title: 'Login'},
     {path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     {path: 'dashboard', component: DashboardComponent, canActivate: [userGuard], children: [
         {
             path:'', redirectTo: 'home', pathMatch: 'full'
         },
         {
-            path:'home', component: HomeComponent, data: {
+            path:'home', component: HomeComponent, title: "Home", data: {
               icon: faHouse, text: 'home'
             }
         },
         {
-            path: 'planner', component: PlannerComponent, data: {
-              icon: faPenClip, text: 'planner'
+            path: 'planner', component: PlannerComponent, title: "Planner", canActivate: [plannerGuard], data: {
+              icon: faPenClip, text: 'planner', module: 1
             }
         },
         {
-            path: 'settings', component: SettingsComponent, data: {
-              icon: faGear, text: 'settings'
+            path: 'settings', component: SettingsComponent, title: "Settings", data: {
+              icon: faGear, text: 'settings', module: 2
             }
         },
         {
-            path: 'admin', component: AdminComponent, data: {
+            path: 'admin', component: AdminComponent, title: "Administration", data: {
               icon: faUsers, text: 'admin'
             }
         },

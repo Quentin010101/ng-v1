@@ -21,8 +21,6 @@ export function UnhautorizedInterceptor(req: HttpRequest<unknown>,
         errorMsg = `Client Error: ${error.error.message}`;
        } else {
         if(error.status === 403){
-          let m = new Message(true,"You need to log in.")
-          messageService.$message.next(m)
           auth.logOut()
         }else if(error.status === 650){
           let m = new Message(true,error.error.message)
