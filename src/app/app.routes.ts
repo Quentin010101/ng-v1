@@ -31,7 +31,7 @@ export const routes: Routes = [
         },
         {
             path: 'settings', component: SettingsComponent, title: "Settings", data: {
-              icon: faGear, text: 'settings', module: 2
+              icon: faGear, text: 'settings'
             }
         },
         {

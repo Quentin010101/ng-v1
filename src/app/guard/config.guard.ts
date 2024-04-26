@@ -5,12 +5,9 @@ import { Module, UserConfig } from '../model/admin/config.model';
 
 export const plannerGuard: CanActivateFn = (route, state) => {
   const configService = inject(UserConfigService)
-  console.log(1)
   if(configService.$userConf != null && configService.$userConf.getValue() != null){
-    console.log(2)
     let config = configService.$userConf.getValue() as UserConfig
     if(hasModule(config.modules,"planner")){
-      console.log(3)
       return true;
     }
   }
