@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { UserConfig } from '../model/admin/config.model';
 import { environnement } from '../../environnement';
 
@@ -13,7 +13,8 @@ export class UserConfigService {
 
   constructor(private http: HttpClient) { }
 
-  public readConf(): Observable<UserConfig>{
+  private readConf(): Observable<UserConfig>{
     return this.http.get<UserConfig>(this.url + 'read');
   }
+
 }
