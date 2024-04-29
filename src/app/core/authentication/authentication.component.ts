@@ -9,7 +9,7 @@ import { TextComponent } from '../shared/input/text/text.component';
 import { CheckComponent } from '../shared/input/check/check.component';
 import { fadeInUpOnEnterAnimation } from 'angular-animations';
 import { Validation } from '../../../validation';
-import { CardComponent } from '../shared/card/card.component';
+import { EffectComponent } from '../shared/effect/effect.component';
 import gsap from 'gsap';
 import { Subject } from 'rxjs';
 
@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-authentication',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,FontAwesomeModule, TextComponent, CheckComponent, CardComponent],
+  imports: [CommonModule, ReactiveFormsModule,FontAwesomeModule, TextComponent, CheckComponent, EffectComponent],
   templateUrl: './authentication.component.html',
   styleUrl: './authentication.component.scss',
   animations: [ fadeInUpOnEnterAnimation({anchor: 'enter', duration:400, translate: '40px'})]

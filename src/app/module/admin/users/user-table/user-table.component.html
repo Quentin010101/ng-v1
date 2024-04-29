@@ -1,0 +1,37 @@
+
+<div>
+  <div class="table-grid table-header">
+    <h5>id</h5>
+    <h5>pseudo</h5>
+    <h5>role</h5>
+    <h5>account status</h5>
+  </div>
+  @for(user of users; track user){
+  <div class="table-media">
+    <div class="table-grid table-header">
+      <h5>id</h5>
+      <h5>pseudo</h5>
+      <h5>role</h5>
+      <h5>account status</h5>
+    </div>
+    <div class="table-content">
+        <section class="table-grid table-row" (click)="userClick(user)">
+          <div>
+            <p>{{user.userId}}</p>
+          </div>
+          <div>
+            <p>{{user.pseudo}}</p>
+          </div>
+          <div>
+            <p>{{ user.role }}</p>
+          </div>
+          <div id="status">
+            <p>{{ user.accountNonLocked ? 'OK' : 'Account locked' }}</p>
+          </div>
+        </section>
+    </div>
+  </div>
+  }
+</div>
+
+

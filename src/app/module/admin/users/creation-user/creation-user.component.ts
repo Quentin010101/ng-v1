@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Validation } from '../../../../validation';
-import { TextComponent } from '../../../core/shared/input/text/text.component';
+import { Validation } from '../../../../../validation';
+import { TextComponent } from '../../../../core/shared/input/text/text.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUserCheck } from '@fortawesome/free-solid-svg-icons';
-import { UserCreate } from '../../../model/auth/user.model';
-import { AdministrationService } from '../../../service/administration.service';
+import { UserCreate } from '../../../../model/auth/user.model';
+import { AdministrationService } from '../../../../service/administration.service';
 import { Subject } from 'rxjs';
 
 @Component({

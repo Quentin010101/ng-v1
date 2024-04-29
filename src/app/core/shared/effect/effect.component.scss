@@ -1,0 +1,27 @@
+@import '../../../../styles/color.scss';
+
+#wrapper{
+    position:relative;
+    #element {
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(600px circle ,transparentize($primary-3, 0.9) ,$bg);
+        filter: blur(20px);
+        opacity: 0;
+        transition: opacity 400ms ease, transform 0.2s ease;
+        z-index: 1;
+
+    }
+    &:hover #element{
+        opacity: 1;
+    }
+    overflow: hidden;
+}
+#container {
+    position: relative;
+    background-color: transparentize($bg-task, 0.95);
+    z-index: 2;
+
+
+}

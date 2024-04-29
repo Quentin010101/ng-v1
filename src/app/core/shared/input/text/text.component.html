@@ -6,6 +6,6 @@
         (focus)="onfocus($event)"
         (input)="oninput($event)"
         (keydown)="onKeyUp($event)"
-        [autocomplete]="autocomplete"
+        [autocomplete]="autocomplete ? '' :'new-password'"
         >
 </div>
