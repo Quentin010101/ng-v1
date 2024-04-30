@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, RouterOutlet, Routes } from '@angular/router';
 import { SidenavComponent } from '../shared/sidenav/sidenav.component';
 import { NavComponent } from '../shared/nav/nav.component';
@@ -19,9 +19,11 @@ export class DashboardComponent {
     this.dashboardChildRoutes = (inject(ActivatedRoute).routeConfig?.children as Routes)
   }
 
-  getState(outlet: any) {
-    console.log(outlet.activatedRouteData.state)
-    return outlet.activatedRouteData.state;
+  getState(outlet: RouterOutlet) {
+    if(outlet && outlet.isActivated){
+      return  outlet.activatedRouteData['state'];
+    }
+
   }
 
 }

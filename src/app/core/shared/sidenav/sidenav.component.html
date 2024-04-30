@@ -2,7 +2,7 @@
   <nav>
     <ul>
       @for(route of routes; track route){
-        @if(route.data){
+        @if(route.data && route.data['icon']){
           <li>
             <a routerLinkActive="bg-2 active" routerLink="{{route.path}}" >
               <div position="before"></div>

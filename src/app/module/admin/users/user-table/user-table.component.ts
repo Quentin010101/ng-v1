@@ -1,25 +1,35 @@
 import { Component, Input } from '@angular/core';
 import { User } from '../../../../model/auth/user.model';
-import { CheckComponent } from '../../../../core/shared/input/check/check.component';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AdministrationService } from '../../../../service/administration.service';
-import { Validation } from '../../../../../validation';
-import { IconDeleteComponent } from '../../../../core/shared/icon/delete/icon-delete.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TableComponent } from '../../../../core/shared/table/table.component';
 
 @Component({
   selector: 'app-user-table',
   standalone: true,
-  imports: [CheckComponent, ReactiveFormsModule, IconDeleteComponent],
+  imports: [TableComponent],
   templateUrl: './user-table.component.html',
   styleUrl: './user-table.component.scss'
 })
 export class UserTableComponent {
-  userForm!: FormGroup
   @Input() users!: User[]
+  arrayHeader = ['id', 'pseudo','role', 'status']
+  arrayContent = []
 
   constructor(private router: Router,private activatedRoute: ActivatedRoute){
 
+  }
+
+  public filter(users: User[]): string[][]{
+    let arrTot: string[][] = []
+    users.forEach((user) =>{
+      let arr = []
+      arr.push(user.userId.toString())
+      arr.push(user.pseudo)
+      arr.push(user.role)
+      arr.push(user.accountNonLocked? 'OK' : 'Locked')
+      arrTot.push(arr)
+    })
+    return arrTot
   }
 
   userClick(user: User){
