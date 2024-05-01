@@ -3,7 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Validation } from '../../../../../validation';
 import { TextComponent } from '../../../../core/shared/input/text/text.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faUserCheck } from '@fortawesome/free-solid-svg-icons';
+import { faUserCheck,faUser, faLockOpen, faLock } from '@fortawesome/free-solid-svg-icons';
 import { UserCreate } from '../../../../model/auth/user.model';
 import { AdministrationService } from '../../../../service/administration.service';
 import { Subject } from 'rxjs';
@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
 })
 export class CreationUserComponent {
   newUserForm!: FormGroup
-  faUserCheck=faUserCheck
+  faUserCheck=faUserCheck; faUser = faUser; faLockOpen=faLockOpen; faLock=faLock
   resetInput= new Subject<boolean>()
 
   constructor(private _administrationService: AdministrationService){}
@@ -31,13 +31,10 @@ export class CreationUserComponent {
 
   public onPseudoChange(str:string){
     this.pseudo?.setValue(str)
-    console.log(this.pseudo?.invalid)
   }
 
   public onPasswordChange(str:string){
     this.password?.setValue(str)
-    console.log(this.password?.invalid)
-    console.log("form:" + this.newUserForm.invalid)
   }
 
   get pseudo(){

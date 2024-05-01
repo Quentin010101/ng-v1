@@ -1,0 +1,12 @@
+@import '../../../../styles/color.scss';
+
+.clicker{
+  width: fit-content;
+  padding: 0.5rem;
+  border-radius: 100%;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  &:hover{
+    background-color: lighten($bg-task, 5%);
+  }
+ }

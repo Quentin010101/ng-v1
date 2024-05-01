@@ -1,22 +1,24 @@
 <div id="container">
     @if(header && header.length > 0){
-        <div class="title grid">
+        <div class="title grid header" [style]="'grid-template-columns:repeat(' + header.length + ', 1fr)'">
             @for(item of header; track item){
             <p>{{ item }}</p>
             }
         </div>
-        @if(content && content.length > 0){
-            @for(arr of content; track arr){
+        @if(contents && contents.length > 0){
+            @for(arr of contents; track arr){
+              <div class="content-container" (click)="onClick(arr.id)" [ngClass]="{'clickable' : clickable  }">
                 <div class="title grid">
                     @for(item of header; track item){
                     <p>{{ item }}</p>
                     }
                 </div>
-                <div class="grid">
-                    @for(item of arr; track item){
+                <div class="grid content" [style]="'grid-template-columns:repeat(' + header.length + ', 1fr)'">
+                    @for(item of arr.content; track item){
                     <p>{{ item }}</p>
                     }
                 </div>
+              </div>
             }
         }
     }

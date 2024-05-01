@@ -16,6 +16,14 @@ h3{
   margin-bottom: 1rem;
   width: fit-content;
 }
+h4{
+  font-size: 0.8em;
+  font-weight: 500;
+  letter-spacing: 0.05rem;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  color: mix($primary-1,white,50%);
+}
 
 .dashboardPage h3{
   position: sticky;

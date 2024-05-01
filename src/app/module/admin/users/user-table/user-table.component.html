@@ -1,3 +1,5 @@
-<app-table [content]="filter(users)" [header]="arrayHeader" ></app-table>
+@if(filter(users) != undefined){
+  <app-table (onClickEmitter)="onUserClick($event)" [clickable]="true" [contents]="filter(users)" [header]="arrayHeader" ></app-table>
+}
 
 

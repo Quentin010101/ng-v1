@@ -32,53 +32,65 @@ export const translateRight =  trigger('translateRight', [
     animate('0.4s ease')
   ]),
 ])
+
+let on = [
+  style({ position: 'relative' }),
+  query(':enter, :leave', [
+    style({
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%'
+    })
+  ], { optional: true }),
+  query(':enter', [
+    style({ left: '100%' })
+  ], { optional: true }),
+  query(':leave', animateChild(), { optional: true }),
+  group([
+    query(':leave', [
+      animate('300ms ease-out', style({ left: '-100%' }))
+    ], { optional: true }),
+    query(':enter', [
+      animate('300ms ease-out', style({ left: '0%' }))
+    ], { optional: true }),
+  ]),
+]
+let off = [
+  style({ position: 'relative' }),
+  query(':enter, :leave', [
+    style({
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%'
+    })
+  ]),
+  query(':enter', [
+    style({ left: '-100%' })
+  ], { optional: true }),
+  query(':leave', animateChild(), { optional: true }),
+  group([
+    query(':leave', [
+      animate('300ms ease-out', style({ left: '100%' }))
+    ], { optional: true }),
+    query(':enter', [
+      animate('300ms ease-out', style({ left: '0%' }))
+    ], { optional: true }),
+  ]),
+]
 export const slideInAnimation =
   trigger('routeAnimations', [
-    transition('home <=> setting', [
-      style({ position: 'relative' }),
-      query(':enter, :leave', [
-        style({
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%'
-        })
-      ]),
-      query(':enter', [
-        style({ left: '-100%' })
-      ], { optional: true }),
-      query(':leave', animateChild(), { optional: true }),
-      group([
-        query(':leave', [
-          animate('300ms ease-out', style({ left: '100%' }))
-        ], { optional: true }),
-        query(':enter', [
-          animate('300ms ease-out', style({ left: '0%' }))
-        ], { optional: true }),
-      ]),
-    ]),
-    transition('* <=> *', [
-      style({ position: 'relative' }),
-      query(':enter, :leave', [
-        style({
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%'
-        })
-      ], { optional: true }),
-      query(':enter', [
-        style({ left: '-100%' })
-      ], { optional: true }),
-      query(':leave', animateChild(), { optional: true }),
-      group([
-        query(':leave', [
-          animate('200ms ease-out', style({ left: '100%', opacity: 0 }))
-        ], { optional: true }),
-        query(':enter', [
-          animate('300ms ease-out', style({ left: '0%' }))
-        ], { optional: true }),
-        query('@*', animateChild(), { optional: true })
-      ]),
-    ])
+    transition('home => settings', on),
+    transition('home => planner', on),
+    transition('home => admin', on),
+    transition('planner => home', off),
+    transition('planner => settings', on),
+    transition('planner => admin', on),
+    transition('settings => home', off),
+    transition('settings => planner', off),
+    transition('settings => admin', on),
+    transition('admin => home', off),
+    transition('admin => planner', off),
+    transition('admin => settings', off),
   ]);

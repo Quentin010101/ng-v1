@@ -1,0 +1,69 @@
+@import '../../../../styles/color.scss';
+
+#container{
+  font-size: 0.9em;
+  .grid{
+    display: grid;
+  }
+  .title{
+    text-transform: uppercase;
+    font-weight: 500;
+    background-color: $bg;
+    padding: 0.75rem;
+  }
+  .content{
+    padding: 0.5rem 0.5rem;
+    color: $text-4;
+    font-size: 200;
+    transition: color 200ms, background-color 200ms;
+    
+  }
+  
+  .clickable{
+    cursor: pointer;
+    &:hover{
+      .content{
+        color: white !important;
+        background-color: darken($bg-task, 5%);
+      }
+    }
+  }
+  .content-container{
+    &:nth-child(odd){
+      background-color: darken($bg-task, 3%);
+    }
+  }
+
+  .title:not(.header){
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  #container{
+    font-size: 0.8em;
+
+    .content-container{
+      display: grid;
+      grid-template-columns: fit-content(50%) 1fr;
+      margin-bottom: 0.25rem;
+    }
+    .title:not(.header){
+      display: grid;
+      p{
+        padding: 0.25rem 0.5rem;
+      }
+    }
+    .title.header{
+      display: none;
+    }
+    .content{
+      padding: 0;
+      p{
+        padding: 0.25rem 0.5rem;
+        background-color: darken($bg-task, 3%);
+      }
+      grid-template-columns: 1fr !important;
+    }
+}
+}

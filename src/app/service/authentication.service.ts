@@ -41,7 +41,7 @@ export class AuthenticationService {
         this.handleToken(data);
         this.isAuth = true;
         this._userConfigService.init().subscribe((data)=>{
-          this.router.navigate(['dashboard/home', { m: 'welcome' }]);
+          this.router.navigate(['dashboard/home']);
         })
       },
       error: (data) => {

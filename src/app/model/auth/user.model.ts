@@ -3,6 +3,8 @@ export class User{
     pseudo!: string
     role!: Role
     accountNonLocked!: boolean
+    dateCreation!: Date
+    dateLastConnection!: Date
 }
 
 export class UserCreate{

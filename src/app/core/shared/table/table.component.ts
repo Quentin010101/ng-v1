@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+export class TableContent{
+  id!: number
+  content!: string[]
+}
 
 @Component({
   selector: 'app-table',
@@ -10,6 +15,11 @@ import { Component, Input } from '@angular/core';
 })
 export class TableComponent {
   @Input() header!: String[]
-  @Input() content!: String[][]
+  @Input() clickable: boolean = false
+  @Input() contents!: TableContent[]
+  @Output() onClickEmitter = new EventEmitter<number>()
 
+  onClick(id: number){
+    this.onClickEmitter.emit(id)
+  }
 }

@@ -2,11 +2,19 @@
     <form [formGroup]="newUserForm" (submit)="onSubmit()">
         <div class="input">
             <label>Pseudo:</label>
-            <app-text [reset]="resetInput" (inputEmitter)="onPseudoChange($event)" placeholder="Enter new user pseudo" b_size="border-md"></app-text>
+            <app-text [reset]="resetInput" (inputEmitter)="onPseudoChange($event)" size="lg" placeholder="Enter new user pseudo" b_size="border-md">
+              <fa-icon [icon]="faUser"></fa-icon>
+            </app-text>
         </div>
         <div class="input">
             <label>Password:</label>
-            <app-text [reset]="resetInput" type="password" (inputEmitter)="onPasswordChange($event)" placeholder="Enter new user password" b_size="border-md"></app-text>
+            <app-text [reset]="resetInput" type="password" (inputEmitter)="onPasswordChange($event)" size="lg" placeholder="Enter new user password" b_size="border-md">
+                @if(password?.invalid){
+                  <fa-icon [icon]="faLockOpen"></fa-icon>
+                }@else {
+                  <fa-icon [icon]="faLock"></fa-icon>
+                }
+            </app-text>
         </div>
         <div class="input item-button">
             <button class="validation" [disabled]="newUserForm.invalid">
