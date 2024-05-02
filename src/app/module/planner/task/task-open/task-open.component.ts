@@ -102,7 +102,7 @@ export class TaskOpenComponent {
     if(items){
       for(let i = 0; i < items.length; i++){
         arr.push(new FormGroup({
-          itemId: new FormControl(items[i].itemId,Validation.input.task.item.itemId),
+          itemId: new FormControl(items[i].itemId),
           text: new FormControl(items[i].text,Validation.input.task.item.text),
           actif: new FormControl(items[i].actif,Validation.input.task.item.actif),
         }))
@@ -140,7 +140,4 @@ export class TaskOpenComponent {
       }
     }
   }
-
-
-  
 }

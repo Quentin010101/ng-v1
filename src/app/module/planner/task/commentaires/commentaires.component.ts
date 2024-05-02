@@ -22,7 +22,7 @@ export class CommentairesComponent {
 
   private addCommentaire(commentaire: Commentaire){
     this.commentairesList.push(new FormGroup({
-      commentaireId: new FormControl(commentaire.commentaireId, Validation.input.task.commentaire.commentaireId),
+      commentaireId: new FormControl(commentaire.commentaireId),
       text: new FormControl(commentaire.text, Validation.input.task.commentaire.text),
       dateCreation: new FormControl(commentaire.dateCreation, Validation.input.task.commentaire.dateCreation),
     }))

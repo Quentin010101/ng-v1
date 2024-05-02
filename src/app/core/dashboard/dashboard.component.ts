@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet, RouterState, RouterStateSnapshot, Routes } from '@angular/router';
 import { SidenavComponent } from '../shared/sidenav/sidenav.component';
 import { NavComponent } from '../shared/nav/nav.component';
@@ -25,7 +25,7 @@ export class DashboardComponent {
   getLastPath(){
     let url = this.router.url
     let arr = url.split("/")
-    return arr[arr.length - 1]
+    return arr[2]
   }
 
   getState(outlet: RouterOutlet) {

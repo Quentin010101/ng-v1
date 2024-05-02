@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Injectable, Input } from '@angular/core';
 import { User } from '../../../../model/auth/user.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TableComponent, TableContent } from '../../../../core/shared/table/table.component';
@@ -23,7 +23,6 @@ export class UserTableComponent {
   public filter(users: User[]): TableContent[] {
     let contents: TableContent[] = []
     users.forEach((user) =>{
-      console.log(user.dateLastConnection)
       let arr = []
       arr.push(user.userId.toString())
       arr.push(user.pseudo)
@@ -43,10 +42,11 @@ export class UserTableComponent {
   onUserClick(id: number){
     let user: User | undefined = this.users.find((el)=> el.userId == id)
     if(user){
-      this.router.navigate(['user'], {relativeTo: this.activatedRoute, state:{
-        user: user
-      }});
+      this.router.navigate(['user'], {relativeTo: this.activatedRoute, state:{ id: user.userId} });
     }
   }
 
 }
+
+
+

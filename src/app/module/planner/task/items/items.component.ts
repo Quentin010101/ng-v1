@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Item } from '../../../../model/planner/item.model';
 import { CheckComponent } from '../../../../core/shared/input/check/check.component';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TextComponent } from '../../../../core/shared/input/text/text.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
@@ -37,23 +37,19 @@ export class ItemsComponent {
     })
   }
 
-
-
   get itemsList(): FormArray { 
     return this.taskFomrGroup.get('items') as FormArray;
    }
 
-
   private addItem(item:Item){
     return new FormGroup({
-      itemId: new FormControl(item.itemId,Validation.input.task.item.itemId),
+      itemId: new FormControl(item.itemId),
       text: new FormControl(item.text,Validation.input.task.item.text),
       actif: new FormControl(item.actif,Validation.input.task.item.actif),
     })
   }
 
   public saveItem(str: string,index: number){
-    console.log("dirty")
     let item: Item = this.itemsList.at(index).value
     item.text = str
     this.itemsList.setControl(index,this.addItem(item))
@@ -61,14 +57,12 @@ export class ItemsComponent {
   }
 
   public deleteItem(e:Event,index: number){
-    console.log("dirty")
     e.stopPropagation()
     this.itemsList.removeAt(index)
     this.taskFomrGroup.markAsDirty()
   }
 
   public onCheck(checked: boolean, index: number){
-    console.log("dirty")
     let item: Item = this.itemsList.at(index).value
     item.actif = checked
     this.itemsList.setControl(index,this.addItem(item))
@@ -76,7 +70,6 @@ export class ItemsComponent {
   }
 
   public addNewItemControl(e:Event){
-    console.log("t")
     let item = new Item()
     item.actif= false
     item.text=''
@@ -90,6 +83,5 @@ export class ItemsComponent {
   public getActiveList(): number{
     return this.itemsList.getRawValue().filter((el)=> el.actif == true).length
   }
-
 
 }

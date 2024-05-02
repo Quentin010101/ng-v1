@@ -1,9 +1,6 @@
-export class UserConfig{
+export class Config{
     userConfigurationId!: number
-    userId!: number
     modules!: Module[]
-
-
 }
 
 export class Module{

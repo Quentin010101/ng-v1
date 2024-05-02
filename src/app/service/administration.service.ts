@@ -37,7 +37,6 @@ export class AdministrationService {
   public update(user: User){
     let users = this.$users.getValue()
     this.updateUser(user).subscribe(data => {
-      console.log(data)
        let newUsers = users.filter((el)=> {
         if(data.object.userId != el.userId) {
           return el
@@ -91,5 +90,12 @@ export class AdministrationService {
     return users.sort((a,b) => a.userId - b.userId)
   }
 
+  public getUserById(id:number): User | null{
+    let user = this.$users.getValue().find((u) => {
+      return u.userId == id
+    })
+    if(user == undefined) return null
+    return user
+  }
 
 }

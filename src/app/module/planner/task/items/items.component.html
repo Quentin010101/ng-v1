@@ -6,7 +6,6 @@
         <div>
             <app-check size="sm" [id]="i" [round]="true" [checked]="item.actif" (outputEmitter)="onCheck($event, i);"></app-check>
             <app-text size="sm" [focus]="inputFocus" [strikeThrough]="item.actif" placeholder="New item" [content]="item.text" light="light" b_size="border-md" (inputEmitterOnEnter)="saveItem($event,i)" (inputEmitterOnBlur)="saveItem($event,i)">
-              <icon-pen-to-square size="icon-0" icon></icon-pen-to-square>
             </app-text>
             <div class="delete" (click)="deleteItem($event,i)">
               <icon-delete size="icon-1" [hover]="true" ></icon-delete>

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Route, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserConfigService } from '../../../service/user-config.service';
-import { UserConfig } from '../../../model/admin/config.model';
+import { Config } from '../../../model/admin/config.model';
 
 @Component({
   selector: 'app-sidenav',
@@ -21,15 +21,15 @@ export class SidenavComponent {
   }
 
   ngOnInit(){
-    const conf: UserConfig | null = this._userConfig.$userConf.getValue()
+    const conf: Config | undefined = this._userConfig.$actifUser.getValue()?.config
     if(conf != null){
       this.routes = this.dashboardChildRoutes.filter((el) => {
         if(el.data && el.data['module']){
           let moduleId = parseInt(el.data['module'])
           if(conf.modules.find((module) =>  module.moduleId == moduleId) == undefined){
-            return true
-          }else{
             return false
+          }else{
+            return true
           }
         }
         return true
