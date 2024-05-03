@@ -5,7 +5,7 @@ import {  faCircle as faCircle2, faBell  } from '@fortawesome/free-regular-svg-i
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { TooltipComponent } from '../../../../core/shared/tooltip/tooltip.component';
 import { EnumerationService } from '../../../../service/planner/enumeration.service';
-import { MapNumberString } from '../../../../model/utils.model';
+import { MapNumberString } from '../../../../model/utils/utils.model';
 
 @Component({
   selector: 'app-show-choice',

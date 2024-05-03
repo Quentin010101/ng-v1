@@ -5,8 +5,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ResponseObject } from '../model/response/responseObjectDto.model';
 import { User, UserCreate } from '../model/auth/user.model';
 import { ResponseDto } from '../model/response/responseDto.model';
-import { MessageService } from './message.service';
-import { Message } from '../model/message.model';
+import { MessageService } from './utils/message.service';
+import { Message } from '../model/utils/message.model';
+import { Module } from '../model/admin/config.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,7 @@ export class AdministrationService {
   private deleteUser(id: number): Observable<ResponseDto>{
     return this.http.get<ResponseDto>(this.url + "user/delete/" + id)
   }
+
 
   public update(user: User){
     let users = this.$users.getValue()

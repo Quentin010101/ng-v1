@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Choice, Choices } from '../../../../model/planner/choice.model';
-import { MapNumberString } from '../../../../model/utils.model';
+import { MapNumberString } from '../../../../model/utils/utils.model';
 
 @Component({
   selector: 'app-choice',

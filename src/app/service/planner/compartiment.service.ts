@@ -6,8 +6,8 @@ import { ResponseObject } from '../../model/response/responseObjectDto.model';
 import { HttpClient } from '@angular/common/http';
 import { ResponseDto } from '../../model/response/responseDto.model';
 import { PlannerService } from './planner.service';
-import { MessageService } from '../message.service';
-import { Message } from '../../model/message.model';
+import { MessageService } from '../utils/message.service';
+import { Message } from '../../model/utils/message.model';
 
 @Injectable({
   providedIn: 'root'

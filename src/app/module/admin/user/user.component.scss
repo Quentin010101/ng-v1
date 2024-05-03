@@ -1,33 +1,41 @@
 @import '../../../../styles/color.scss';
 
 
-#container{
+#container {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
 
+  .clicker {
+    width: fit-content;
+    border-radius: 100%;
+    transition: background-color 0.2s;
+    place-self: center;
+    cursor: pointer;
 
-   .clicker{
-     width: fit-content;
-     border-radius: 100%;
-     transition: background-color 0.2s;
-     cursor: pointer;
-     &:hover{
-       background-color: lighten($bg-task, 5%);
-     }
+    &:hover {
+      background-color: lighten($bg-task, 5%);
     }
-  .grid{
+  }
+
+  .grid {
     font-size: 0.85em;
     display: grid;
     padding: 0 1rem;
     gap: 0rem 3rem;
     grid-template-columns: max-content auto;
 
-    >div{
+    >div {
       padding: 0.5rem 0.5rem;
-      &:nth-child(even){
+
+      &:nth-child(even) {
         color: $text-4;
       }
     }
   }
- }
+
+}
+
+app-return{
+  margin-bottom: 0.5rem;
+}

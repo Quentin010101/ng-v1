@@ -15,8 +15,8 @@
     padding: 0.5rem 0.5rem;
     color: $text-4;
     font-size: 200;
-    transition: color 200ms, background-color 200ms;
-    
+    transition: color 100ms, background-color 100ms;
+    border: transparent 1px solid;
   }
   
   .clickable{
@@ -24,7 +24,8 @@
     &:hover{
       .content{
         color: white !important;
-        background-color: darken($bg-task, 5%);
+        background-color: lighten($bg-task, 5%);
+        border: lighten($bg-task, 10%) 1px solid;
       }
     }
   }

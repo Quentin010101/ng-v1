@@ -6,8 +6,8 @@ import { AuthRequest } from '../model/auth/authRequest.model';
 import { environnement } from '../../environnement';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { MessageService } from './message.service';
-import { Message } from '../model/message.model';
+import { MessageService } from './utils/message.service';
+import { Message } from '../model/utils/message.model';
 import { LogOutService } from './utils/log-out.service';
 import { UserConfigService } from './user-config.service';
 

@@ -4,6 +4,7 @@ import { environnement } from '../../environnement';
 import { ResponseObject } from '../model/response/responseObjectDto.model';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { User } from '../model/auth/user.model';
+import { Module } from '../model/admin/config.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,13 @@ import { User } from '../model/auth/user.model';
 export class UserConfigService {
   url:string = environnement.backEndUrl + 'administration/configuration'
   $actifUser = new BehaviorSubject<User | null>(null)
+  modules!: Module[]
 
   constructor(private http: HttpClient) { }
+
+  private getAllModules(): Observable<ResponseObject<Module[]>>{
+    return this.http.get<ResponseObject<Module[]>>(this.url + "/modules")
+  }
 
   private readConf(): Observable<ResponseObject<User>>{
     return this.http.get<ResponseObject<User>>(this.url).pipe(
@@ -21,7 +27,15 @@ export class UserConfigService {
   }
 
   public init(){
+    this.initModules()
     return this.readConf()
+  }
+
+  private initModules(){
+    this.getAllModules().subscribe(data => {
+      console.log(data)
+      this.modules = data.object
+    })
   }
 
 }

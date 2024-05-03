@@ -2,8 +2,8 @@ import { HttpErrorResponse, HttpHandlerFn, HttpRequest } from "@angular/common/h
 import { inject } from "@angular/core";
 import { catchError, throwError } from "rxjs";
 import { AuthenticationService } from "../authentication.service";
-import { Message } from "../../model/message.model";
-import { MessageService } from "../message.service";
+import { Message } from "../../model/utils/message.model";
+import { MessageService } from "../utils/message.service";
 
 
 

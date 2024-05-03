@@ -3,7 +3,7 @@ import { environnement } from '../../../environnement';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ResponseObject } from '../../model/response/responseObjectDto.model';
-import { MapNumberString } from '../../model/utils.model';
+import { MapNumberString } from '../../model/utils/utils.model';
 
 @Injectable({
   providedIn: 'root'

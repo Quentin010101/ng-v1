@@ -1,4 +1,4 @@
-import { MapNumberString } from "../utils.model"
+import { MapNumberString } from "../utils/utils.model"
 
 export class Choices {
     constructor(title: string){

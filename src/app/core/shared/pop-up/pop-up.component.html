@@ -1,0 +1,14 @@
+<div id="container" #pop>
+@if(popUp){
+        <div id="content">
+            <div id="close" >
+                <fa-icon [icon]="faClose" (click)="onClose()"></fa-icon>
+            </div>
+            <p>{{ popUp.message }}</p>
+            <div id="action">
+                <button class="validation1" (click)="onCancel()">{{ popUp.actionCancel }}</button>
+                <button class="validation" (click)="onValidate()">{{ popUp.actionValidate }}</button>
+            </div>
+        </div>
+    }
+</div>

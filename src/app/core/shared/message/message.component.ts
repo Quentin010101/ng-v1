@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MessageService } from '../../../service/message.service';
-import { Message } from '../../../model/message.model';
+import { MessageService } from '../../../service/utils/message.service';
+import { Message } from '../../../model/utils/message.model';
 import { CommonModule } from '@angular/common';
 import { bounceInRightOnEnterAnimation, bounceOutRightOnLeaveAnimation, fadeInOnEnterAnimation } from 'angular-animations';
 

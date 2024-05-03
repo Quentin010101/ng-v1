@@ -1,0 +1,48 @@
+@import '../../../../styles/color.scss';
+
+#container {
+    font-size: 0.9em;
+    position: fixed;
+    z-index: 10;
+    inset: 0;
+    background-color: transparentize($color: $bg, $amount: 0.5);
+    justify-content: center;
+    align-items: center;
+    display: none;
+
+    #content {
+        padding: 0.5rem 1rem 0.5rem 1rem;
+        border-radius: 0.25rem;
+        background-color: $bg-task;
+    }
+
+    #close {
+        display: flex;
+        justify-content: flex-end;
+
+        fa-icon {
+            padding: 0.25rem;
+            border-radius: 100%;
+            cursor: pointer;
+            transition: background-color 200ms;
+
+            &:hover {
+                background-color: lighten($color: $bg-task, $amount: 10%);
+            }
+        }
+    }
+    #action{
+        margin-top: 0.75rem;
+        display: flex;
+        justify-content: space-around;
+        gap: 1rem;
+    }
+    p{
+        padding: 0.75rem 1.5rem;
+    }
+    .validation{
+        width: fit-content;
+        padding-inline: 2rem;
+        border-radius: 0.25rem;
+    }
+}
