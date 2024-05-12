@@ -1,0 +1,10 @@
+<div id="wrapper">
+  <h4>Select a color:</h4>
+  <div id="picker" cdkDropList [cdkDropListData]="dotArray" (cdkDropListDropped)="drop($event)" [cdkDropListEnterPredicate]="noDrop" >
+    @for(item of dotArray; track item;let i = $index){
+      <div>
+        <app-dot cdkDrag [cdkDragDisabled]="disable(item)" [number]="item"></app-dot>
+      </div>
+    }
+  </div>
+</div>

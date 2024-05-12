@@ -10,7 +10,7 @@ import { Module } from '../model/admin/config.model';
   providedIn: 'root'
 })
 export class UserConfigService {
-  url:string = environnement.backEndUrl + 'administration/configuration'
+  url:string = environnement.backEndUrl + 'configuration'
   $actifUser = new BehaviorSubject<User | null>(null)
   modules!: Module[]
 
@@ -33,7 +33,6 @@ export class UserConfigService {
 
   private initModules(){
     this.getAllModules().subscribe(data => {
-      console.log(data)
       this.modules = data.object
     })
   }

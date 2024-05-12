@@ -1,0 +1,22 @@
+
+@import '../../../../../styles/color.scss';
+
+#wrapper{
+  background-color: $bg;
+  padding: 1rem;
+
+}
+#picker{
+  display: grid;
+  user-select: none;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem 0;
+  width: fit-content;
+
+  >div{
+    cursor: grab;
+  }
+}
+.cdk-drag-placeholder {
+  opacity: 0.5;
+}

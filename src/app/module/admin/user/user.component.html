@@ -2,35 +2,43 @@
   <app-return (onReturn)="onReturn()"></app-return>
   <div id="container">
     @if(user){
-      <app-card>
-        <span title>Recapitulatif</span>
-        <div class="grid">
-          <div>User Id:</div><div>{{ user.userId }}</div>
-          <div>Pseudo:</div><div>{{ user.pseudo }}</div>
-          <div>Role:</div><div>{{ user.role }}</div>
-          <div>Date Creation:</div><div>{{ user.dateCreation | date : 'dd-MM-YY hh:mm' }}</div>
-          <div>Last Connection:</div><div>{{ user.dateLastConnection? (user.dateLastConnection | date : 'dd-MM-YY hh:mm') : 'Never logged' }}</div>
+    <app-card>
+      <span title>Recapitulatif</span>
+      <div class="grid card-padding">
+        <div>User Id:</div>
+        <div>{{ user.userId }}</div>
+        <div>Pseudo:</div>
+        <div>{{ user.pseudo }}</div>
+        <div>Role:</div>
+        <div>{{ user.role }}</div>
+        <div>Date Creation:</div>
+        <div>{{ user.dateCreation | date : 'dd-MM-YY hh:mm' }}</div>
+        <div>Last Connection:</div>
+        <div>{{ user.dateLastConnection? (user.dateLastConnection | date : 'dd-MM-YY hh:mm') : 'Never logged' }}</div>
+      </div>
+    </app-card>
+    <app-card>
+      <span title>Update</span>
+      <div class="grid card-padding">
+        <div>Account Locked</div>
+        <div><app-check [id]="0" (outputEmitter)="onLockedAcount($event)"
+            [checked]="!user.accountNonLocked"></app-check></div>
+        <div>Delete this user:</div>
+        <div class="clicker" (click)="onDelete()">
+          <icon-delete [color]="true"></icon-delete>
         </div>
-      </app-card>
-      <app-card>
-        <span title>Update</span>
-        <div class="grid">
-          <div>Account Locked</div><div><app-check [id]="0" (outputEmitter)="onLockedAcount($event)" [checked]="!user.accountNonLocked"></app-check></div>
-          <div>Delete this user:</div>
-          <div class="clicker" (click)="onDelete()">
-            <icon-delete [color]="true"></icon-delete>
-          </div>
-        </div>
-      </app-card>
-      <app-card>
-        <span title>Module</span>
-        <div class="grid">
-          @for(module of modules;track module){
-            <div>{{ module.name }}</div>
-            <div><app-check [id]="module.moduleId" (outputEmitter)="onModuleChecked(module.moduleId)" [checked]="hasModule(module)"></app-check></div>
-          }
-        </div>
-      </app-card>
+      </div>
+    </app-card>
+    <app-card>
+      <span title>Module</span>
+      <div class="grid card-padding">
+        @for(module of modules;track module){
+        <div>{{ module.name }}</div>
+        <div><app-check [id]="module.moduleId" (outputEmitter)="onModuleChecked($event, module.moduleId)"
+            [checked]="hasModule(module)"></app-check></div>
+        }
+      </div>
+    </app-card>
     }
   </div>
 </div>

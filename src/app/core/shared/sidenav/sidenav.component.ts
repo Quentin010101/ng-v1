@@ -24,6 +24,9 @@ export class SidenavComponent {
     const conf: Config | undefined = this._userConfig.$actifUser.getValue()?.config
     if(conf != null){
       this.routes = this.dashboardChildRoutes.filter((el) => {
+        if(el.path == 'admin' && !this._userConfig.$actifUser.value?.role.includes('ADMIN')){
+          return false
+        }
         if(el.data && el.data['module']){
           let moduleId = parseInt(el.data['module'])
           if(conf.modules.find((module) =>  module.moduleId == moduleId) == undefined){

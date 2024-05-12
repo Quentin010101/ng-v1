@@ -1,0 +1,34 @@
+.dot{
+  padding: 0.25rem;
+  border-radius: 100%;
+  .center{
+    width: 25px;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+  }
+}
+
+.color-1{
+background: radial-gradient(farthest-corner at 20px 40px, mix(yellow,black, 30%) 30%, mix(yellow,white, 90%) 100%);
+}
+.color-2{
+  background: radial-gradient(farthest-corner at 20px 40px, mix(green,black, 30%) 30%, mix(green,white, 90%) 100%);
+}
+.color-3{
+  background: radial-gradient(farthest-corner at 20px 40px, mix(red,black, 30%) 30%, mix(red,white, 90%) 100%);
+}
+.color-4{
+  background: radial-gradient(farthest-corner at 20px 40px, mix(blue,black, 30%) 30%, mix(blue,white, 90%) 100%);
+}
+.color-5{
+  background: radial-gradient(farthest-corner at 20px 40px, mix(black,black, 30%) 30%, mix(black,white, 90%) 100%);
+}
+.color-6{
+  background: radial-gradient(farthest-corner at 20px 40px, mix(white,black, 30%) 30%, mix(white,white, 90%) 100%);
+}
+.color-7{
+  background: radial-gradient(farthest-corner at 20px 40px, mix(brown,black, 30%) 30%, mix(brown,white, 90%) 100%);
+}
+.color-8{
+  background: radial-gradient(farthest-corner at 20px 40px, mix(purple,black, 30%) 30%, mix(purple,white, 90%) 100%);
+}

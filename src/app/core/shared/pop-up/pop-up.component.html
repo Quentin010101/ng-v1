@@ -6,8 +6,12 @@
             </div>
             <p>{{ popUp.message }}</p>
             <div id="action">
-                <button class="validation1" (click)="onCancel()">{{ popUp.actionCancel }}</button>
-                <button class="validation" (click)="onValidate()">{{ popUp.actionValidate }}</button>
+            @if(popUp.warning){
+              <button class="validation" (click)="onValidate()">Ok</button>
+            }@else {
+              <button class="validation1" (click)="onCancel()">{{ popUp.actionCancel }}</button>
+              <button class="validation" (click)="onValidate()">{{ popUp.actionValidate }}</button>
+            }
             </div>
         </div>
     }

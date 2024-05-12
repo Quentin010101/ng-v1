@@ -1,0 +1,21 @@
+@import '../../../../../styles/color.scss';
+
+#container{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.20rem;
+  width: fit-content;
+
+  .dot{
+    background-color: $bg;
+    width: 8px;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    &.red{
+      background-color: red;
+    }
+    &.white{
+      background-color: white;
+    }
+  }
+}

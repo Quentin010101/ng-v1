@@ -91,7 +91,6 @@ export class CompartimentComponent {
   }
 
   dragStart(taskElement: HTMLElement){
-    console.log("start")
     this._closeableService.$closeableMenu.next(true)
     this.menuAction(false, taskElement)
   }

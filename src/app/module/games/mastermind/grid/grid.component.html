@@ -1,0 +1,17 @@
+<div id="container" cdkDropListGroup>
+  <div>
+    <div id="row-container">
+      @for(item of grid; track item;let i = $index){
+          <app-row (onNewItem)="addToPicker($event)" [row]="item" [rowIndex]="i + 1" [active]="activeArray[i]"></app-row>
+      }
+    </div>
+    <app-picker [dotArray]="dotArray" [state]="state" [grid]="grid"></app-picker>
+  </div>
+  <button class="validation" (click)="onStartReset()">
+    @if(gameStarted){
+      Reset
+    }@else {
+      Start
+    }
+  </button>
+</div>

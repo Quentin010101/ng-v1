@@ -12,13 +12,22 @@ export const plannerGuard: CanActivateFn = (route, state) => {
     if(hasModule(config.modules,"Planner")){
       return true;
     }
-    console.log("test")
+  }
+  return false
+};
+export const gamesGuard: CanActivateFn = (route, state) => {
+  const configService = inject(UserConfigService)
+  if(configService.$actifUser != null && configService.$actifUser.getValue() != null){
+    let user = configService.$actifUser.getValue() as User
+    let config = user.config as Config
+    if(hasModule(config.modules,"Games")){
+      return true;
+    }
   }
   return false
 };
 
 function hasModule(modules: Module[], str: string):boolean{
-  console.log(modules)
   let result = modules.find(el => el.name === str)
   if(result != null && result != undefined){
     return true

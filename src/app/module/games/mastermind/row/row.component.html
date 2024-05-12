@@ -1,0 +1,14 @@
+<div id="container">
+  <div class="receptacle-container" [ngClass]="{'active' : active}">
+    @for(result of row.row; track result; let i = $index){
+      <div class="receptacle" [cdkDropListData]="result" cdkDropList (cdkDropListDropped)="drop($event, i)" [cdkDropListEnterPredicate]="isRowActive(active, i)" [cdkDropListDisabled]="!active">
+        <div class="placeholder"></div>
+        <app-dot cdkDrag [number]="result[0]"></app-dot>
+      </div>
+    }
+  </div>
+  <app-square [row]="row"></app-square>
+  <div id="but" [ngStyle]="{'visibility': active && rowValide? '': 'hidden'}">
+    <button class="validation1" (click)="onCheck()">Check</button>
+  </div>
+</div>

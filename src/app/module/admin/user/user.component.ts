@@ -40,7 +40,6 @@ export class UserComponent {
    public onDelete(){
     this._popUpService.$popUp.next(new PopUp("Are you sure you want to delete user: " + this.user.pseudo))
     this._popUpService.$answer.subscribe(data=>{
-      console.log(data)
       if(data == PopUpResponse.VALIDATE){
         this._administrationService.delete(this.user.userId)
         this.router.navigate(['dashboard/admin'])
@@ -59,8 +58,17 @@ export class UserComponent {
     this.router.navigate(['dashboard/admin'])
    }
 
-   public onModuleChecked(moduleId: number){
-
+   public onModuleChecked(bool: boolean, moduleId: number){
+    let module: Module | undefined = this.modules.find((el) => el.moduleId == moduleId) 
+    let toSave: boolean = false
+    if(bool && module){
+      this.user.config.modules.push(module)
+      toSave = true
+    }else{
+      this.user.config.modules = this.user.config.modules.filter((el)=> el.moduleId != moduleId)
+      toSave = true
+    }
+    this._administrationService.update(this.user)
    }
 
    public hasModule(module: Module):boolean{

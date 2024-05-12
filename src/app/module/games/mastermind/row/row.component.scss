@@ -1,0 +1,29 @@
+@import '../../../../../styles/color.scss';
+
+#container{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  .receptacle-container{
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    background-color: lighten($bg-task, 8%);
+    &.active{
+      background-color: lighten($bg-task, 20%);
+    }
+    
+  }
+  .receptacle{
+    position: relative;
+    width: calc(25px + 0.5rem);
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    background-color: $bg;
+
+  }
+}
+
+
+

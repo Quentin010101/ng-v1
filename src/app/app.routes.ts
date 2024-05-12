@@ -7,12 +7,16 @@ import { PlannerComponent } from './module/planner/planner.component';
 import { NotfoundComponent } from './core/shared/notfound/notfound.component';
 import { SettingsComponent } from './core/settings/settings.component';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
-import { faPenClip } from '@fortawesome/free-solid-svg-icons';
+import { faPenClip, faGamepad } from '@fortawesome/free-solid-svg-icons';
 import { faGear, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { AdminComponent } from './module/admin/admin/admin.component';
-import { plannerGuard } from './guard/config.guard';
+import { gamesGuard, plannerGuard } from './guard/config.guard';
 import { UsersComponent } from './module/admin/users/users.component';
 import { UserComponent } from './module/admin/user/user.component';
+import { GamesComponent } from './module/games/games.component';
+import { GameHomeComponent } from './module/games/home/home.component';
+import { MastermindComponent } from './module/games/mastermind/mastermind.component';
+import { SnakeComponent } from './module/games/snake/snake.component';
 
 export const routes: Routes = [
     {path: 'login', component: AuthenticationComponent, title: 'Login'},
@@ -30,6 +34,21 @@ export const routes: Routes = [
             path: 'planner', component: PlannerComponent, title: "Planner", canActivate: [plannerGuard], data: {
               icon: faPenClip, text: 'planner', module: 1, state: 'planner'
             }
+        },
+        {
+            path: 'games', component: GamesComponent, title: "Games", canActivate: [gamesGuard], data: {
+              icon: faGamepad, text: 'games', module: 2, state: 'games'
+            }, children: [
+              {
+                path: '', component: GameHomeComponent
+              } ,
+              {
+                path: 'mastermind', component: MastermindComponent
+              } ,
+              {
+                path: 'snake', component: SnakeComponent
+              } 
+            ]
         },
         {
             path: 'settings', component: SettingsComponent, title: "Settings", data: {
