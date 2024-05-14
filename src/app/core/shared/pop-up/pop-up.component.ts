@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { PopupService } from '../../../service/utils/popup.service';
-import { PopUp, PopUpResponse } from '../../../model/utils/popUp.model';
+import { PopUp, PopUpResponse, PopUpType } from '../../../model/utils/popUp.model';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 
@@ -46,6 +46,12 @@ export class PopUpComponent {
 
   private respond(response: PopUpResponse){
     this.closePopUp()
-    this._popupService.$answer.next(response)
+    
+    switch(this.popUp.type){
+      case PopUpType.DEFAULT: this._popupService.$answer.next(response); break;
+      case PopUpType.MASTERMIND: this._popupService.$answerMasterMind.next(response); break;
+      case PopUpType.USERDELETE: this._popupService.$answerUserDelete.next(response); break;
+    }
+    
   }
 }

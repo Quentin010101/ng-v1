@@ -19,14 +19,16 @@ button.validation{
   display: flex;
   justify-content: center;
   gap: 0.5rem;
+  box-shadow: 0.15rem 0.15rem 0.25rem $bg;
 
   &.br{
     border-radius: 0.25rem;
   }
   &:hover{
-    background-color: lighten($color: $primary-3, $amount: 10%);
+    background-color: lighten($color: $primary-3, $amount: 5%);
   }
   &:disabled{
+    box-shadow: none;
     cursor: default;
     color: $text-5;
     background-color: $bg;
@@ -44,7 +46,7 @@ button.validation1{
   border: 1px solid lighten($color: $bg-3, $amount: 10%);
 
   &:hover{
-    background-color: lighten($color: $bg-3, $amount: 10%);
+    background-color: lighten($color: $bg-3, $amount: 5%);
   }
   &:disabled{
     cursor: default;

@@ -7,7 +7,6 @@ import { User, UserCreate } from '../model/auth/user.model';
 import { ResponseDto } from '../model/response/responseDto.model';
 import { MessageService } from './utils/message.service';
 import { Message } from '../model/utils/message.model';
-import { Module } from '../model/admin/config.model';
 
 @Injectable({
   providedIn: 'root'

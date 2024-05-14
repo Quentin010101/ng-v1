@@ -1,61 +1,11 @@
-.table-header{
-  color: $text-1;
-  background-color: lighten($bg-task, 8%);
-  padding: 0.75rem;
+@import './color.scss';
 
-  &>h5{
-    text-align: center;
-  }
+.shadow-1{
+  box-shadow: 0.15rem 0.15rem 0.25rem $bg-sidenav;
 }
-
-
-.table-row{
-  color: $text-4;
-  padding: 0.5rem 0.75rem;
-  &>div{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.shadow-2{
+  box-shadow: 0.25rem 0.25rem 0.25rem $bg-sidenav;
 }
-
-.table-grid{
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.table-header{
-  display: grid;
-}
-.table-media{
-  display: grid;
-
-  &:nth-child(odd){
-    background-color: darken($bg-task, 4%) !important;
-  }
-
-  .table-header{
-    display: none !important;
-  }
-}
-
-@media (max-width: 800px){
-  .table-grid{
-    grid-template-columns: 1fr;
-    justify-items: start;
-  }
-  .table-header{
-    display: none;
-  }
-  .table-media{
-    font-size: 0.85em;
-    display: grid;
-    grid-template-columns: 2fr 3fr;
-    flex-direction: row;
-    margin-bottom: 0.5rem;
-    .table-header{
-      display: grid !important;
-
-    }
-  }
+.shadow-3{
+  box-shadow: 0.35rem 0.25rem 0.25rem $bg-sidenav;
 }

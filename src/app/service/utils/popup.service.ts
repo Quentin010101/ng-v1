@@ -8,6 +8,8 @@ import { PopUp, PopUpResponse } from '../../model/utils/popUp.model';
 export class PopupService {
   $popUp: Subject<PopUp> = new Subject<PopUp>
   $answer: Subject<PopUpResponse> = new Subject<PopUpResponse>
+  $answerMasterMind: Subject<PopUpResponse> = new Subject<PopUpResponse>
+  $answerUserDelete: Subject<PopUpResponse> = new Subject<PopUpResponse>
   
   constructor() { }
 }

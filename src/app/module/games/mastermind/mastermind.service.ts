@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { PopupService } from '../../../service/utils/popup.service';
-import { PopUp } from '../../../model/utils/popUp.model';
+import { PopUp, PopUpType } from '../../../model/utils/popUp.model';
 
 @Injectable({
   providedIn: 'root'
@@ -51,13 +51,15 @@ export class MastermindService {
     if(this.isWin(row)){
       let popup = new PopUp("YOU WIN! CONGRATULATION.")
       popup.warning = true
+      popup.type = PopUpType.MASTERMIND
       this._popupService.$popUp.next(popup)
-      this._popupService.$answer.subscribe((data)=> this.reset())
+      this._popupService.$answerMasterMind.subscribe((data)=> this.reset())
     }else if(rowIndex == 10){
       let popup = new PopUp("YOU LOOSE! TRY AGAIN.")
       popup.warning = true
+      popup.type = PopUpType.MASTERMIND
       this._popupService.$popUp.next(popup)
-      this._popupService.$answer.subscribe((data)=> this.reset())
+      this._popupService.$answerMasterMind.subscribe((data)=> this.reset())
     }else{
       
       

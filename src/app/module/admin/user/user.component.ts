@@ -8,7 +8,7 @@ import { ReturnComponent } from '../../../core/shared/return/return.component';
 import { IconDeleteComponent } from '../../../core/shared/icon/delete/icon-delete.component';
 import { AdministrationService } from '../../../service/administration.service';
 import { PopupService } from '../../../service/utils/popup.service';
-import { PopUp, PopUpResponse } from '../../../model/utils/popUp.model';
+import { PopUp, PopUpResponse, PopUpType } from '../../../model/utils/popUp.model';
 import { UserConfigService } from '../../../service/user-config.service';
 import { Module } from '../../../model/admin/config.model';
 
@@ -38,8 +38,10 @@ export class UserComponent {
    }
 
    public onDelete(){
-    this._popUpService.$popUp.next(new PopUp("Are you sure you want to delete user: " + this.user.pseudo))
-    this._popUpService.$answer.subscribe(data=>{
+    let pop = new PopUp("Are you sure you want to delete user: " + this.user.pseudo)
+    pop.type = PopUpType.USERDELETE
+    this._popUpService.$popUp.next(pop)
+    this._popUpService.$answerUserDelete.subscribe(data=>{
       if(data == PopUpResponse.VALIDATE){
         this._administrationService.delete(this.user.userId)
         this.router.navigate(['dashboard/admin'])
