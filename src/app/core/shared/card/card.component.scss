@@ -5,3 +5,9 @@
   background-color: $bg-task;
   height: 100%;
 }
+
+@media (max-width: 1000px){
+  #container{
+    padding: 0.5rem;
+  }
+}

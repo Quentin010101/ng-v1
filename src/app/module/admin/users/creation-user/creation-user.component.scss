@@ -17,3 +17,9 @@
         }
     }
 }
+
+@media (max-width: 800px){
+    .input{
+        grid-template-columns: 1fr ; 
+    }
+}

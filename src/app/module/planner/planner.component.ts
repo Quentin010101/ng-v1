@@ -9,11 +9,12 @@ import { TaskOpenComponent } from './task/task-open/task-open.component';
 import { EnumerationService } from '../../service/planner/enumeration.service';
 import { PlannerService } from '../../service/planner/planner.service';
 import { DragDropModule} from '@angular/cdk/drag-drop';
+import { PageComponent } from '../../core/shared/page/page.component';
 
 @Component({
   selector: 'app-planner',
   standalone: true,
-  imports: [CompartimentComponent,CompartimentCreationComponent,TaskOpenComponent,DragDropModule],
+  imports: [CompartimentComponent,CompartimentCreationComponent,TaskOpenComponent,DragDropModule,PageComponent],
   templateUrl: './planner.component.html',
   styleUrl: './planner.component.scss',
   animations: [fadeInAnimation(), fadeInOnEnterAnimation()]

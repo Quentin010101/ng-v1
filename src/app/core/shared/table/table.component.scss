@@ -42,7 +42,7 @@
 
 @media (max-width: 900px) {
   #container{
-    font-size: 0.8em;
+    font-size: 0.7em;
 
     .content-container{
       display: grid;
@@ -52,19 +52,37 @@
     .title:not(.header){
       display: grid;
       p{
-        padding: 0.25rem 0.5rem;
+        padding: 0.15rem 0.5rem;
       }
     }
     .title.header{
       display: none;
     }
     .content{
-      padding: 0;
+      background-color: darken($bg-task, 3%);
+
       p{
-        padding: 0.25rem 0.5rem;
+        padding: 0.15rem 0.5rem;
         background-color: darken($bg-task, 3%);
       }
       grid-template-columns: 1fr !important;
+    }
+    .title, .content{
+      padding: 0.5rem;
+    }
+    .clickable{
+
+      border: transparent 1px solid;
+      &:hover{
+        border: lighten($bg-task, 10%) 1px solid;
+
+        .content{
+          border: transparent 1px solid;
+          color: white !important;
+          background-color: darken($bg-task, 3%);
+        }
+        
+      }
     }
 }
 }

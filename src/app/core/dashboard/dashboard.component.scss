@@ -19,7 +19,7 @@ $min-height-tot: 600px;
   #content{
     width: calc(100vw - $width-side);
     position: relative;
-    overflow: hidden;
+
 
     #nav{
       height: $height-nav;
@@ -28,7 +28,8 @@ $min-height-tot: 600px;
     #dashpage{
       width: calc(100vw - $width-side);
       height: calc(100vh - $height-nav);
-      overflow-x: scroll; 
+      overflow-x: scroll;
+      overflow-y: scroll;
     }
   }
 }

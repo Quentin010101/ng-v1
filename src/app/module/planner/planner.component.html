@@ -1,5 +1,5 @@
-<div id="container" class="dashboardPage">
-  <h3>Planner:</h3>
+<app-page>
+  <span title>Planner:</span>
   <section>
     <div cdkDropListGroup id="drag-container">
       @for(compartiment of compartiments; track compartiment;let i = $index){
@@ -11,4 +11,4 @@
     <app-creation-compartiment></app-creation-compartiment>
   </section>
   <app-task-open></app-task-open>
-</div>
+</app-page>
