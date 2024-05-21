@@ -1,4 +1,7 @@
 <app-card>
   <span title>Snake</span>
-
+  <div id="container">
+    <snake-grid [render]="$render"></snake-grid>
+  </div>
+  <button class="validation" (click)="onPlay()">Play</button>
 </app-card>
