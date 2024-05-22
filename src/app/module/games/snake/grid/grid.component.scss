@@ -1,3 +1,17 @@
 #container{
-    width: fit-content;
+    margin: 0 auto;
+    width: 50vw;
+    aspect-ratio: 1/1;
+}
+@media (max-aspect-ratio: 100/99) {
+    #container{
+        width: 60vw;
+        aspect-ratio: 1/1;
+    }
+}
+@media (min-aspect-ratio: 99/100) {
+    #container{
+        width: 60vh;
+        aspect-ratio: 1/1;
+    }
 }

@@ -28,7 +28,7 @@ $min-height-tot: 600px;
     #dashpage{
       width: calc(100vw - $width-side);
       height: calc(100vh - $height-nav);
-      overflow: hidden;
+      overflow: auto;
     }
   }
 }

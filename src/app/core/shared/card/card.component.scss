@@ -1,13 +1,13 @@
 @import '../../../../styles/color.scss';
 
 #container{
-  padding: 1rem;
+  padding: 1.5rem;
   background-color: $bg-task;
   height: 100%;
 }
 
 @media (max-width: 1000px){
   #container{
-    padding: 0.5rem;
+    padding: 1rem;
   }
 }

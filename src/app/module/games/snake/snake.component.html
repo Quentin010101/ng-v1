@@ -1,7 +1,8 @@
 <app-card>
   <span title>Snake</span>
   <div id="container">
-    <snake-grid [render]="$render"></snake-grid>
+    <snake-grid [render]="$render" [reset]="$reset" (onEnd)="onEnd($event)" (onSpeed)="onUpdate($event)"></snake-grid>
+    <snake-setting [result]="point"></snake-setting>
   </div>
   <button class="validation" (click)="onPlay()">Play</button>
 </app-card>

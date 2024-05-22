@@ -1,5 +1,6 @@
-import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
+import { PopupService } from '../../../../service/utils/popup.service';
 
 @Component({
   selector: 'snake-grid',
@@ -11,18 +12,32 @@ import { Subject } from 'rxjs';
 export class SnakeGridComponent {
   @ViewChild('container') grid!: ElementRef
   @Input() render!: Subject<boolean>
-  snake!: Snake
+  @Input() reset!: Subject<boolean>
+  @Output() onEnd = new EventEmitter<boolean>()
+  @Output() onSpeed = new EventEmitter<boolean>()
+
+  snake: Snake | null= null
   gridNb: number = 30
+  isDirty: boolean = false
+  food: Food | null = null
 
   constructor(){
 
+  }
+
+  ngOnInit(){
+    if(this.reset){
+      this.reset.subscribe(()=> this.onReset())
+    }
   }
   
   ngAfterViewInit(){
     this.generateGrid(this.gridNb)
     if (this.render) {
-      if(this.snake == null || this.snake == undefined) this.snake = new Snake(this.gridNb)
       this.render.subscribe(()=>{
+        if(this.snake == null || this.snake == undefined) this.snake = new Snake(this.gridNb)
+        if(!this.food && this.snake) this.generateFood()
+        this.isDirty = false
         this.update()
         this.draw()
       })
@@ -42,9 +57,7 @@ export class SnakeGridComponent {
 
   private generateSquare(i: number): HTMLElement{
     let newDiv = window.document.createElement("div")
-    newDiv.style.border = 'solid 1px black'
-    newDiv.style.width = '20px'
-    newDiv.style.height = '20px'
+    newDiv.classList.add("snakeSquare")
     newDiv.setAttribute("id", (i + 1).toString())
     return newDiv
   }
@@ -52,7 +65,16 @@ export class SnakeGridComponent {
   private updateSquare(x:number, y:number){
     let grid = this.grid.nativeElement
     let square = grid.children[this.getElementNumber(x,y) - 1]
-    square.style.backgroundColor = 'red'
+    square.classList.add("snakePiece")
+  }
+
+  private updateFood(){
+    let f = this.food
+    if(f){
+      let grid = this.grid.nativeElement
+      let food = grid.children[this.getElementNumber(f.x,f.y) - 1]
+      food.classList.add("food")
+    }
   }
 
   private getElementNumber(x:number, y:number): number{
@@ -60,8 +82,8 @@ export class SnakeGridComponent {
   }
 
   private update(){
+    if(this.snake == null) return
     let d = this.snake.direction
-    console.log(this.snake.snake)
     let head = this.snake.snake[this.snake.snake.length - 1]
     
     let newx = head.x;
@@ -73,38 +95,104 @@ export class SnakeGridComponent {
       case Direction.RIGHT: newx = head.x + 1; break;
     }
     let newPart = new SnakePart(newx,newy)
-    this.snake.snake.shift()
-    this.snake.snake.push(newPart)
+    if(this.checkUpdateValid(newPart)){
+      let eat = false
+      if(!this.isEating(newPart)){
+        this.snake.snake.shift()
+      }else{
+        eat = true
+      }
+      this.snake.snake.push(newPart)
+      if(eat) this.generateFood()
+    }
+  }
+
+  private isEating(part: SnakePart):boolean{
+    if(this.food && part.x == this.food.x && part.y == this.food.y){
+      this.onSpeed.emit(true)
+      return true
+    }
+    return false
+  }
+
+  private checkUpdateValid(part:SnakePart): boolean{
+    console.log(part)
+    let result = this.snake?.snake.find((sPart)=>{
+      return (sPart.x == part.x && sPart.y == part.y)
+    })
+    if(part.x > 0 && part.y > 0 && part.x <= this.gridNb && part.y <= this.gridNb && result === undefined){
+      return true
+    }
+    this.onEnd.emit(true)
+    return false
   }
 
   private resetGrid(){
     let grid = this.grid.nativeElement
     let array = grid.children as HTMLElement[]
     for(let i = 0; i < array.length; i++){
-      grid.children[i].style.backgroundColor = 'blue'
+      grid.children[i].classList.remove('food')
+      grid.children[i].classList.remove('snakePiece')
     }
   }
 
   private draw(){
+    if(this.snake == null) return
     this.resetGrid();
     this.snake.snake.forEach(part => {
       this.updateSquare(part.x,part.y)
     })
+    this.updateFood()
+  }
+
+  private onReset(){
+    this.snake = null
+    this.resetGrid();
   }
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) { 
-    if(this.snake){
-      switch(event.key){
-        case "ArrowUp": this.snake.direction = Direction.UP; break;
-        case "ArrowDown": this.snake.direction = Direction.DOWN; break;
-        case "ArrowLeft": this.snake.direction = Direction.LEFT; break;
-        case "ArrowRight": this.snake.direction = Direction.RIGHT; break;
+    if(this.snake && !this.isDirty){
+      if(!this.isForbidenDirection(event.key)){
+        switch(event.key){
+          case "ArrowUp": this.snake.direction = Direction.UP; break;
+          case "ArrowDown": this.snake.direction = Direction.DOWN; break;
+          case "ArrowLeft": this.snake.direction = Direction.LEFT; break;
+          case "ArrowRight": this.snake.direction = Direction.RIGHT; break;
+        }
+        this.isDirty = true
       }
     }
   }
 
-  
+  private isForbidenDirection(directionAsked: string): boolean{
+    if(this.snake != null){
+      let d = this.snake.direction
+      if(directionAsked == "ArrowUp" && (d == Direction.DOWN || d == Direction.UP)) return true
+      if(directionAsked == "ArrowDown" && (d == Direction.DOWN || d == Direction.UP)) return true
+      if(directionAsked == "ArrowLeft" && (d == Direction.LEFT || d == Direction.RIGHT)) return true
+      if(directionAsked == "ArrowRight" && (d == Direction.LEFT || d == Direction.RIGHT)) return true
+    }
+    return false
+  }
+
+  private generateFood(){
+    let itemValid:boolean = false
+    let x: number = -1
+    let y: number = -1
+    while(!itemValid){
+      x = Math.floor(Math.random()*this.gridNb) + 1
+      y = Math.floor(Math.random()*this.gridNb) + 1
+      let result = this.snake?.snake.find((sPart)=>{
+        return (sPart.x == x && sPart.y == y)
+      })
+      if(result === undefined){
+        itemValid = true
+      }
+
+    }
+    this.food = new Food(x,y)
+  }
 }
 
 class Snake{
@@ -121,6 +209,14 @@ class Snake{
 }
 
 class SnakePart{
+  constructor(x:number, y:number){
+    this.x=x
+    this.y=y
+  }
+  x!: number
+  y!: number
+}
+class Food{
   constructor(x:number, y:number){
     this.x=x
     this.y=y

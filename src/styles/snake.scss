@@ -1,0 +1,50 @@
+@import '../styles/color.scss';
+
+.snakeGrid{
+    border: 3px solid $bg;
+}
+.snakeSquare{
+    width: max-content;
+    aspect-ratio: 1/1;
+    border: 1px solid transparentize($bg, 0.5);
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+.snakePiece{
+    border-radius: 0.25rem;
+    aspect-ratio: 1/1;
+    background: radial-gradient(farthest-corner at 20px 40px, mix($primary-1,black, 55%) 30%, mix($primary-1,white, 90%) 100%);
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+.food{
+    opacity: 1;
+    position: relative;
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    background: radial-gradient(farthest-corner at 20px 40px, mix( $color-invalide,black, 35%) 30%, mix( $color-invalide,white, 90%) 100%);
+
+    &::after{
+        content: '';
+        position: absolute;
+        background-color: $color-valide;
+        top: -10%;
+        left: 10%;
+        width: 40%;
+        aspect-ratio: 2/1;
+        border-radius:10px 75px 10px 10px / 10px 30px 10px 10px; 
+    }
+    &::before{
+        content: '';
+        position: absolute;
+        background-color: $color-valide;
+        top: -10%;
+        right: 10%;
+        width: 40%;
+        aspect-ratio: 2/1;
+        border-radius:10px 75px 10px 10px / 10px 30px 10px 10px; 
+        transform: rotateY(180deg);
+    }
+
+
+}
