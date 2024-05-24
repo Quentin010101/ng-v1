@@ -1,12 +1,27 @@
 <div id="container">
     <div class="result">
         <h5>Result:</h5>
-        <div class="food"></div>
         <p>{{ result }}</p>
+        <div class="food"></div>
     </div>
     <div class="result">
         <h5>HighScore:</h5>
-        <div class="food"></div>
         <p>{{ highScore }}</p>
+        <div class="food"></div>
+    </div>
+    <div id="inp">
+        <h5>Settings:</h5>
+        @if(form){
+            <form [formGroup]="form">
+                <div class="inp">
+                    <label for="nb">Grid size</label>
+                    <input type="number" id="nb" formControlName="size">
+                    <label for="nb1">Starting Speed</label>
+                    <input type="number" id="nb1" formControlName="speed">
+                    <label for="nb2">Speed incrementation</label>
+                    <input type="number" id="nb2" formControlName="incrementSpeed">
+                </div>
+            </form>
+        }
     </div>
 </div>

@@ -13,11 +13,13 @@ export class SnakeGridComponent {
   @ViewChild('container') grid!: ElementRef
   @Input() render!: Subject<boolean>
   @Input() reset!: Subject<boolean>
+  @Input() size!: Subject<number>
   @Output() onEnd = new EventEmitter<boolean>()
   @Output() onSpeed = new EventEmitter<boolean>()
+  gridNb!: number
 
   snake: Snake | null= null
-  gridNb: number = 30
+  
   isDirty: boolean = false
   food: Food | null = null
 
@@ -32,7 +34,7 @@ export class SnakeGridComponent {
   }
   
   ngAfterViewInit(){
-    this.generateGrid(this.gridNb)
+    
     if (this.render) {
       this.render.subscribe(()=>{
         if(this.snake == null || this.snake == undefined) this.snake = new Snake(this.gridNb)
@@ -40,6 +42,14 @@ export class SnakeGridComponent {
         this.isDirty = false
         this.update()
         this.draw()
+      })
+    }
+    if (this.size) {
+      console.log("ff")
+      this.size.subscribe((data)=>{
+        this.gridNb = data
+        console.log(data)
+        this.generateGrid(data)
       })
     }
   }
