@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PageComponent } from '../../core/shared/page/page.component';
+import { GameService } from '../../service/games/game.service';
+import { Score } from '../../model/games/score.model';
 
 @Component({
   selector: 'app-games',
@@ -10,5 +12,12 @@ import { PageComponent } from '../../core/shared/page/page.component';
   styleUrl: './games.component.scss'
 })
 export class GamesComponent {
+  scores: Score[] = []
+  
+  constructor(private _gameService: GameService){
+    _gameService.init()
+  }
 
+  ngOnInit(){
+  }
 }

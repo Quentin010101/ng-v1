@@ -54,16 +54,6 @@ export class TagService {
     }
   }
 
-  public update(tag: Tag): Observable<ResponseObject<Tag>>{
-    let tags: Tag[] = this.$tags.value
-    return this.updateTag(tag).pipe(
-      tap(data => {
-        let tag = data.object
-        tags.push(tag)
-        this.$tags.next(tags)
-      })
-    )
-  }
 
   public delete(id: number):Observable<ResponseDto>{
     let tags: Tag[] = this.$tags.value

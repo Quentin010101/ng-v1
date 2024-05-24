@@ -6,7 +6,6 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { ResponseObject } from '../../model/response/responseObjectDto.model';
 import { Task } from '../../model/planner/task.model';
 import { ResponseDto } from '../../model/response/responseDto.model';
-import { TaskContainer } from '../../model/planner/taskContainer.model';
 
 @Injectable({
   providedIn: 'root',

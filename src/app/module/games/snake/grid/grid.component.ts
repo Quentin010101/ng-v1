@@ -116,7 +116,6 @@ export class SnakeGridComponent {
   }
 
   private checkUpdateValid(part:SnakePart): boolean{
-    console.log(part)
     let result = this.snake?.snake.find((sPart)=>{
       return (sPart.x == part.x && sPart.y == part.y)
     })

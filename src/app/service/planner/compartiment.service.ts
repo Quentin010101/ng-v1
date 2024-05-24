@@ -57,17 +57,6 @@ export class CompartimentService {
     }
   }
 
-  public update(compartiment: Compartiment): Observable<ResponseObject<Compartiment>>{
-    let compartiments: Compartiment[] = this.$compartiment.value
-    return this.updateCompartiment(compartiment).pipe(
-      tap(data => {
-        let compartiment = data.object
-        compartiments.push(compartiment)
-        this.$compartiment.next(compartiments)
-      })
-    )
-  }
-
   public delete(id: number):Observable<ResponseDto>{
     let hasTaskArr = this._plannerService.getTasksByCompId(id)
     if(hasTaskArr && hasTaskArr.length>0){
