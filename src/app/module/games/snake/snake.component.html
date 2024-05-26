@@ -1,10 +1,10 @@
 <app-card>
   <span title>Snake</span>
   <div id="container">
-    <snake-grid [render]="$render" [reset]="$reset" (onEnd)="onEnd($event)" (onSpeed)="onUpdate($event)" [size]="$size"></snake-grid>
+    <snake-grid [render]="$render" [reset]="$reset" (onEnd)="onEnd($event)" (onSpeed)="onUpdate($event)" [size]="size"></snake-grid>
     <form [formGroup]="form">
       <snake-setting [result]="point" [highScore]="returnScore(scores)" [form]="form"></snake-setting>
     </form>
   </div>
-  <button class="validation" (click)="onPlay()">Play</button>
+  <button class="validation" (click)="onPlay()" [disabled]="isPlaying">Play</button>
 </app-card>

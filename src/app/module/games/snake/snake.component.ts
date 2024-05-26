@@ -19,27 +19,28 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class SnakeComponent {
   form!: FormGroup
   scores: Score[] = []
-  snakeSpeedActive = 0
+  snakeSpeedActive!: number
   lastRenderTime = 0
   point = 0
   $render = new Subject<boolean>()
   $reset = new Subject<boolean>()
   isPlaying:boolean =false
 
-  $size = new Subject<number>()
+  size!: number
   speed!: number
   incrementSpeed!: number
 
   constructor(private _popUpService: PopupService, private _gameService: GameService){
     this.form = new FormGroup({
-      size: new FormControl(10, {updateOn: 'blur'}),
-      speed: new FormControl(1,{updateOn: 'blur'}),
+      size: new FormControl(20, {updateOn: 'blur'}),
+      speed: new FormControl(2,{updateOn: 'blur'}),
       incrementSpeed: new FormControl(0.1,{updateOn: 'blur'})
     })
 
+
     this.form.valueChanges.subscribe((data) =>{
       if(this.isPlaying) return
-      this.$size.next(data['size'])
+      this.size = data['size']
       this.speed = data['speed']
       this.incrementSpeed = data['incrementSpeed']
     })
@@ -64,17 +65,19 @@ export class SnakeComponent {
 
   onUpdate(bool: boolean){
     this.point = this.point + 1
-    this.snakeSpeedActive = this.snakeSpeedActive + this.incrementSpeed
+    this.snakeSpeedActive = this.snakeSpeedActive + this.form.get('incrementSpeed')?.value
   }
 
   public onPlay(){
-    this.snakeSpeedActive = this.speed
+    this.snakeSpeedActive = this.form.get('speed')?.value
     this.isPlaying = true
+    this.form.disable()
     this.play(0)
   }
 
   private onStop(){
     this.isPlaying = false
+    this.form.enable()
   }
 
   public onEnd(boo: boolean){
@@ -106,17 +109,18 @@ export class SnakeComponent {
     this.point = 0
     this.$reset.next(true)
     this.isPlaying = false
+    this.form.enable()
     this.lastRenderTime = 0;
   }
 
   public onInit(){
-    console.log("init")
     this.snakeSpeedActive = 0
     this.point = 0
     this.$reset.next(true)
     this.isPlaying = false
+    this.form.enable()
     this.lastRenderTime = 0;
-    this.$size.next(this.form.get('size')?.value as number)
+    this.size = this.form.get('size')?.value as number
   }
 
   public returnScore(scores :Score[]):number{

@@ -1,27 +1,42 @@
 <div id="container">
-    <div class="result">
-        <h5>Result:</h5>
-        <p>{{ result }}</p>
-        <div class="food"></div>
-    </div>
-    <div class="result">
-        <h5>HighScore:</h5>
-        <p>{{ highScore }}</p>
-        <div class="food"></div>
-    </div>
-    <div id="inp">
-        <h5>Settings:</h5>
-        @if(form){
-            <form [formGroup]="form">
-                <div class="inp">
-                    <label for="nb">Grid size</label>
-                    <input type="number" id="nb" formControlName="size">
-                    <label for="nb1">Starting Speed</label>
-                    <input type="number" id="nb1" formControlName="speed">
-                    <label for="nb2">Speed incrementation</label>
-                    <input type="number" id="nb2" formControlName="incrementSpeed">
-                </div>
-            </form>
-        }
-    </div>
+  <div class="result">
+    <h5>Result:</h5>
+    <p>{{ result }}</p>
+    <div class="food"></div>
+  </div>
+  <div class="result">
+    <h5>HighScore:</h5>
+    <p>{{ highScore }}</p>
+    <div class="food"></div>
+  </div>
+  <div id="inp">
+    <h5>Settings:</h5>
+    @if(form){
+    <form [formGroup]="form">
+      <div class="inp">
+        <div>
+          <label for="nb">Grid size</label>
+          <small>
+            <p>Min: {{ si.min }} / Max: {{ si.max }}</p>
+          </small>
+        </div>
+        <input #si type="number" id="nb" min="5" max="100" formControlName="size" [disabled]="isPlaying">
+        <div>
+          <label for="nb1">Starting Speed</label>
+          <small>
+            <p>Min: {{ speed.min }} / Max: {{ speed.max }}</p>
+          </small>
+        </div>
+        <input #speed type="number" id="nb1" step="0.2" min="0.6" max="6" formControlName="speed" [disabled]="isPlaying">
+        <div>
+          <label for="nb2">Speed incrementation</label>
+          <small>
+            <p>Min: {{ incr.min }} / Max: {{ incr.max }}</p>
+          </small>
+        </div>
+        <input #incr type="number" id="nb2" step="0.1" min="0.1" max="1" formControlName="incrementSpeed" [disabled]="isPlaying">
+      </div>
+    </form>
+    }
+  </div>
 </div>

@@ -26,6 +26,10 @@
             label{
                 align-self: center;
             }
+            small{
+              font-size: 0.6em;
+              font-style: italic;
+            }
             input{
                 align-self: center;
                 background-color: $bg;
@@ -33,6 +37,12 @@
                 height: 35px;
                 color: $text-1;
                 text-align: center;
+
+                &:disabled{
+                  border: solid 1px $bg-task;
+                  color: $text-5;
+                  background-color: lighten($color: $bg, $amount: 3%);;
+                }
             }
         }
 

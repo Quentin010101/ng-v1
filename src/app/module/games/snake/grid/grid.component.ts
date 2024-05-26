@@ -1,6 +1,5 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
-import { PopupService } from '../../../../service/utils/popup.service';
 
 @Component({
   selector: 'snake-grid',
@@ -13,10 +12,10 @@ export class SnakeGridComponent {
   @ViewChild('container') grid!: ElementRef
   @Input() render!: Subject<boolean>
   @Input() reset!: Subject<boolean>
-  @Input() size!: Subject<number>
+  @Input() size!: number
   @Output() onEnd = new EventEmitter<boolean>()
   @Output() onSpeed = new EventEmitter<boolean>()
-  gridNb!: number
+
 
   snake: Snake | null= null
   
@@ -25,6 +24,12 @@ export class SnakeGridComponent {
 
   constructor(){
 
+  }
+
+  ngOnChanges(c:SimpleChanges){
+    if(c['size'] && !c['size'].firstChange ){
+      this.generateGrid(c['size'].currentValue)
+    }
   }
 
   ngOnInit(){
@@ -37,25 +42,20 @@ export class SnakeGridComponent {
     
     if (this.render) {
       this.render.subscribe(()=>{
-        if(this.snake == null || this.snake == undefined) this.snake = new Snake(this.gridNb)
+        if(this.snake == null || this.snake == undefined) this.snake = new Snake(this.size)
         if(!this.food && this.snake) this.generateFood()
         this.isDirty = false
         this.update()
         this.draw()
       })
     }
-    if (this.size) {
-      console.log("ff")
-      this.size.subscribe((data)=>{
-        this.gridNb = data
-        console.log(data)
-        this.generateGrid(data)
-      })
-    }
+    this.generateGrid(this.size)
+
   }
 
   private generateGrid(nb: number){
     let grid = this.grid.nativeElement as HTMLElement
+    grid.innerHTML = '';
     for(let i = 0; i < nb*nb; i ++){
       grid.appendChild(this.generateSquare(i))
     }
@@ -88,7 +88,7 @@ export class SnakeGridComponent {
   }
 
   private getElementNumber(x:number, y:number): number{
-    return (y-1)*this.gridNb + x
+    return (y-1)*this.size + x
   }
 
   private update(){
@@ -129,7 +129,7 @@ export class SnakeGridComponent {
     let result = this.snake?.snake.find((sPart)=>{
       return (sPart.x == part.x && sPart.y == part.y)
     })
-    if(part.x > 0 && part.y > 0 && part.x <= this.gridNb && part.y <= this.gridNb && result === undefined){
+    if(part.x > 0 && part.y > 0 && part.x <= this.size && part.y <= this.size && result === undefined){
       return true
     }
     this.onEnd.emit(true)
@@ -190,8 +190,8 @@ export class SnakeGridComponent {
     let x: number = -1
     let y: number = -1
     while(!itemValid){
-      x = Math.floor(Math.random()*this.gridNb) + 1
-      y = Math.floor(Math.random()*this.gridNb) + 1
+      x = Math.floor(Math.random()*this.size) + 1
+      y = Math.floor(Math.random()*this.size) + 1
       let result = this.snake?.snake.find((sPart)=>{
         return (sPart.x == x && sPart.y == y)
       })
@@ -210,8 +210,8 @@ class Snake{
     this.snake.push(new SnakePart(unit, unit - 1))
     this.snake.push(new SnakePart(unit, unit ))
     this.snake.push(new SnakePart(unit, unit + 1))
-    this.snake.push(new SnakePart(unit, unit + 2))
-    this.snake.push(new SnakePart(unit, unit + 3))
+    // this.snake.push(new SnakePart(unit, unit + 2))
+    // this.snake.push(new SnakePart(unit, unit + 3))
   }
   snake: SnakePart[] = []
   direction: Direction = Direction.DOWN

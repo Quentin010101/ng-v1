@@ -14,9 +14,9 @@ export class SnakeSettingComponent {
   @Input() result:number = 0
   @Input() highScore:number = 0
   @Input() form!: FormGroup
+  @Input() isPlaying: boolean = false
 
   ngOnInit(){
-    console.log(this.form)
   }
 
 }
